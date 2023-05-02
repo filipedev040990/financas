@@ -1,9 +1,9 @@
 export class UserEntity {
-  private readonly id: string
-  private readonly name: string
-  private readonly password: string
-  private readonly createdAt?: Date
-  private readonly updatedAt?: Date
+  public id: string
+  public name: string
+  public password: string
+  public createdAt: Date
+  public updatedAt: Date | null
 
   constructor (input: UserEntity.Input) {
     this.id = input.id

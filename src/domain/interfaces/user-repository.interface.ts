@@ -8,7 +8,6 @@ export namespace CreateUserRepositoryInterface {
     name: string
     password: string
     createdAt: Date
-    updatedAt?: Date
   }
 
   export type Output = {

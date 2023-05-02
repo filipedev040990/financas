@@ -1,16 +1,30 @@
 import { CreateUserUseCaseInterface } from '@/application/interfaces/create-user-usecase.interface'
 import { HashGeneratorInterface } from '@/application/interfaces/crypto.interface'
 import { UUIDGeneratorInterface } from '@/application/interfaces/uuid-generator.interface'
+import { UserEntity } from '@/domain/entities/user.entity'
+import { CreateUserRepositoryInterface } from '@/domain/interfaces/user-repository.interface'
+import MockDate from 'mockdate'
 
 export class CreateUserUseCase {
   constructor (
     private readonly uuidGenerator: UUIDGeneratorInterface,
-    private readonly hashGenerator: HashGeneratorInterface
+    private readonly hashGenerator: HashGeneratorInterface,
+    private readonly userRepository: CreateUserRepositoryInterface
   ) {}
 
   async execute (input: CreateUserUseCaseInterface.Input): Promise<void> {
-    this.uuidGenerator.execute()
-    this.hashGenerator.execute(input.password)
+    const newUser = new UserEntity({
+      id: this.uuidGenerator.execute(),
+      name: input.name,
+      password: this.hashGenerator.execute(input.password)
+    })
+
+    await this.userRepository.save({
+      id: newUser.id,
+      name: newUser.name,
+      password: newUser.password,
+      createdAt: newUser.createdAt
+    })
   }
 }
 
@@ -22,19 +36,27 @@ const hashGenerator: jest.Mocked<HashGeneratorInterface> = {
   execute: jest.fn().mockReturnValue('any hash')
 }
 
+const userRepository: jest.Mocked<CreateUserRepositoryInterface> = {
+  save: jest.fn().mockResolvedValue({ accessToken: 'any access token' })
+}
+
 describe('CreateUserUseCase', () => {
   let sut: CreateUserUseCase
   let input: CreateUserUseCaseInterface.Input
 
   beforeAll(() => {
-    sut = new CreateUserUseCase(uuidGenerator, hashGenerator)
+    MockDate.set(new Date())
+
+    sut = new CreateUserUseCase(uuidGenerator, hashGenerator, userRepository)
 
     input = {
-      id: 'any id',
       name: 'any name',
-      password: 'any password',
-      createdAt: new Date()
+      password: 'any password'
     }
+  })
+
+  afterAll(() => {
+    MockDate.reset()
   })
 
   test('should call UUIDGenerator once', async () => {
@@ -48,5 +70,17 @@ describe('CreateUserUseCase', () => {
 
     expect(hashGenerator.execute).toHaveBeenCalledTimes(1)
     expect(hashGenerator.execute).toHaveBeenCalledWith('any password')
+  })
+
+  test('should call UserRepository.save once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(userRepository.save).toHaveBeenCalledTimes(1)
+    expect(userRepository.save).toHaveBeenCalledWith({
+      id: 'any uuid',
+      name: 'any name',
+      password: 'any hash',
+      createdAt: new Date()
+    })
   })
 })

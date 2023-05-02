@@ -4,10 +4,8 @@ export interface CreateUserUseCaseInterface {
 
 export namespace CreateUserUseCaseInterface {
   export type Input = {
-    id: string
     name: string
     password: string
-    createdAt: Date
   }
 
   export type Output = {
