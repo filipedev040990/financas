@@ -12,14 +12,14 @@ export class CreateUserUseCase {
     private readonly userRepository: CreateUserRepositoryInterface
   ) {}
 
-  async execute (input: CreateUserUseCaseInterface.Input): Promise<void> {
+  async execute (input: CreateUserUseCaseInterface.Input): Promise<CreateUserUseCaseInterface.Output> {
     const newUser = new UserEntity({
       id: this.uuidGenerator.execute(),
       name: input.name,
       password: this.hashGenerator.execute(input.password)
     })
 
-    await this.userRepository.save({
+    return await this.userRepository.save({
       id: newUser.id,
       name: newUser.name,
       password: newUser.password,
@@ -82,5 +82,11 @@ describe('CreateUserUseCase', () => {
       password: 'any hash',
       createdAt: new Date()
     })
+  })
+
+  test('should return an access token on success', async () => {
+    const accessToken = await sut.execute(input)
+
+    expect(accessToken).toEqual({ accessToken: 'any access token' })
   })
 })
