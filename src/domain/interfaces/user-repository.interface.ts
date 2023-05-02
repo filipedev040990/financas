@@ -1,8 +1,8 @@
-export interface CreateUserRepository {
-  save: (input: CreateUserRepository.Input) => Promise<CreateUserRepository.Output>
+export interface CreateUserRepositoryInterface {
+  save: (input: CreateUserRepositoryInterface.Input) => Promise<CreateUserRepositoryInterface.Output>
 }
 
-export namespace CreateUserRepository {
+export namespace CreateUserRepositoryInterface {
   export type Input = {
     id: string
     name: string
