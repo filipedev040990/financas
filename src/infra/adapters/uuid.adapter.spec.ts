@@ -12,17 +12,18 @@ export class UUIDAdapter implements UUIDGeneratorInterface {
 }
 
 describe('UUIDAdapter', () => {
-  test('should call uuid', () => {
-    const sut = new UUIDAdapter()
+  let sut: UUIDGeneratorInterface
 
+  beforeAll(() => {
+    sut = new UUIDAdapter()
+  })
+  test('should call uuid', () => {
     sut.execute()
 
     expect(crypto.randomUUID).toHaveBeenCalledTimes(1)
   })
 
   test('should return an uuid', () => {
-    const sut = new UUIDAdapter()
-
     const response = sut.execute()
 
     expect(response).toBe('any uuid')
