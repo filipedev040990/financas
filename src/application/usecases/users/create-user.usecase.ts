@@ -13,7 +13,7 @@ export class CreateUserUseCase {
     private readonly tokenGenerator: TokenGeneratorInterface
   ) {}
 
-  async execute (input: CreateUserUseCaseInterface.Input): Promise<void> {
+  async execute (input: CreateUserUseCaseInterface.Input): Promise<CreateUserUseCaseInterface.Output> {
     const newUser = new UserEntity({
       id: this.uuidGenerator.execute(),
       name: input.name,
@@ -27,10 +27,12 @@ export class CreateUserUseCase {
       createdAt: newUser.createdAt
     })
 
-    this.tokenGenerator.generate({
+    const accessToken = this.tokenGenerator.generate({
       data: {
         id: newUser.id
       }
     })
+
+    return accessToken
   }
 }

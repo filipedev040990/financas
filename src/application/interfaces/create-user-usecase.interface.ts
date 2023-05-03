@@ -8,7 +8,5 @@ export namespace CreateUserUseCaseInterface {
     password: string
   }
 
-  export type Output = {
-    accessToken: string
-  }
+  export type Output = string
 }

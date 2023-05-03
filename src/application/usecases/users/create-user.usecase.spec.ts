@@ -76,4 +76,10 @@ describe('CreateUserUseCase', () => {
       }
     })
   })
+
+  test('should return an access token on success', async () => {
+    const accessToken = await sut.execute(input)
+
+    expect(accessToken).toEqual('any access token')
+  })
 })
