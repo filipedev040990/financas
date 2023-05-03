@@ -1,15 +1,10 @@
+import { UUIDAdapter } from './uuid.adapter'
 import { UUIDGeneratorInterface } from '@/application/interfaces/uuid-generator.interface'
 import crypto from 'crypto'
 
 jest.mock('crypto', () => ({
   randomUUID: jest.fn().mockReturnValue('any uuid')
 }))
-
-export class UUIDAdapter implements UUIDGeneratorInterface {
-  execute (): string {
-    return crypto.randomUUID()
-  }
-}
 
 describe('UUIDAdapter', () => {
   let sut: UUIDGeneratorInterface
