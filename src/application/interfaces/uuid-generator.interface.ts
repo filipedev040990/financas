@@ -1,3 +1,3 @@
 export interface UUIDGeneratorInterface {
-  execute: () => string
+  execute (): string
 }
