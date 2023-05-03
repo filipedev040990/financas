@@ -1,3 +1,3 @@
 export interface HashGeneratorInterface {
-  execute: (value: string) => string
+  execute (value: string): string
 }

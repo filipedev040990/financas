@@ -1,5 +1,5 @@
 export interface CreateUserUseCaseInterface {
-  execute: (input: CreateUserUseCaseInterface.Input) => Promise<CreateUserUseCaseInterface.Output>
+  execute (input: CreateUserUseCaseInterface.Input): Promise<CreateUserUseCaseInterface.Output>
 }
 
 export namespace CreateUserUseCaseInterface {
