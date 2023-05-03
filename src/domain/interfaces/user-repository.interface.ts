@@ -1,5 +1,5 @@
 export interface CreateUserRepositoryInterface {
-  save: (input: CreateUserRepositoryInterface.Input) => Promise<CreateUserRepositoryInterface.Output>
+  save: (input: CreateUserRepositoryInterface.Input) => Promise<void>
 }
 
 export namespace CreateUserRepositoryInterface {
@@ -8,9 +8,5 @@ export namespace CreateUserRepositoryInterface {
     name: string
     password: string
     createdAt: Date
-  }
-
-  export type Output = {
-    accessToken: string
   }
 }

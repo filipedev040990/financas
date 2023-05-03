@@ -4,6 +4,7 @@ import { UUIDGeneratorInterface } from '@/application/interfaces/uuid-generator.
 import { CreateUserRepositoryInterface } from '@/domain/interfaces/user-repository.interface'
 import { CreateUserUseCase } from './create-user.usecase'
 import MockDate from 'mockdate'
+import { TokenGeneratorInterface } from '@/application/interfaces/token.interface'
 
 const uuidGenerator: jest.Mocked<UUIDGeneratorInterface> = {
   execute: jest.fn().mockReturnValue('any uuid')
@@ -14,7 +15,11 @@ const hashGenerator: jest.Mocked<HashGeneratorInterface> = {
 }
 
 const userRepository: jest.Mocked<CreateUserRepositoryInterface> = {
-  save: jest.fn().mockResolvedValue({ accessToken: 'any access token' })
+  save: jest.fn()
+}
+
+const tokenGenerator: jest.Mocked<TokenGeneratorInterface> = {
+  generate: jest.fn().mockReturnValue('any access token')
 }
 
 describe('CreateUserUseCase', () => {
@@ -24,7 +29,7 @@ describe('CreateUserUseCase', () => {
   beforeAll(() => {
     MockDate.set(new Date())
 
-    sut = new CreateUserUseCase(uuidGenerator, hashGenerator, userRepository)
+    sut = new CreateUserUseCase(uuidGenerator, hashGenerator, userRepository, tokenGenerator)
 
     input = {
       name: 'any name',
@@ -61,9 +66,14 @@ describe('CreateUserUseCase', () => {
     })
   })
 
-  test('should return an access token on success', async () => {
-    const accessToken = await sut.execute(input)
+  test('should call tokenGenerator.generate once and with correct id', async () => {
+    await sut.execute(input)
 
-    expect(accessToken).toEqual({ accessToken: 'any access token' })
+    expect(tokenGenerator.generate).toHaveBeenCalledTimes(1)
+    expect(tokenGenerator.generate).toHaveBeenCalledWith({
+      data: {
+        id: 'any uuid'
+      }
+    })
   })
 })
