@@ -7,6 +7,9 @@ export class CreateUserController {
     if (!input.body.name) {
       return badRequest(new MissingParamError('name'))
     }
+    if (!input.body.password) {
+      return badRequest(new MissingParamError('password'))
+    }
     return null
   }
 }
@@ -17,7 +20,9 @@ describe('CreateUserController', () => {
 
   beforeAll(() => {
     sut = new CreateUserController()
+  })
 
+  beforeEach(() => {
     input = {
       body: {
         name: 'any name',
@@ -26,11 +31,19 @@ describe('CreateUserController', () => {
     }
   })
 
-  test('should return 400 if name is not provided', async () => {
+  test('should return 400 if name is no provided', async () => {
     input.body.name = null
 
     const response = await sut.execute(input)
 
     expect(response).toEqual(badRequest(new MissingParamError('name')))
+  })
+
+  test('should return 400 if password is no provided', async () => {
+    input.body.password = null
+
+    const response = await sut.execute(input)
+
+    expect(response).toEqual(badRequest(new MissingParamError('password')))
   })
 })
