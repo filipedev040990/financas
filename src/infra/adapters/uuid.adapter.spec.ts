@@ -19,4 +19,12 @@ describe('UUIDAdapter', () => {
 
     expect(crypto.randomUUID).toHaveBeenCalledTimes(1)
   })
+
+  test('should return an uuid', () => {
+    const sut = new UUIDAdapter()
+
+    const response = sut.execute()
+
+    expect(response).toBe('any uuid')
+  })
 })
