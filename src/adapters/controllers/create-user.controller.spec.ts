@@ -1,8 +1,8 @@
-import { HttpRequest } from '../types/http.type'
-import { MissingParamError } from '../errors/missing-param.error'
+import { HttpRequest } from '@/adapters/types/http.type'
+import { MissingParamError } from '@/adapters/errors'
 import { CreateUserUseCaseInterface } from '@/application/interfaces/create-user-usecase.interface'
 import { CreateUserController } from './create-user.controller'
-import { badRequest } from '../helpers/http.helper'
+import { badRequest, serverError } from '@/adapters/helpers/http.helper'
 
 const createUserUseCase: jest.Mocked<CreateUserUseCaseInterface> = {
   execute: jest.fn().mockResolvedValue('any access token')
@@ -60,5 +60,15 @@ describe('CreateUserController', () => {
         accessToken: 'any access token'
       }
     })
+  })
+
+  test('should return server error if CreateUserUseCase throws', async () => {
+    createUserUseCase.execute.mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const response = await sut.execute(input)
+
+    expect(response).toEqual(serverError(new Error()))
   })
 })
