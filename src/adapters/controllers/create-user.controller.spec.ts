@@ -1,6 +1,6 @@
 import { HttpRequest } from '../types/http.type'
 import { MissingParamError } from '../errors/missing-param.error'
-import { badRequest } from '../helpers/http.helper'
+import { badRequest, success } from '../helpers/http.helper'
 import { CreateUserUseCaseInterface } from '@/application/interfaces/create-user-usecase.interface'
 
 export class CreateUserController {
@@ -13,8 +13,8 @@ export class CreateUserController {
     }
 
     const { name, password } = input.body
-    await this.createUserUseCase.execute({ name, password })
-    return null
+    const accessToken = await this.createUserUseCase.execute({ name, password })
+    return success(200, { accessToken })
   }
 
   private validate (input: HttpRequest): string | undefined {
@@ -72,6 +72,17 @@ describe('CreateUserController', () => {
     expect(createUserUseCase.execute).toHaveBeenCalledWith({
       name: 'any name',
       password: 'any password'
+    })
+  })
+
+  test('should return an access token on success', async () => {
+    const response = await sut.execute(input)
+
+    expect(response).toEqual({
+      statusCode: 200,
+      body: {
+        accessToken: 'any access token'
+      }
     })
   })
 })
