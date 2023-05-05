@@ -28,7 +28,7 @@ export class CreateUserUseCase {
     })
 
     const accessToken = this.tokenGenerator.generate({
-      data: {
+      key: {
         id: newUser.id
       }
     })

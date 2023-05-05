@@ -4,6 +4,8 @@ export interface TokenGeneratorInterface {
 
 export namespace TokenGeneratorInterface {
   export type Input = {
-    data: any
+    key: {
+      id: string
+    }
   }
 }

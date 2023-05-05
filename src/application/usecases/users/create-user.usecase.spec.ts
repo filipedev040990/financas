@@ -71,7 +71,7 @@ describe('CreateUserUseCase', () => {
 
     expect(tokenGenerator.generate).toHaveBeenCalledTimes(1)
     expect(tokenGenerator.generate).toHaveBeenCalledWith({
-      data: {
+      key: {
         id: 'any uuid'
       }
     })
