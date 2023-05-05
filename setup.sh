@@ -1,5 +1,7 @@
+#! /bin/bash
+
 echo "Instalando as dependências do projeto ..."
-npm install
+npm install --omit=dev --force
 
 echo "Dependências instaladas!"
 
@@ -10,8 +12,9 @@ npx husky add .husky/pre-commit "npx lint-staged" &&
 npx husky add .husky/pre-push "npm run test:ci" &&
 
 echo "husky configurado!"
+echo "Iniciando banco de dados e rodando migrations"
 
-echo "Verificando funcionamento do jest ..."
-npm t
+npx prisma migrate dev &&
 
-echo "Jest funcionando!"
+echo "Iniciando aplicação"
+npm run start
