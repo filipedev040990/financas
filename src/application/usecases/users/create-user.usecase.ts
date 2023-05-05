@@ -17,7 +17,7 @@ export class CreateUserUseCase {
     const newUser = new UserEntity({
       id: this.uuidGenerator.execute(),
       name: input.name,
-      password: this.hashGenerator.execute(input.password)
+      password: await this.hashGenerator.hash(input.password)
     })
 
     await this.userRepository.save({

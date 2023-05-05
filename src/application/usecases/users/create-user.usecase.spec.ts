@@ -11,7 +11,7 @@ const uuidGenerator: jest.Mocked<UUIDGeneratorInterface> = {
 }
 
 const hashGenerator: jest.Mocked<HashGeneratorInterface> = {
-  execute: jest.fn().mockReturnValue('any hash')
+  hash: jest.fn().mockReturnValue('any hash')
 }
 
 const userRepository: jest.Mocked<CreateUserRepositoryInterface> = {
@@ -47,11 +47,11 @@ describe('CreateUserUseCase', () => {
     expect(uuidGenerator.execute).toHaveBeenCalledTimes(1)
   })
 
-  test('should call HashGenerator.execute once and with correct password', async () => {
+  test('should call HashGenerator.hash once and with correct password', async () => {
     await sut.execute(input)
 
-    expect(hashGenerator.execute).toHaveBeenCalledTimes(1)
-    expect(hashGenerator.execute).toHaveBeenCalledWith('any password')
+    expect(hashGenerator.hash).toHaveBeenCalledTimes(1)
+    expect(hashGenerator.hash).toHaveBeenCalledWith('any password')
   })
 
   test('should call UserRepository.save once and with correct values', async () => {
