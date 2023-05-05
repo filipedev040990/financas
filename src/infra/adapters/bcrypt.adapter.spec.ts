@@ -8,8 +8,7 @@ jest.mock('bcrypt', () => ({
 export class BcryptAdapter implements HashGeneratorInterface {
   constructor (private readonly salt: number) {}
   async hash (value: string): Promise<string> {
-    await bcrypt.hash(value, this.salt)
-    return ''
+    return await bcrypt.hash(value, this.salt)
   }
 }
 
@@ -26,5 +25,11 @@ describe('BcryptAdapter', () => {
 
     expect(bcrypt.hash).toHaveBeenCalledTimes(1)
     expect(bcrypt.hash).toHaveBeenCalledWith('any value', 12)
+  })
+
+  test('should return a hash', async () => {
+    const hash = await sut.hash('any value')
+
+    expect(hash).toBe('any hash')
   })
 })
