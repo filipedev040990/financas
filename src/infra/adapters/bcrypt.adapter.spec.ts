@@ -1,16 +1,9 @@
-import { HashGeneratorInterface } from '@/application/interfaces/crypto.interface'
+import { BcryptAdapter } from './bcrypt.adapter'
 import bcrypt from 'bcrypt'
 
 jest.mock('bcrypt', () => ({
   hash: jest.fn().mockReturnValue('any hash')
 }))
-
-export class BcryptAdapter implements HashGeneratorInterface {
-  constructor (private readonly salt: number) {}
-  async hash (value: string): Promise<string> {
-    return await bcrypt.hash(value, this.salt)
-  }
-}
 
 describe('BcryptAdapter', () => {
   let sut: BcryptAdapter
