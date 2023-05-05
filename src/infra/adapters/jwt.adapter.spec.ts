@@ -7,12 +7,10 @@ export class JwtAdapter implements TokenGeneratorInterface {
   constructor (
     private readonly secretKey: string,
     private readonly expirationInMs: number
-
   ) {}
 
   generate (input: TokenGeneratorInterface.Input): string {
-    jwt.sign({ key: input.key }, this.secretKey, { expiresIn: this.expirationInMs })
-    return ''
+    return jwt.sign({ key: input.key }, this.secretKey, { expiresIn: this.expirationInMs })
   }
 }
 
@@ -32,6 +30,7 @@ describe('JwtAdapter', () => {
   beforeAll(() => {
     sut = new JwtAdapter(secretKey, expirationInMs)
     fakeJwt = jwt as jest.Mocked<typeof jwt>
+    fakeJwt.sign.mockImplementation(() => 'any token')
   })
 
   test('should call sign once and with correct values', () => {
@@ -39,5 +38,11 @@ describe('JwtAdapter', () => {
 
     expect(fakeJwt.sign).toHaveBeenCalledTimes(1)
     expect(fakeJwt.sign).toHaveBeenCalledWith({ key: { id: 'any id' } }, 'any secret key', { expiresIn: 60000 })
+  })
+
+  test('should return an access token on success', () => {
+    const token = sut.generate(input)
+
+    expect(token).toBe('any token')
   })
 })
