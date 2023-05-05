@@ -1,18 +1,8 @@
 import { TokenGeneratorInterface } from '@/application/interfaces/token.interface'
+import { JwtAdapter } from './jwt.adapter'
 import jwt from 'jsonwebtoken'
 
 jest.mock('jsonwebtoken')
-
-export class JwtAdapter implements TokenGeneratorInterface {
-  constructor (
-    private readonly secretKey: string,
-    private readonly expirationInMs: number
-  ) {}
-
-  generate (input: TokenGeneratorInterface.Input): string {
-    return jwt.sign({ key: input.key }, this.secretKey, { expiresIn: this.expirationInMs })
-  }
-}
 
 const input: TokenGeneratorInterface.Input = {
   key: {
