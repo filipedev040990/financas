@@ -1,5 +1,5 @@
 export interface CreateUserRepositoryInterface {
-  save: (input: CreateUserRepositoryInterface.Input) => Promise<void>
+  save(input: CreateUserRepositoryInterface.Input): Promise<void>
 }
 
 export namespace CreateUserRepositoryInterface {
