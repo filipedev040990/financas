@@ -33,6 +33,7 @@ describe('CreateUserUseCase', () => {
 
     input = {
       name: 'any name',
+      login: 'any login',
       password: 'any password'
     }
   })
@@ -61,6 +62,7 @@ describe('CreateUserUseCase', () => {
     expect(userRepository.save).toHaveBeenCalledWith({
       id: 'any uuid',
       name: 'any name',
+      login: 'any login',
       password: 'any hash',
       createdAt: new Date()
     })

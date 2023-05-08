@@ -20,6 +20,7 @@ describe('CreateUserController', () => {
     input = {
       body: {
         name: 'any name',
+        login: 'any login',
         password: 'any password'
       }
     }
@@ -47,6 +48,7 @@ describe('CreateUserController', () => {
     expect(createUserUseCase.execute).toHaveBeenCalledTimes(1)
     expect(createUserUseCase.execute).toHaveBeenCalledWith({
       name: 'any name',
+      login: 'any login',
       password: 'any password'
     })
   })

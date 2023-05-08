@@ -14,9 +14,9 @@ export class CreateUserController implements ControllerInterface {
         return badRequest(new MissingParamError(missingParam))
       }
 
-      const { name, password } = input.body
+      const { name, password, login } = input.body
 
-      const accessToken = await this.createUserUseCase.execute({ name, password })
+      const accessToken = await this.createUserUseCase.execute({ name, password, login })
 
       return success(200, { accessToken })
     } catch (error) {
@@ -25,7 +25,7 @@ export class CreateUserController implements ControllerInterface {
   }
 
   private validate (input: HttpRequest): string | undefined {
-    const requiredFields = ['name', 'password']
+    const requiredFields = ['name', 'password', 'login']
 
     for (const field of requiredFields) {
       if (!input.body[field]) {

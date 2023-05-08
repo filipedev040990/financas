@@ -5,6 +5,7 @@ export interface CreateUserUseCaseInterface {
 export namespace CreateUserUseCaseInterface {
   export type Input = {
     name: string
+    login: string
     password: string
   }
 

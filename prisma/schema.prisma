@@ -11,11 +11,13 @@ datasource db {
 }
 
 model User {
-  id        String    @id
-  name      String
-  password  String
-  createdAt DateTime
-  updatedAt DateTime?
+  id          String    @id
+  name        String
+  password    String
+  login       String
+  accessToken String?
+  createdAt   DateTime
+  updatedAt   DateTime?
 
   @@map("users")
 }
