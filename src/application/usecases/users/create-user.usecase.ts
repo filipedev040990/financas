@@ -21,18 +21,19 @@ export class CreateUserUseCase {
       password: await this.hashGenerator.hash(input.password)
     })
 
-    await this.userRepository.save({
-      id: newUser.id,
-      name: newUser.name,
-      login: newUser.login,
-      password: newUser.password,
-      createdAt: newUser.createdAt
-    })
-
     const accessToken = this.tokenGenerator.generate({
       key: {
         id: newUser.id
       }
+    })
+
+    await this.userRepository.save({
+      id: newUser.id,
+      name: newUser.name,
+      login: newUser.login,
+      accessToken,
+      password: newUser.password,
+      createdAt: newUser.createdAt
     })
 
     return accessToken

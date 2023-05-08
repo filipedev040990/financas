@@ -15,7 +15,7 @@ model User {
   name        String
   password    String
   login       String
-  accessToken String?
+  accessToken String    @db.LongText()
   createdAt   DateTime
   updatedAt   DateTime?
 

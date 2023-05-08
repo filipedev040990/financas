@@ -9,6 +9,7 @@ export class UserRepository implements CreateUserRepositoryInterface {
         name: input.name,
         login: input.login,
         password: input.password,
+        accessToken: input.accessToken,
         createdAt: input.createdAt
       }
     })

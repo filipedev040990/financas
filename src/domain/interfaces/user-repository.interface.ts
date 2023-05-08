@@ -7,7 +7,7 @@ export namespace CreateUserRepositoryInterface {
     id: string
     name: string
     login: string
-    accessToken?: string
+    accessToken: string
     password: string
     createdAt: Date
   }
