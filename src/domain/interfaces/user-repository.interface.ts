@@ -12,3 +12,15 @@ export namespace CreateUserRepositoryInterface {
     createdAt: Date
   }
 }
+
+export interface GetUserByLoginRepositoryInterface {
+  getByLogin (login: string): Promise<GetUserByLoginRepositoryInterface.Output>
+}
+
+export namespace GetUserByLoginRepositoryInterface {
+  export type Output = {
+    id: string
+    name: string
+    login: string
+  }
+}
