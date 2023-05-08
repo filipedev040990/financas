@@ -37,4 +37,14 @@ describe('GetUserByLoginUseCase', () => {
 
     expect(response).toBeNull()
   })
+
+  test('should return an user', async () => {
+    const response = await sut.execute('any id')
+
+    expect(response).toEqual({
+      id: 'any id',
+      name: 'any name',
+      login: 'any login'
+    })
+  })
 })
