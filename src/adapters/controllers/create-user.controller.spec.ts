@@ -1,5 +1,5 @@
 import { HttpRequest } from '@/adapters/types/http.type'
-import { MissingParamError } from '@/adapters/errors'
+import { InvalidParamError, MissingParamError } from '@/adapters/errors'
 import { CreateUserUseCaseInterface } from '@/application/interfaces/create-user-usecase.interface'
 import { CreateUserController } from './create-user.controller'
 import { badRequest, serverError } from '@/adapters/helpers/http.helper'
@@ -52,6 +52,18 @@ describe('CreateUserController', () => {
 
     expect(getUserByLoginUseCase.execute).toHaveBeenCalledTimes(1)
     expect(getUserByLoginUseCase.execute).toHaveBeenCalledWith('any login')
+  })
+
+  test('should return 400 if login already exists', async () => {
+    getUserByLoginUseCase.execute.mockResolvedValueOnce({
+      id: 'any id',
+      name: 'any name',
+      login: 'any login'
+    })
+
+    const response = await sut.execute(input)
+
+    expect(response).toEqual(badRequest(new InvalidParamError('This login already exists')))
   })
 
   test('should call CreateUserUseCase once and with correct values', async () => {

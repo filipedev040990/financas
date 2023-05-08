@@ -2,7 +2,7 @@ import { CreateUserUseCaseInterface } from '@/application/interfaces/create-user
 import { badRequest, serverError, success } from '@/adapters/helpers/http.helper'
 import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
 import { ControllerInterface } from '@/application/interfaces/controller.interface'
-import { MissingParamError } from '@/adapters/errors'
+import { InvalidParamError, MissingParamError } from '@/adapters/errors'
 import { GetUserByLoginUseCaseInterface } from '@/application/interfaces/get-user-by-login.interface'
 
 export class CreateUserController implements ControllerInterface {
@@ -20,7 +20,10 @@ export class CreateUserController implements ControllerInterface {
 
       const { name, password, login } = input.body
 
-      await this.getUserByLoginUseCase.execute(login)
+      const userExists = await this.getUserByLoginUseCase.execute(login)
+      if (userExists) {
+        return badRequest(new InvalidParamError('This login already exists'))
+      }
 
       const accessToken = await this.createUserUseCase.execute({ name, password, login })
 
