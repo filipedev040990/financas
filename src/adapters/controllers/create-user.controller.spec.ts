@@ -3,9 +3,14 @@ import { MissingParamError } from '@/adapters/errors'
 import { CreateUserUseCaseInterface } from '@/application/interfaces/create-user-usecase.interface'
 import { CreateUserController } from './create-user.controller'
 import { badRequest, serverError } from '@/adapters/helpers/http.helper'
+import { GetUserByLoginUseCaseInterface } from '@/application/interfaces/get-user-by-login.interface'
 
 const createUserUseCase: jest.Mocked<CreateUserUseCaseInterface> = {
   execute: jest.fn().mockResolvedValue('any access token')
+}
+
+const getUserByLoginUseCase: jest.Mocked<GetUserByLoginUseCaseInterface> = {
+  execute: jest.fn().mockResolvedValue(null)
 }
 
 describe('CreateUserController', () => {
@@ -13,7 +18,7 @@ describe('CreateUserController', () => {
   let input: HttpRequest
 
   beforeAll(() => {
-    sut = new CreateUserController(createUserUseCase)
+    sut = new CreateUserController(getUserByLoginUseCase, createUserUseCase)
   })
 
   beforeEach(() => {
@@ -40,6 +45,13 @@ describe('CreateUserController', () => {
     const response = await sut.execute(input)
 
     expect(response).toEqual(badRequest(new MissingParamError('password')))
+  })
+
+  test('should call GetUserByLoginUseCase once and with correct login', async () => {
+    await sut.execute(input)
+
+    expect(getUserByLoginUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(getUserByLoginUseCase.execute).toHaveBeenCalledWith('any login')
   })
 
   test('should call CreateUserUseCase once and with correct values', async () => {

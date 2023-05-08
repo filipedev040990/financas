@@ -3,9 +3,13 @@ import { badRequest, serverError, success } from '@/adapters/helpers/http.helper
 import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
 import { ControllerInterface } from '@/application/interfaces/controller.interface'
 import { MissingParamError } from '@/adapters/errors'
+import { GetUserByLoginUseCaseInterface } from '@/application/interfaces/get-user-by-login.interface'
 
 export class CreateUserController implements ControllerInterface {
-  constructor (private readonly createUserUseCase: CreateUserUseCaseInterface) {}
+  constructor (
+    private readonly getUserByLoginUseCase: GetUserByLoginUseCaseInterface,
+    private readonly createUserUseCase: CreateUserUseCaseInterface
+  ) {}
 
   async execute (input: HttpRequest): Promise<HttpResponse> {
     try {
@@ -15,6 +19,8 @@ export class CreateUserController implements ControllerInterface {
       }
 
       const { name, password, login } = input.body
+
+      await this.getUserByLoginUseCase.execute(login)
 
       const accessToken = await this.createUserUseCase.execute({ name, password, login })
 
