@@ -1,9 +1,10 @@
+import { GetUserByLoginUseCaseInterface } from '@/application/interfaces/get-user-by-login.interface'
 import { GetUserByLoginRepositoryInterface } from '@/domain/interfaces/user-repository.interface'
 
-export class GetUserByLoginUseCase {
+export class GetUserByLoginUseCase implements GetUserByLoginUseCaseInterface {
   constructor (private readonly userRepository: GetUserByLoginRepositoryInterface) {}
-  async execute (login: string): Promise<void> {
-    await this.userRepository.getByLogin(login)
+  async execute (login: string): Promise<GetUserByLoginUseCaseInterface.Output> {
+    return await this.userRepository.getByLogin(login)
   }
 }
 
@@ -27,5 +28,13 @@ describe('GetUserByLoginUseCase', () => {
 
     expect(userRepository.getByLogin).toHaveBeenCalledTimes(1)
     expect(userRepository.getByLogin).toHaveBeenCalledWith('any id')
+  })
+
+  test('should return null if UserRepository.getById returns null', async () => {
+    userRepository.getByLogin.mockResolvedValueOnce(null)
+
+    const response = await sut.execute('any id')
+
+    expect(response).toBeNull()
   })
 })

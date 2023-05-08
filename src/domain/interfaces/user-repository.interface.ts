@@ -22,5 +22,5 @@ export namespace GetUserByLoginRepositoryInterface {
     id: string
     name: string
     login: string
-  }
+  } | null
 }
