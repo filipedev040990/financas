@@ -27,7 +27,7 @@ export class CreateUserController implements ControllerInterface {
 
       const accessToken = await this.createUserUseCase.execute({ name, password, login })
 
-      return success(200, { accessToken })
+      return success(201, { accessToken })
     } catch (error) {
       return serverError(error)
     }

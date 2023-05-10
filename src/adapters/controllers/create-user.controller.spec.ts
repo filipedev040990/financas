@@ -81,7 +81,7 @@ describe('CreateUserController', () => {
     const response = await sut.execute(input)
 
     expect(response).toEqual({
-      statusCode: 200,
+      statusCode: 201,
       body: {
         accessToken: 'any access token'
       }
