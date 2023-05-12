@@ -3,7 +3,7 @@
 > ## Caso de sucesso
 
 1. ✅ Atualiza os dados do usuário
-2. ⛔ Retorna status 200
+2. ✅ Retorna status 200
 
 > ## Exceções
 1. ✅ Retorna 400 se o id do usuário não for fornecido

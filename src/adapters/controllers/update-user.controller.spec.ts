@@ -1,6 +1,6 @@
 import { ControllerInterface } from '@/application/interfaces/controller.interface'
 import { HttpRequest } from '../types/http.type'
-import { badRequest } from '../helpers/http.helper'
+import { badRequest, success } from '../helpers/http.helper'
 import { InvalidParamError, MissingParamError } from '../errors'
 import { mock } from 'jest-mock-extended'
 import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
@@ -30,7 +30,7 @@ export class UpdateUserController implements ControllerInterface {
     }
 
     await this.updateUserUseCase.execute({ id, name })
-    return null
+    return success(200, {})
   }
 }
 
@@ -96,5 +96,14 @@ describe('UpdateUserController', () => {
 
     expect(updateUserUseCase.execute).toHaveBeenCalledTimes(1)
     expect(updateUserUseCase.execute).toHaveBeenCalledWith({ id: 'any id', name: 'any name' })
+  })
+
+  test('should return 200 on success', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 200,
+      body: {}
+    })
   })
 })
