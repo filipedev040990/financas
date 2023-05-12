@@ -1,6 +1,6 @@
 import { UpdateUserUseCaseInterface } from '@/application/interfaces/update-user-usecase.interface'
 import { UpdateUserRepositoryInterface } from '@/domain/interfaces/user-repository.interface'
-import { UpdateUserUseCase } from './update-user'
+import { UpdateUserUseCase } from './update-user.usecase'
 import { mock } from 'jest-mock-extended'
 
 const userRepository = mock<UpdateUserRepositoryInterface>()
@@ -13,8 +13,7 @@ describe('UpdateUserUseCase', () => {
     sut = new UpdateUserUseCase(userRepository)
     input = {
       id: 'any id',
-      name: 'any name',
-      login: 'any login'
+      name: 'any name'
     }
   })
 
@@ -24,8 +23,7 @@ describe('UpdateUserUseCase', () => {
     expect(userRepository.update).toHaveBeenCalledTimes(1)
     expect(userRepository.update).toHaveBeenCalledWith({
       id: 'any id',
-      name: 'any name',
-      login: 'any login'
+      name: 'any name'
     })
   })
 })

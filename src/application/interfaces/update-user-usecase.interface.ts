@@ -6,6 +6,5 @@ export namespace UpdateUserUseCaseInterface {
   export type Input = {
     id: string
     name: string
-    login: string
   }
 }
