@@ -36,3 +36,15 @@ export namespace GetUserByIdRepositoryInterface {
     login: string
   } | null
 }
+
+export interface UpdateUserRepositoryInterface {
+  update(input: UpdateUserRepositoryInterface.Input): Promise<void>
+}
+
+export namespace UpdateUserRepositoryInterface {
+  export type Input = {
+    id: string
+    name: string
+    login: string
+  }
+}
