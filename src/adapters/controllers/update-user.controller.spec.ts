@@ -1,6 +1,6 @@
 import { ControllerInterface } from '@/application/interfaces/controller.interface'
 import { HttpRequest } from '../types/http.type'
-import { badRequest, success } from '../helpers/http.helper'
+import { badRequest, serverError, success } from '../helpers/http.helper'
 import { InvalidParamError, MissingParamError } from '../errors'
 import { mock } from 'jest-mock-extended'
 import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
@@ -13,24 +13,28 @@ export class UpdateUserController implements ControllerInterface {
   ) {}
 
   async execute (input: HttpRequest): Promise<any> {
-    if (!input.params?.id) {
-      return badRequest(new MissingParamError('id'))
+    try {
+      if (!input.params?.id) {
+        return badRequest(new MissingParamError('id'))
+      }
+
+      if (!input.body.name) {
+        return badRequest(new MissingParamError('name'))
+      }
+
+      const id = input.params.id
+      const name = input.body.name
+
+      const user = await this.getUserUseCase.execute(id)
+      if (!user) {
+        return badRequest(new InvalidParamError('User not found'))
+      }
+
+      await this.updateUserUseCase.execute({ id, name })
+      return success(200, {})
+    } catch (error) {
+      return serverError(error)
     }
-
-    if (!input.body.name) {
-      return badRequest(new MissingParamError('name'))
-    }
-
-    const id = input.params.id
-    const name = input.body.name
-
-    const user = await this.getUserUseCase.execute(id)
-    if (!user) {
-      return badRequest(new InvalidParamError('User not found'))
-    }
-
-    await this.updateUserUseCase.execute({ id, name })
-    return success(200, {})
   }
 }
 
@@ -105,5 +109,15 @@ describe('UpdateUserController', () => {
       statusCode: 200,
       body: {}
     })
+  })
+
+  test('should return 500 if GetUserByIdUseCase throws', async () => {
+    getUserUseCase.execute.mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(serverError(new Error()))
   })
 })
