@@ -24,3 +24,15 @@ export namespace GetUserByLoginRepositoryInterface {
     login: string
   } | null
 }
+
+export interface GetUserByIdRepositoryInterface {
+  getById (id: string): Promise<GetUserByIdRepositoryInterface.Output>
+}
+
+export namespace GetUserByIdRepositoryInterface {
+  export type Output = {
+    id: string
+    name: string
+    login: string
+  } | null
+}
