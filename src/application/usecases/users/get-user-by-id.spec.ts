@@ -1,13 +1,6 @@
-import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
 import { GetUserByIdRepositoryInterface } from '@/domain/interfaces/user-repository.interface'
+import { GetUserByIdUseCase } from './get-user-by-id'
 import { mock } from 'jest-mock-extended'
-
-export class GetUserByIdUseCase implements GetUserByIdUseCaseInterface {
-  constructor (private readonly userRepository: GetUserByIdRepositoryInterface) {}
-  async execute (id: string): Promise<GetUserByIdUseCaseInterface.Output> {
-    return await this.userRepository.getById(id)
-  }
-}
 
 const userRepository = mock<GetUserByIdRepositoryInterface>()
 const fakeUser = {
