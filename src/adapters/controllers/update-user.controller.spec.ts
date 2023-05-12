@@ -8,6 +8,11 @@ export class UpdateUserController implements ControllerInterface {
     if (!input.params?.id) {
       return badRequest(new MissingParamError('id'))
     }
+
+    if (!input.body.name) {
+      return badRequest(new MissingParamError('name'))
+    }
+
     return null
   }
 }
@@ -18,6 +23,8 @@ describe('UpdateUserController', () => {
 
   beforeAll(() => {
     sut = new UpdateUserController()
+  })
+  beforeEach(() => {
     input = {
       params: {
         id: 'any id'
@@ -34,5 +41,13 @@ describe('UpdateUserController', () => {
     const output = await sut.execute(input)
 
     expect(output).toEqual(badRequest(new MissingParamError('id')))
+  })
+
+  test('should return 400 if name is not provided', async () => {
+    input.body.name = null
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(badRequest(new MissingParamError('name')))
   })
 })
