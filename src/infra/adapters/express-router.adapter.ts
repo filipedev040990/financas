@@ -5,7 +5,8 @@ import { Request, Response } from 'express'
 export const expressRouterAdapter = (controller: ControllerInterface) => {
   return async (req: Request, res: Response) => {
     const input: HttpRequest = {
-      body: req.body
+      params: req?.params,
+      body: req?.body
     }
 
     const output: HttpResponse = await controller.execute(input)

@@ -26,7 +26,8 @@ export class UserRepository implements CreateUserRepositoryInterface, GetUserByL
   async update (input: UpdateUserRepositoryInterface.Input): Promise<void> {
     await prismaClient.user.update({
       data: {
-        name: input.name
+        name: input.name,
+        updatedAt: input.updatedAt
       },
       where: { id: input.id }
     })

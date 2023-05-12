@@ -45,5 +45,6 @@ export namespace UpdateUserRepositoryInterface {
   export type Input = {
     id: string
     name: string
+    updatedAt: Date
   }
 }

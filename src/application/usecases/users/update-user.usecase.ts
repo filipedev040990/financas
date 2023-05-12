@@ -4,6 +4,10 @@ import { UpdateUserRepositoryInterface } from '@/domain/interfaces/user-reposito
 export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   constructor (private readonly userRepository: UpdateUserRepositoryInterface) {}
   async execute (input: UpdateUserUseCaseInterface.Input): Promise<void> {
-    await this.userRepository.update(input)
+    await this.userRepository.update({
+      id: input.id,
+      name: input.name,
+      updatedAt: new Date()
+    })
   }
 }
