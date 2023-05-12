@@ -10,12 +10,18 @@ export class GetUserByIdUseCase implements GetUserByIdUseCaseInterface {
 }
 
 const userRepository = mock<GetUserByIdRepositoryInterface>()
+const fakeUser = {
+  id: 'any id',
+  name: 'any name',
+  login: 'any login'
+}
 
 describe('GetUserByIdUseCase', () => {
   let sut: GetUserByIdUseCase
 
   beforeAll(() => {
     sut = new GetUserByIdUseCase(userRepository)
+    userRepository.getById.mockResolvedValue(fakeUser)
   })
 
   test('should call UserRepository.getById once and with correct id', async () => {
@@ -31,5 +37,17 @@ describe('GetUserByIdUseCase', () => {
     const output = await sut.execute('any id')
 
     expect(output).toBeNull()
+  })
+
+  test('should reutn an user', async () => {
+    userRepository.getById.mockResolvedValueOnce(fakeUser)
+
+    const output = await sut.execute('any id')
+
+    expect(output).toEqual({
+      id: 'any id',
+      name: 'any name',
+      login: 'any login'
+    })
   })
 })
