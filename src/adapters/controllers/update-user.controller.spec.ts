@@ -1,7 +1,7 @@
 import { ControllerInterface } from '@/application/interfaces/controller.interface'
 import { HttpRequest } from '../types/http.type'
 import { badRequest } from '../helpers/http.helper'
-import { MissingParamError } from '../errors'
+import { InvalidParamError, MissingParamError } from '../errors'
 import { mock } from 'jest-mock-extended'
 import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
 
@@ -16,7 +16,10 @@ export class UpdateUserController implements ControllerInterface {
       return badRequest(new MissingParamError('name'))
     }
 
-    await this.getUserUseCase.execute(input.params.id)
+    const user = await this.getUserUseCase.execute(input.params.id)
+    if (!user) {
+      return badRequest(new InvalidParamError('User not found'))
+    }
 
     return null
   }
@@ -30,6 +33,11 @@ describe('UpdateUserController', () => {
 
   beforeAll(() => {
     sut = new UpdateUserController(getUserUseCase)
+    getUserUseCase.execute.mockResolvedValue({
+      id: 'any id',
+      name: 'any name',
+      login: 'any login'
+    })
   })
   beforeEach(() => {
     input = {
@@ -63,5 +71,13 @@ describe('UpdateUserController', () => {
 
     expect(getUserUseCase.execute).toHaveBeenCalledTimes(1)
     expect(getUserUseCase.execute).toHaveBeenCalledWith('any id')
+  })
+
+  test('should return 400 if GetUserByIdUseCase returns null', async () => {
+    getUserUseCase.execute.mockResolvedValueOnce(null)
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(badRequest(new InvalidParamError('User not found')))
   })
 })

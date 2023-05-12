@@ -7,7 +7,7 @@
 
 > ## Exceções
 1. ✅ Retorna 400 se o id do usuário não for fornecido
-2. ⛔ Retorna 400 se o usuário não existir
+2. ✅ Retorna 400 se o usuário não existir
 3. ✅ Retorna 400 se o nome do usuário não for fornecido
 6. ⛔ Retorna 500 se houver alguma falha na hora de salvar os dados
 
