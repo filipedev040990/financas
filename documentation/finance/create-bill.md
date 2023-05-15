@@ -7,12 +7,18 @@
 
 > ## Exceções
 1. ⛔ Retorna 400 se o tipo não for fornecido
-2. ⛔ Retorna 400 se a categoria não for fornecida
-3. ⛔ Retorna 400 se a data de vencimento não for fornecida
-4. ⛔ Retorna 400 se o valor total não for fornecido
-5. ⛔ Retorna 400 se o payment_method não for fornecido
-6. ⛔ Retorna 400 se ocurrence não for fornecido
-7. ⛔ Retorna 500 se houver alguma falha na hora de salvar os dados
+2. ⛔ Retorna 400 se o tipo for inválido
+3. ⛔ Retorna 400 se a categoria não for fornecida
+4. ⛔ Retorna 400 se a categoria for inválida
+5. ⛔ Retorna 400 se a data de vencimento não for fornecida
+6. ⛔ Retorna 400 se a data de vencimento for inválida
+7. ⛔ Retorna 400 se o valor total não for fornecido
+8. ⛔ Retorna 400 se o valor total for inválido
+9. ⛔ Retorna 400 se o payment_method não for fornecido
+10. ⛔ Retorna 400 se o payment_method for inválido
+11. ⛔ Retorna 400 se ocurrence não for fornecido
+12. ⛔ Retorna 400 se ocurrence for inválido
+13. ⛔ Retorna 500 se houver alguma falha na hora de salvar os dados
 
 
 ## Objeto User
