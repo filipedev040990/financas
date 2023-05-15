@@ -23,7 +23,7 @@ export namespace CreateBillUseCaseInterface {
     interest: number
     discount: number
     total_value: number
-    observation: string
+    observation?: string
     payment_method: string
     occurence: string
     createdAt: Date

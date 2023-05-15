@@ -10,8 +10,8 @@ export class CreateBillUseCase {
     private readonly billRepository: BillRepositoryInterface
   ) {}
 
-  async execute (input: CreateBillUseCaseInterface.Input): Promise<void> {
-    await this.billRepository.create({
+  async execute (input: CreateBillUseCaseInterface.Input): Promise<CreateBillUseCaseInterface.Output> {
+    const output = await this.billRepository.create({
       id: this.uuidGenerator.execute(),
       type: input.type,
       category: input.category,
@@ -24,6 +24,8 @@ export class CreateBillUseCase {
       observation: input?.observation,
       createdAt: new Date()
     })
+
+    return output
   }
 }
 
@@ -32,15 +34,13 @@ billRepository.create.mockResolvedValue({
   id: ' any id',
   type: 'any type',
   category: 'any category',
-  expiration: new Date(),
+  expiration: new Date('2023-01-01'),
   interest: 0,
   discount: 0,
   total_value: 1000,
-  observation: null,
   payment_method: 'any payment method',
   occurence: 'any ocurrence',
-  createdAt: new Date(),
-  updatedAt: null
+  createdAt: new Date('2023-01-01')
 })
 
 const uuidGenerator = mock<UUIDGeneratorInterface>()
@@ -51,12 +51,13 @@ describe('CreateBillUseCase', () => {
   let input: CreateBillUseCaseInterface.Input
 
   beforeAll(() => {
-    MockDate.set(new Date())
+    MockDate.set(new Date('2023-01-01'))
+
     sut = new CreateBillUseCase(uuidGenerator, billRepository)
     input = {
       type: 'any type',
       category: 'any category',
-      expiration: new Date(),
+      expiration: new Date('2023-01-01'),
       discount: 0,
       interest: 0,
       occurence: 'any ocurrence',
@@ -77,13 +78,30 @@ describe('CreateBillUseCase', () => {
       id: 'any uuid',
       type: 'any type',
       category: 'any category',
-      expiration: new Date(),
+      expiration: new Date('2023-01-01'),
       discount: 0,
       interest: 0,
       occurence: 'any ocurrence',
       payment_method: 'any payment method',
       total_value: 1000,
-      createdAt: new Date()
+      createdAt: new Date('2023-01-01')
+    })
+  })
+
+  test('should return an bill', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      id: ' any id',
+      type: 'any type',
+      category: 'any category',
+      expiration: new Date('2023-01-01'),
+      interest: 0,
+      discount: 0,
+      total_value: 1000,
+      payment_method: 'any payment method',
+      occurence: 'any ocurrence',
+      createdAt: new Date('2023-01-01')
     })
   })
 })

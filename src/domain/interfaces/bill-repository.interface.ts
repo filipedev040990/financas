@@ -26,10 +26,10 @@ export namespace BillRepositoryInterface {
     interest: number
     discount: number
     total_value: number
-    observation: string | null
+    observation?: string
     payment_method: string
     occurence: string
     createdAt: Date
-    updatedAt: Date | null
+    updatedAt?: Date
   }
 }
