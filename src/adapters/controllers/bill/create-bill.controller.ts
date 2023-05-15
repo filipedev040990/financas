@@ -24,7 +24,10 @@ export class CreateBillController {
       return invalidPaymentCategoryError
     }
 
-    this.paymentExpirationValidation(input.body?.expiration)
+    const invalidPaymentExpirationError = this.paymentExpirationValidation(input.body?.expiration)
+    if (invalidPaymentExpirationError) {
+      return invalidPaymentExpirationError
+    }
   }
 
   private paymentTypeValidation (type: string): Error | undefined {
@@ -41,6 +44,8 @@ export class CreateBillController {
   }
 
   private paymentExpirationValidation (date: Date): Error | undefined {
-    return undefined
+    if (!date) {
+      return new InvalidParamError('expiration')
+    }
   }
 }

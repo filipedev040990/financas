@@ -109,5 +109,13 @@ describe('CreateBillController', () => {
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith(input.body.expiration)
     })
+
+    test('should return 400 if expiration is not provided', async () => {
+      input.body.expiration = null
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('expiration')))
+    })
   })
 })
