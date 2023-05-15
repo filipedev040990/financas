@@ -52,6 +52,14 @@ describe('CreateBillController', () => {
 
       expect(output).toEqual(badRequest(new InvalidParamError('type')))
     })
+
+    test('should return 400 if validation type fails', async () => {
+      input.body.type = 'invalid type'
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('type')))
+    })
   })
 
   describe('paymentCategoryValidation', () => {
@@ -62,6 +70,22 @@ describe('CreateBillController', () => {
 
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith('any category id')
+    })
+
+    test('should return 400 if validation category fails', async () => {
+      input.body.category = null
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('category')))
+    })
+
+    test('should return 400 if validation category fails', async () => {
+      jest.spyOn(categoryRepository, 'getById').mockResolvedValueOnce(null)
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('category')))
     })
   })
 })

@@ -19,7 +19,10 @@ export class CreateBillController {
       return invalidPaymentTypeError
     }
 
-    await this.paymentCategoryValidation(input.body?.category)
+    const invalidPaymentCategoryError = await this.paymentCategoryValidation(input.body?.category)
+    if (invalidPaymentCategoryError) {
+      return invalidPaymentCategoryError
+    }
   }
 
   private paymentTypeValidation (type: string): Error | undefined {

@@ -8,8 +8,8 @@
 > ## Exceções
 1. ✅ Retorna 400 se o tipo não for fornecido
 2. ✅ Retorna 400 se o tipo for inválido
-3. ⛔ Retorna 400 se a categoria não for fornecida
-4. ⛔ Retorna 400 se a categoria for inválida
+3. ✅ Retorna 400 se a categoria não for fornecida
+4. ✅ Retorna 400 se a categoria for inválida
 5. ⛔ Retorna 400 se a data de vencimento não for fornecida
 6. ⛔ Retorna 400 se a data de vencimento for inválida
 7. ⛔ Retorna 400 se o valor total não for fornecido

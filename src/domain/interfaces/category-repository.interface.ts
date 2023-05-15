@@ -6,5 +6,5 @@ export namespace GetCategoryByIdRepositoryInterface {
   export type Output = {
     id: string
     name: string
-  }
+  } | null
 }
