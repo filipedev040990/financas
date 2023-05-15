@@ -1,8 +1,8 @@
 import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
 import { UpdateUserUseCaseInterface } from '@/application/interfaces/update-user-usecase.interface'
-import { HttpRequest } from '../types/http.type'
-import { badRequest, serverError } from '../helpers/http.helper'
-import { InvalidParamError, MissingParamError } from '../errors'
+import { HttpRequest } from '@/adapters/types/http.type'
+import { badRequest, serverError } from '@/adapters/helpers/http.helper'
+import { InvalidParamError, MissingParamError } from '@/adapters/errors'
 import { UpdateUserController } from './update-user.controller'
 import { mock } from 'jest-mock-extended'
 

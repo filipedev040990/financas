@@ -1,9 +1,9 @@
 import { ControllerInterface } from '@/application/interfaces/controller.interface'
 import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
 import { UpdateUserUseCaseInterface } from '@/application/interfaces/update-user-usecase.interface'
-import { MissingParamError, InvalidParamError } from '../errors'
-import { badRequest, success, serverError } from '../helpers/http.helper'
-import { HttpRequest, HttpResponse } from '../types/http.type'
+import { MissingParamError, InvalidParamError } from '@/adapters/errors'
+import { badRequest, success, serverError } from '@/adapters/helpers/http.helper'
+import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
 
 export class UpdateUserController implements ControllerInterface {
   constructor (

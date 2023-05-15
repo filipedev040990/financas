@@ -1,4 +1,4 @@
-import { CreateUserController } from '@/adapters/controllers/create-user.controller'
+import { CreateUserController } from '@/adapters/controllers/users/create-user.controller'
 import { buildCreateUserUseCase } from '../usecases/create-user.factory'
 import { buildGetUserByLoginUseCase } from '../usecases/get-user-by-login.factory'
 
