@@ -6,8 +6,8 @@
 2. ⛔ Retorna status 201 com os dados da nova conta
 
 > ## Exceções
-1. ⛔ Retorna 400 se o tipo não for fornecido
-2. ⛔ Retorna 400 se o tipo for inválido
+1. ✅ Retorna 400 se o tipo não for fornecido
+2. ✅ Retorna 400 se o tipo for inválido
 3. ⛔ Retorna 400 se a categoria não for fornecida
 4. ⛔ Retorna 400 se a categoria for inválida
 5. ⛔ Retorna 400 se a data de vencimento não for fornecida
