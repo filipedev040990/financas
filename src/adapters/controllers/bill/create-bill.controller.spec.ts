@@ -33,6 +33,10 @@ describe('CreateBillController', () => {
         occurence: 'weekly'
       }
     }
+    categoryRepository.getById.mockResolvedValue({
+      id: 'any id',
+      name: 'any name'
+    })
   })
 
   describe('paymentTypeValidation', () => {
@@ -93,6 +97,17 @@ describe('CreateBillController', () => {
       const output = await sut.execute(input)
 
       expect(output).toEqual(badRequest(new InvalidParamError('category')))
+    })
+  })
+
+  describe('paymentExpirationValidation', () => {
+    test('should call paymentExpirationValidation once and with correct value', async () => {
+      const spy = jest.spyOn(CreateBillController.prototype as unknown as keyof typeof CreateBillController, 'paymentExpirationValidation')
+
+      await sut.execute(input)
+
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(input.body.expiration)
     })
   })
 })
