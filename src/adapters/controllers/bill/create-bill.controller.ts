@@ -23,6 +23,8 @@ export class CreateBillController {
     if (invalidPaymentCategoryError) {
       return invalidPaymentCategoryError
     }
+
+    this.paymentExpirationValidation(input.body?.expiration)
   }
 
   private paymentTypeValidation (type: string): Error | undefined {
@@ -36,5 +38,9 @@ export class CreateBillController {
     if (!categoryId || !await this.categoryRepository.getById(categoryId)) {
       return new InvalidParamError('category')
     }
+  }
+
+  private paymentExpirationValidation (date: Date): Error | undefined {
+    return undefined
   }
 }

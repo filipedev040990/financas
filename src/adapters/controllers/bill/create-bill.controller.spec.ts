@@ -80,6 +80,13 @@ describe('CreateBillController', () => {
       expect(output).toEqual(badRequest(new InvalidParamError('category')))
     })
 
+    test('should call CategoryRepository.getById once and with correct category id', async () => {
+      await sut.execute(input)
+
+      expect(categoryRepository.getById).toHaveBeenCalledTimes(1)
+      expect(categoryRepository.getById).toHaveBeenCalledWith('any category id')
+    })
+
     test('should return 400 if validation category fails', async () => {
       jest.spyOn(categoryRepository, 'getById').mockResolvedValueOnce(null)
 
