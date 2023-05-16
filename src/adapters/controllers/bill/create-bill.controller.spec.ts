@@ -118,4 +118,15 @@ describe('CreateBillController', () => {
       expect(output).toEqual(badRequest(new InvalidParamError('expiration')))
     })
   })
+
+  describe('paymentTotalValueValidation', () => {
+    test('should call paymentTotalValueValidation once and with correct total value', async () => {
+      const spy = jest.spyOn(CreateBillController.prototype as unknown as keyof typeof CreateBillController, 'paymentTotalValueValidation')
+
+      await sut.execute(input)
+
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(input.body.total_value)
+    })
+  })
 })

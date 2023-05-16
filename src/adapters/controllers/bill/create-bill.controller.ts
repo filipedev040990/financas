@@ -28,6 +28,8 @@ export class CreateBillController {
     if (invalidPaymentExpirationError) {
       return invalidPaymentExpirationError
     }
+
+    this.paymentTotalValueValidation(input.body?.total_value)
   }
 
   private paymentTypeValidation (type: string): Error | undefined {
@@ -46,6 +48,12 @@ export class CreateBillController {
   private paymentExpirationValidation (date: Date): Error | undefined {
     if (!date) {
       return new InvalidParamError('expiration')
+    }
+  }
+
+  private paymentTotalValueValidation (totalValue: number): Error | undefined {
+    if (!totalValue || totalValue < 1) {
+      return new InvalidParamError('total_value')
     }
   }
 }
