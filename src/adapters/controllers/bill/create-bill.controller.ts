@@ -1,14 +1,16 @@
 import { InvalidParamError } from '@/adapters/errors'
-import { badRequest } from '@/adapters/helpers/http.helper'
+import { badRequest, success } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
+import { CreateBillUseCaseInterface } from '@/application/interfaces/create-bill-usecase.interface'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
 import config from '@/infra/config'
 
 export class CreateBillController {
   constructor (
     private readonly categoryRepository: GetCategoryByIdRepositoryInterface,
-    private readonly calculateStatusBillUseCase: CalculateStatusBillUseCaseInterface
+    private readonly calculateStatusBillUseCase: CalculateStatusBillUseCaseInterface,
+    private readonly createBillUseCase: CreateBillUseCaseInterface
   ) {}
 
   async execute (input: HttpRequest): Promise<any> {
@@ -17,8 +19,20 @@ export class CreateBillController {
       return badRequest(inputError)
     }
 
-    await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration })
-    return null
+    const status = await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration })
+    const newBill = await this.createBillUseCase.execute({
+      type: input.body.type,
+      category: input.body.category,
+      expiration: input.body.expiration,
+      interest: input.body.interest ?? 0,
+      discount: input.body.discount ?? 0,
+      total_value: input.body.total_value,
+      observation: input.body.observation ?? 0,
+      payment_method: input.body.payment_method,
+      status
+    })
+
+    return success(201, newBill)
   }
 
   private async inputValidation (input: HttpRequest): Promise<Error | undefined> {

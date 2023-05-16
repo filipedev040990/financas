@@ -5,6 +5,8 @@ import { CreateBillController } from './create-bill.controller'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
 import { mock } from 'jest-mock-extended'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
+import { CreateBillUseCaseInterface } from '@/application/interfaces/create-bill-usecase.interface'
+import MockDate from 'mockdate'
 
 const addDaysToDate = (date: Date, days: number): Date => {
   return new Date(date.setDate(date.getDate()) + days)
@@ -12,13 +14,29 @@ const addDaysToDate = (date: Date, days: number): Date => {
 
 const categoryRepository = mock<GetCategoryByIdRepositoryInterface>()
 const calculateStatusBillUseCase = mock<CalculateStatusBillUseCaseInterface>()
+const createBillUseCase = mock<CreateBillUseCaseInterface>()
 
 describe('CreateBillController', () => {
   let sut: CreateBillController
   let input: HttpRequest
 
   beforeAll(() => {
-    sut = new CreateBillController(categoryRepository, calculateStatusBillUseCase)
+    MockDate.set(new Date())
+    sut = new CreateBillController(categoryRepository, calculateStatusBillUseCase, createBillUseCase)
+    calculateStatusBillUseCase.execute.mockResolvedValue('open')
+    createBillUseCase.execute.mockResolvedValue({
+      id: 'any id',
+      type: 'pay',
+      category: 'any category id',
+      expiration: addDaysToDate(new Date(), 1),
+      interest: 0,
+      discount: 0,
+      total_value: 100,
+      observation: '',
+      payment_method: 'credit_card',
+      status: 'open',
+      createdAt: new Date()
+    })
   })
 
   beforeEach(() => {
@@ -38,6 +56,10 @@ describe('CreateBillController', () => {
       id: 'any id',
       name: 'any name'
     })
+  })
+
+  afterAll(() => {
+    MockDate.reset()
   })
 
   describe('paymentTypeValidation', () => {
@@ -179,5 +201,43 @@ describe('CreateBillController', () => {
 
     expect(calculateStatusBillUseCase.execute).toHaveBeenCalledTimes(1)
     expect(calculateStatusBillUseCase.execute).toHaveBeenCalledWith({ expiration: input.body.expiration })
+  })
+
+  test('should call createBillUseCase once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(createBillUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(createBillUseCase.execute).toHaveBeenCalledWith({
+      type: input.body.type,
+      category: input.body.category,
+      expiration: input.body.expiration,
+      interest: input.body.interest ?? 0,
+      discount: input.body.discount ?? 0,
+      total_value: input.body.total_value,
+      observation: input.body.observation ?? 0,
+      payment_method: input.body.payment_method,
+      status: 'open'
+    })
+  })
+
+  test('should return 201 and a new bill', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 201,
+      body: {
+        id: 'any id',
+        type: 'pay',
+        category: 'any category id',
+        expiration: addDaysToDate(new Date(), 1),
+        interest: 0,
+        discount: 0,
+        total_value: 100,
+        observation: '',
+        payment_method: 'credit_card',
+        status: 'open',
+        createdAt: new Date()
+      }
+    })
   })
 })
