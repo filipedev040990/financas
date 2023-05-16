@@ -1,38 +1,44 @@
 import { InvalidParamError } from '@/adapters/errors'
-import { badRequest, success } from '@/adapters/helpers/http.helper'
-import { HttpRequest } from '@/adapters/types/http.type'
+import { badRequest, serverError, success } from '@/adapters/helpers/http.helper'
+import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
+import { ControllerInterface } from '@/application/interfaces/controller.interface'
 import { CreateBillUseCaseInterface } from '@/application/interfaces/create-bill-usecase.interface'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
 import config from '@/infra/config'
 
-export class CreateBillController {
+export class CreateBillController implements ControllerInterface {
   constructor (
     private readonly categoryRepository: GetCategoryByIdRepositoryInterface,
     private readonly calculateStatusBillUseCase: CalculateStatusBillUseCaseInterface,
     private readonly createBillUseCase: CreateBillUseCaseInterface
   ) {}
 
-  async execute (input: HttpRequest): Promise<any> {
-    const inputError = await this.inputValidation(input)
-    if (inputError) {
-      return badRequest(inputError)
+  async execute (input: HttpRequest): Promise<HttpResponse> {
+    try {
+      const inputError = await this.inputValidation(input)
+      if (inputError) {
+        return badRequest(inputError)
+      }
+
+      const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration })
+
+      const newBill = await this.createBillUseCase.execute({
+        type: input.body.type,
+        category: input.body.category,
+        expiration: input.body.expiration,
+        interest: input.body.interest ?? 0,
+        discount: input.body.discount ?? 0,
+        total_value: input.body.total_value,
+        observation: input.body.observation ?? 0,
+        payment_method: input.body.payment_method,
+        status: statusBill
+      })
+
+      return success(201, newBill)
+    } catch (error) {
+      return serverError(error)
     }
-
-    const status = await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration })
-    const newBill = await this.createBillUseCase.execute({
-      type: input.body.type,
-      category: input.body.category,
-      expiration: input.body.expiration,
-      interest: input.body.interest ?? 0,
-      discount: input.body.discount ?? 0,
-      total_value: input.body.total_value,
-      observation: input.body.observation ?? 0,
-      payment_method: input.body.payment_method,
-      status
-    })
-
-    return success(201, newBill)
   }
 
   private async inputValidation (input: HttpRequest): Promise<Error | undefined> {

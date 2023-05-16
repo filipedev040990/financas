@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/adapters/errors'
-import { badRequest } from '@/adapters/helpers/http.helper'
+import { badRequest, serverError } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { CreateBillController } from './create-bill.controller'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
@@ -239,5 +239,15 @@ describe('CreateBillController', () => {
         createdAt: new Date()
       }
     })
+  })
+
+  test('should return 500 if CreateBillUseCase throws', async () => {
+    createBillUseCase.execute.mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(serverError(new Error()))
   })
 })
