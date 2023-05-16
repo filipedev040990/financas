@@ -40,7 +40,10 @@ export class CreateBillController {
       return invalidPaymentMethodError
     }
 
-    this.paymentOcurrencesValidation(input.body?.ocurrence)
+    const invalidOcurrenceError = this.paymentOcurrencesValidation(input.body?.ocurrence)
+    if (invalidOcurrenceError) {
+      return invalidOcurrenceError
+    }
   }
 
   private paymentTypeValidation (type: string): Error | undefined {

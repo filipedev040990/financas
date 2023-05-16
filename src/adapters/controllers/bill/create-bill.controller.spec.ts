@@ -182,5 +182,13 @@ describe('CreateBillController', () => {
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith(input.body.ocurrence)
     })
+
+    test('should return 400 if invalid ocurrence is provided', async () => {
+      input.body.ocurrence = 'invalid ocurrence'
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('ocurrence')))
+    })
   })
 })
