@@ -29,7 +29,10 @@ export class CreateBillController {
       return invalidPaymentExpirationError
     }
 
-    this.paymentTotalValueValidation(input.body?.total_value)
+    const invalidPaymentTotalValueError = this.paymentTotalValueValidation(input.body?.total_value)
+    if (invalidPaymentTotalValueError) {
+      return invalidPaymentTotalValueError
+    }
   }
 
   private paymentTypeValidation (type: string): Error | undefined {

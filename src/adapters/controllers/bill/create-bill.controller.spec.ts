@@ -128,5 +128,13 @@ describe('CreateBillController', () => {
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith(input.body.total_value)
     })
+
+    test('should return 400 if total_value is not provided', async () => {
+      input.body.total_value = null
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('total_value')))
+    })
   })
 })
