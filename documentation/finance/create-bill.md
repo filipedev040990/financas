@@ -3,7 +3,7 @@
 > ## Caso de sucesso
 
 1. ✅ Salva os dados da conta
-2. ✅ Calcula status da conta
+2. ⛔ Calcula status da conta
 3. ⛔ Retorna status 201 com os dados da nova conta
 
 > ## Exceções

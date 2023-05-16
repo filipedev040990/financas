@@ -145,4 +145,15 @@ describe('CreateBillController', () => {
       expect(output).toEqual(badRequest(new InvalidParamError('total_value')))
     })
   })
+
+  describe('paymentMethodValidation', () => {
+    test('should paymentMethodValidation once and with correct total value', async () => {
+      const spy = jest.spyOn(CreateBillController.prototype as unknown as keyof typeof CreateBillController, 'paymentMethodValidation')
+
+      await sut.execute(input)
+
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(input.body.payment_method)
+    })
+  })
 })

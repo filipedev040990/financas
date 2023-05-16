@@ -2,6 +2,7 @@ import { InvalidParamError } from '@/adapters/errors'
 import { badRequest } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
+import config from '@/infra/config'
 
 export class CreateBillController {
   constructor (private readonly categoryRepository: GetCategoryByIdRepositoryInterface) {}
@@ -33,10 +34,12 @@ export class CreateBillController {
     if (invalidPaymentTotalValueError) {
       return invalidPaymentTotalValueError
     }
+
+    this.paymentMethodValidation(input.body?.payment_method)
   }
 
   private paymentTypeValidation (type: string): Error | undefined {
-    const allowedTypes = ['pay', 'receive']
+    const allowedTypes = config.payment.types
     if (!type || !allowedTypes.includes(type)) {
       return new InvalidParamError('type')
     }
@@ -57,6 +60,13 @@ export class CreateBillController {
   private paymentTotalValueValidation (totalValue: number): Error | undefined {
     if (!totalValue || totalValue < 1) {
       return new InvalidParamError('total_value')
+    }
+  }
+
+  private paymentMethodValidation (method: string): Error | undefined {
+    const allowedMethods = config.payment.methods
+    if (!method || !allowedMethods.includes(method)) {
+      return new InvalidParamError('method')
     }
   }
 }
