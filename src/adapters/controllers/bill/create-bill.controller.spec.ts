@@ -136,5 +136,13 @@ describe('CreateBillController', () => {
 
       expect(output).toEqual(badRequest(new InvalidParamError('total_value')))
     })
+
+    test('should return 400 if total_value is less than 1', async () => {
+      input.body.total_value = 0
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('total_value')))
+    })
   })
 })

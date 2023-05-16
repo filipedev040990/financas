@@ -13,8 +13,8 @@
 4. ✅ Retorna 400 se a categoria for inválida
 5. ✅ Retorna 400 se a data de vencimento não for fornecida
 6. ✅ Retorna 400 se a data de vencimento for inválida
-7. ⛔ Retorna 400 se o valor total não for fornecido
-8. ⛔ Retorna 400 se o valor total for inválido
+7. ✅ Retorna 400 se o valor total não for fornecido
+8. ✅ Retorna 400 se o valor total for inválido
 9. ⛔ Retorna 400 se o payment_method não for fornecido
 10. ⛔ Retorna 400 se o payment_method for inválido
 11. ⛔ Retorna 400 se ocurrence não for fornecido
