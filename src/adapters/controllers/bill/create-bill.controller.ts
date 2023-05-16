@@ -39,6 +39,8 @@ export class CreateBillController {
     if (invalidPaymentMethodError) {
       return invalidPaymentMethodError
     }
+
+    this.paymentOcurrencesValidation(input.body?.ocurrence)
   }
 
   private paymentTypeValidation (type: string): Error | undefined {
@@ -70,6 +72,13 @@ export class CreateBillController {
     const allowedMethods = config.payment.methods
     if (!method || !allowedMethods.includes(method)) {
       return new InvalidParamError('payment_method')
+    }
+  }
+
+  private paymentOcurrencesValidation (ocurrence: string): Error | undefined {
+    const allowedOcurrences = config.payment.ocurrences
+    if (!ocurrence || !allowedOcurrences.includes(ocurrence)) {
+      return new InvalidParamError('ocurrence')
     }
   }
 }

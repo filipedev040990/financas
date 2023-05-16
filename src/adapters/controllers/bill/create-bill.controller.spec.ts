@@ -29,7 +29,7 @@ describe('CreateBillController', () => {
         discount: 0,
         total_value: 100,
         observation: '',
-        payment_method: 'any payment method',
+        payment_method: 'credit_card',
         occurence: 'weekly'
       }
     }
@@ -147,7 +147,7 @@ describe('CreateBillController', () => {
   })
 
   describe('paymentMethodValidation', () => {
-    test('should paymentMethodValidation once and with correct total value', async () => {
+    test('should call paymentMethodValidation once and with correct payment method', async () => {
       const spy = jest.spyOn(CreateBillController.prototype as unknown as keyof typeof CreateBillController, 'paymentMethodValidation')
 
       await sut.execute(input)
@@ -170,6 +170,17 @@ describe('CreateBillController', () => {
       const output = await sut.execute(input)
 
       expect(output).toEqual(badRequest(new InvalidParamError('payment_method')))
+    })
+  })
+
+  describe('paymentOcurrencesValidation', () => {
+    test('should call paymentOcurrencesValidation once and with correct ocurrence', async () => {
+      const spy = jest.spyOn(CreateBillController.prototype as unknown as keyof typeof CreateBillController, 'paymentOcurrencesValidation')
+
+      await sut.execute(input)
+
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(input.body.ocurrence)
     })
   })
 })
