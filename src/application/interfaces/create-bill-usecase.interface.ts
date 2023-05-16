@@ -12,7 +12,7 @@ export namespace CreateBillUseCaseInterface {
     total_value: number
     observation?: string
     payment_method: string
-    occurence: string
+    status: string
   }
 
   export type Output = {
@@ -25,7 +25,7 @@ export namespace CreateBillUseCaseInterface {
     total_value: number
     observation?: string
     payment_method: string
-    occurence: string
+    status: string
     createdAt: Date
   }
 }

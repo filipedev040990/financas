@@ -16,10 +16,10 @@ export class CreateBillUseCase {
       expiration: input.expiration,
       discount: input.discount,
       interest: input.interest,
-      occurence: input.occurence,
       payment_method: input.payment_method,
       total_value: input.total_value,
       observation: input?.observation,
+      status: input.status,
       createdAt: new Date()
     })
 

@@ -4,19 +4,21 @@ import { HttpRequest } from '@/adapters/types/http.type'
 import { CreateBillController } from './create-bill.controller'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
 import { mock } from 'jest-mock-extended'
+import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 
 const addDaysToDate = (date: Date, days: number): Date => {
   return new Date(date.setDate(date.getDate()) + days)
 }
 
 const categoryRepository = mock<GetCategoryByIdRepositoryInterface>()
+const calculateStatusBillUseCase = mock<CalculateStatusBillUseCaseInterface>()
 
 describe('CreateBillController', () => {
   let sut: CreateBillController
   let input: HttpRequest
 
   beforeAll(() => {
-    sut = new CreateBillController(categoryRepository)
+    sut = new CreateBillController(categoryRepository, calculateStatusBillUseCase)
   })
 
   beforeEach(() => {
@@ -29,8 +31,7 @@ describe('CreateBillController', () => {
         discount: 0,
         total_value: 100,
         observation: '',
-        payment_method: 'credit_card',
-        occurence: 'weekly'
+        payment_method: 'credit_card'
       }
     }
     categoryRepository.getById.mockResolvedValue({
@@ -173,22 +174,10 @@ describe('CreateBillController', () => {
     })
   })
 
-  describe('paymentOcurrencesValidation', () => {
-    test('should call paymentOcurrencesValidation once and with correct ocurrence', async () => {
-      const spy = jest.spyOn(CreateBillController.prototype as unknown as keyof typeof CreateBillController, 'paymentOcurrencesValidation')
+  test('should call calculateBillStatusUseCase once and with correct values', async () => {
+    await sut.execute(input)
 
-      await sut.execute(input)
-
-      expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith(input.body.ocurrence)
-    })
-
-    test('should return 400 if invalid ocurrence is provided', async () => {
-      input.body.ocurrence = 'invalid ocurrence'
-
-      const output = await sut.execute(input)
-
-      expect(output).toEqual(badRequest(new InvalidParamError('ocurrence')))
-    })
+    expect(calculateStatusBillUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(calculateStatusBillUseCase.execute).toHaveBeenCalledWith({ expiration: input.body.expiration })
   })
 })

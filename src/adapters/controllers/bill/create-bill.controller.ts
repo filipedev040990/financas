@@ -1,16 +1,23 @@
 import { InvalidParamError } from '@/adapters/errors'
 import { badRequest } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
+import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
 import config from '@/infra/config'
 
 export class CreateBillController {
-  constructor (private readonly categoryRepository: GetCategoryByIdRepositoryInterface) {}
+  constructor (
+    private readonly categoryRepository: GetCategoryByIdRepositoryInterface,
+    private readonly calculateStatusBillUseCase: CalculateStatusBillUseCaseInterface
+  ) {}
+
   async execute (input: HttpRequest): Promise<any> {
     const inputError = await this.inputValidation(input)
     if (inputError) {
       return badRequest(inputError)
     }
+
+    await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration })
     return null
   }
 
@@ -38,11 +45,6 @@ export class CreateBillController {
     const invalidPaymentMethodError = this.paymentMethodValidation(input.body?.payment_method)
     if (invalidPaymentMethodError) {
       return invalidPaymentMethodError
-    }
-
-    const invalidOcurrenceError = this.paymentOcurrencesValidation(input.body?.ocurrence)
-    if (invalidOcurrenceError) {
-      return invalidOcurrenceError
     }
   }
 
@@ -75,13 +77,6 @@ export class CreateBillController {
     const allowedMethods = config.payment.methods
     if (!method || !allowedMethods.includes(method)) {
       return new InvalidParamError('payment_method')
-    }
-  }
-
-  private paymentOcurrencesValidation (ocurrence: string): Error | undefined {
-    const allowedOcurrences = config.payment.ocurrences
-    if (!ocurrence || !allowedOcurrences.includes(ocurrence)) {
-      return new InvalidParamError('ocurrence')
     }
   }
 }

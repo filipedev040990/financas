@@ -15,8 +15,8 @@ billRepository.create.mockResolvedValue({
   discount: 0,
   total_value: 1000,
   payment_method: 'any payment method',
-  occurence: 'any ocurrence',
-  createdAt: new Date('2023-01-01')
+  createdAt: new Date('2023-01-01'),
+  status: 'open'
 })
 
 const uuidGenerator = mock<UUIDGeneratorInterface>()
@@ -36,9 +36,9 @@ describe('CreateBillUseCase', () => {
       expiration: new Date('2023-01-01'),
       discount: 0,
       interest: 0,
-      occurence: 'any ocurrence',
       payment_method: 'any payment method',
-      total_value: 1000
+      total_value: 1000,
+      status: 'open'
     }
   })
 
@@ -57,10 +57,10 @@ describe('CreateBillUseCase', () => {
       expiration: new Date('2023-01-01'),
       discount: 0,
       interest: 0,
-      occurence: 'any ocurrence',
       payment_method: 'any payment method',
       total_value: 1000,
-      createdAt: new Date('2023-01-01')
+      createdAt: new Date('2023-01-01'),
+      status: 'open'
     })
   })
 
@@ -76,8 +76,8 @@ describe('CreateBillUseCase', () => {
       discount: 0,
       total_value: 1000,
       payment_method: 'any payment method',
-      occurence: 'any ocurrence',
-      createdAt: new Date('2023-01-01')
+      createdAt: new Date('2023-01-01'),
+      status: 'open'
     })
   })
 })

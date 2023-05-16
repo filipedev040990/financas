@@ -13,7 +13,7 @@ export namespace BillRepositoryInterface {
     total_value: number
     observation?: string
     payment_method: string
-    occurence: string
+    status: string
     createdAt: Date
     upatedAt?: Date
   }
@@ -28,7 +28,7 @@ export namespace BillRepositoryInterface {
     total_value: number
     observation?: string
     payment_method: string
-    occurence: string
+    status: string
     createdAt: Date
     updatedAt?: Date
   }
