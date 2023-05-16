@@ -155,5 +155,21 @@ describe('CreateBillController', () => {
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith(input.body.payment_method)
     })
+
+    test('should return 400 if payment_method is not provided', async () => {
+      input.body.payment_method = null
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('payment_method')))
+    })
+
+    test('should return 400 if invalid payment_method is provided', async () => {
+      input.body.payment_method = 'invalid payment method'
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('payment_method')))
+    })
   })
 })

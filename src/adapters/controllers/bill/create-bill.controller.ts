@@ -35,7 +35,10 @@ export class CreateBillController {
       return invalidPaymentTotalValueError
     }
 
-    this.paymentMethodValidation(input.body?.payment_method)
+    const invalidPaymentMethodError = this.paymentMethodValidation(input.body?.payment_method)
+    if (invalidPaymentMethodError) {
+      return invalidPaymentMethodError
+    }
   }
 
   private paymentTypeValidation (type: string): Error | undefined {
@@ -66,7 +69,7 @@ export class CreateBillController {
   private paymentMethodValidation (method: string): Error | undefined {
     const allowedMethods = config.payment.methods
     if (!method || !allowedMethods.includes(method)) {
-      return new InvalidParamError('method')
+      return new InvalidParamError('payment_method')
     }
   }
 }
