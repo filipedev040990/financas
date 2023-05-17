@@ -17,7 +17,7 @@
 8. ✅ Retorna 400 se o valor total for inválido
 9. ✅ Retorna 400 se o payment_method não for fornecido
 10. ✅ Retorna 400 se o payment_method for inválido
-11. ⛔ Retorna 500 se houver alguma falha na hora de salvar os dados
+11. ✅ Retorna 500 se houver alguma falha na hora de salvar os dados
 
 
 ## Objeto User
