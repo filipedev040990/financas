@@ -1,21 +1,21 @@
 import { CreateBillUseCaseInterface } from '@/application/interfaces/create-bill-usecase.interface'
 import MockDate from 'mockdate'
 import { mock } from 'jest-mock-extended'
-import { BillRepositoryInterface } from '@/domain/interfaces/bill-repository.interface'
+import { CreateBillRepositoryInterface } from '@/domain/interfaces/bill-repository.interface'
 import { UUIDGeneratorInterface } from '@/application/interfaces/uuid-generator.interface'
 import { CreateBillUseCase } from './create-bill.usecase'
 
-const billRepository = mock<BillRepositoryInterface>()
+const billRepository = mock<CreateBillRepositoryInterface>()
 billRepository.create.mockResolvedValue({
   id: ' any id',
   type: 'any type',
-  category: 'any category',
+  category_id: 'any category_id',
   expiration: new Date('2023-01-01'),
   interest: 0,
   discount: 0,
   total_value: 1000,
-  payment_method: 'any payment method',
-  createdAt: new Date('2023-01-01'),
+  payment_method_id: 'any payment method',
+  created_at: new Date('2023-01-01'),
   status: 'open'
 })
 
@@ -32,11 +32,11 @@ describe('CreateBillUseCase', () => {
     sut = new CreateBillUseCase(uuidGenerator, billRepository)
     input = {
       type: 'any type',
-      category: 'any category',
+      category_id: 'any category_id',
       expiration: new Date('2023-01-01'),
       discount: 0,
       interest: 0,
-      payment_method: 'any payment method',
+      payment_method_id: 'any payment method',
       total_value: 1000,
       status: 'open'
     }
@@ -53,13 +53,14 @@ describe('CreateBillUseCase', () => {
     expect(billRepository.create).toHaveBeenCalledWith({
       id: 'any uuid',
       type: 'any type',
-      category: 'any category',
+      category_id: 'any category_id',
       expiration: new Date('2023-01-01'),
       discount: 0,
       interest: 0,
-      payment_method: 'any payment method',
+      observation: null,
+      payment_method_id: 'any payment method',
       total_value: 1000,
-      createdAt: new Date('2023-01-01'),
+      created_at: new Date('2023-01-01'),
       status: 'open'
     })
   })
@@ -70,13 +71,13 @@ describe('CreateBillUseCase', () => {
     expect(output).toEqual({
       id: ' any id',
       type: 'any type',
-      category: 'any category',
+      category_id: 'any category_id',
       expiration: new Date('2023-01-01'),
       interest: 0,
       discount: 0,
       total_value: 1000,
-      payment_method: 'any payment method',
-      createdAt: new Date('2023-01-01'),
+      payment_method_id: 'any payment method',
+      created_at: new Date('2023-01-01'),
       status: 'open'
     })
   })

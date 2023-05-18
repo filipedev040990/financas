@@ -10,7 +10,7 @@ export class UserRepository implements CreateUserRepositoryInterface, GetUserByL
         login: input.login,
         password: input.password,
         accessToken: input.accessToken,
-        createdAt: input.createdAt
+        created_at: input.created_at
       }
     })
   }
@@ -27,7 +27,7 @@ export class UserRepository implements CreateUserRepositoryInterface, GetUserByL
     await prismaClient.user.update({
       data: {
         name: input.name,
-        updatedAt: input.updatedAt
+        updated_at: input.updated_at
       },
       where: { id: input.id }
     })

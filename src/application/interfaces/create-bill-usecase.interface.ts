@@ -5,27 +5,27 @@ export interface CreateBillUseCaseInterface {
 export namespace CreateBillUseCaseInterface {
   export type Input = {
     type: string
-    category: string
+    category_id: string
     expiration: Date
     interest: number
     discount: number
     total_value: number
-    observation?: string
-    payment_method: string
+    observation?: string | null
+    payment_method_id: string
     status: string
   }
 
   export type Output = {
     id: string
     type: string
-    category: string
+    category_id: string
     expiration: Date
     interest: number
     discount: number
     total_value: number
-    observation?: string
-    payment_method: string
+    observation?: string | null
+    payment_method_id: string
     status: string
-    createdAt: Date
+    created_at: Date
   }
 }

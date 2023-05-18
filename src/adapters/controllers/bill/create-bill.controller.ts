@@ -25,13 +25,13 @@ export class CreateBillController implements ControllerInterface {
 
       const newBill = await this.createBillUseCase.execute({
         type: input.body.type,
-        category: input.body.category,
+        category_id: input.body.category_id,
         expiration: input.body.expiration,
         interest: input.body.interest ?? 0,
         discount: input.body.discount ?? 0,
         total_value: input.body.total_value,
         observation: input.body.observation ?? 0,
-        payment_method: input.body.payment_method,
+        payment_method_id: input.body.payment_method_id,
         status: statusBill
       })
 
@@ -47,7 +47,7 @@ export class CreateBillController implements ControllerInterface {
       return invalidPaymentTypeError
     }
 
-    const invalidPaymentCategoryError = await this.paymentCategoryValidation(input.body?.category)
+    const invalidPaymentCategoryError = await this.paymentCategoryValidation(input.body?.category_id)
     if (invalidPaymentCategoryError) {
       return invalidPaymentCategoryError
     }
@@ -62,7 +62,7 @@ export class CreateBillController implements ControllerInterface {
       return invalidPaymentTotalValueError
     }
 
-    const invalidPaymentMethodError = this.paymentMethodValidation(input.body?.payment_method)
+    const invalidPaymentMethodError = this.paymentMethodValidation(input.body?.payment_method_id)
     if (invalidPaymentMethodError) {
       return invalidPaymentMethodError
     }

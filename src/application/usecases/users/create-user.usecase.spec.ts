@@ -65,7 +65,7 @@ describe('CreateUserUseCase', () => {
       login: 'any login',
       accessToken: 'any access token',
       password: 'any hash',
-      createdAt: new Date()
+      created_at: new Date()
     })
   })
 

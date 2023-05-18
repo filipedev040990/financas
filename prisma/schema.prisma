@@ -11,13 +11,52 @@ datasource db {
 }
 
 model User {
-  id          String    @id
-  name        String
-  password    String
-  login       String
-  accessToken String    @db.LongText()
-  createdAt   DateTime
-  updatedAt   DateTime?
+  id           String    @id
+  name         String
+  password     String
+  login        String
+  access_token String    @db.LongText()
+  created_at   DateTime
+  updated_at   DateTime?
 
   @@map("users")
+}
+
+model Category {
+  id         String   @id
+  name       String
+  created_at DateTime
+  updated_at DateTime
+  Bill       Bill[]
+
+  @@map("categories")
+}
+
+model PaymentMethod {
+  id         String   @id
+  name       String
+  created_at DateTime
+  updated_at DateTime
+  Bill       Bill[]
+
+  @@map("payment_methods")
+}
+
+model Bill {
+  id                String        @id
+  type              String
+  category          Category      @relation(fields: [category_id], references: [id])
+  category_id       String
+  expiration        DateTime
+  interest          Int
+  discount          Int
+  total_value       Int
+  observation       String?       @db.LongText()
+  payment_method    PaymentMethod @relation(fields: [payment_method_id], references: [id])
+  payment_method_id String
+  status            String
+  created_at        DateTime
+  updated_at        DateTime?
+
+  @@map("bill")
 }

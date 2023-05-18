@@ -1,35 +1,35 @@
-export interface BillRepositoryInterface {
-  create(input: BillRepositoryInterface.Input): Promise<BillRepositoryInterface.Output>
+export interface CreateBillRepositoryInterface {
+  create(input: CreateBillRepositoryInterface.Input): Promise<CreateBillRepositoryInterface.Output>
 }
 
-export namespace BillRepositoryInterface {
+export namespace CreateBillRepositoryInterface {
   export type Input = {
     id: string
     type: string
-    category: string
+    category_id: string
     expiration: Date
     interest: number
     discount: number
     total_value: number
-    observation?: string
-    payment_method: string
+    observation?: string | null
+    payment_method_id: string
     status: string
-    createdAt: Date
-    upatedAt?: Date
+    created_at: Date
+    updated_at?: Date | null
   }
 
   export type Output = {
     id: string
     type: string
-    category: string
+    category_id: string
     expiration: Date
     interest: number
     discount: number
     total_value: number
-    observation?: string
-    payment_method: string
+    observation?: string | null
+    payment_method_id: string
     status: string
-    createdAt: Date
-    updatedAt?: Date
+    created_at: Date
+    updated_at?: Date | null
   }
 }

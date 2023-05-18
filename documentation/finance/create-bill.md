@@ -24,7 +24,7 @@
 {
   	id: string
     type: string (pay/receive)
-    category: string (agua/luz/telefone/etc) //referencia pra tabela de categoria
+    category_id: string (agua/luz/telefone/etc) //referencia pra tabela de categoria
     expiration: Date
     interest: number
     discount: number
@@ -32,8 +32,8 @@
     observation: long text
     payment_method: string // referencia para metodos de pagamento
     status: string (aberto, pago, pago parcial, vencida)
-    createdAt: Date // pode ser usado como data de emissão
-    updatedAt: Date
+    created_at: Date // pode ser usado como data de emissão
+    updated_at: Date
 }
 
 ✅

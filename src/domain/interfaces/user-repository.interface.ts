@@ -9,7 +9,7 @@ export namespace CreateUserRepositoryInterface {
     login: string
     accessToken: string
     password: string
-    createdAt: Date
+    created_at: Date
   }
 }
 
@@ -45,6 +45,6 @@ export namespace UpdateUserRepositoryInterface {
   export type Input = {
     id: string
     name: string
-    updatedAt: Date
+    updated_at: Date
   }
 }

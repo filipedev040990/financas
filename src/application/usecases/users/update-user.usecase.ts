@@ -7,7 +7,7 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
     await this.userRepository.update({
       id: input.id,
       name: input.name,
-      updatedAt: new Date()
+      updated_at: new Date()
     })
   }
 }

@@ -29,7 +29,7 @@ describe('UpdateUserUseCase', () => {
     expect(userRepository.update).toHaveBeenCalledWith({
       id: 'any id',
       name: 'any name',
-      updatedAt: new Date()
+      updated_at: new Date()
     })
   })
 })

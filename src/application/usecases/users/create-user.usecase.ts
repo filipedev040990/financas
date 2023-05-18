@@ -33,7 +33,7 @@ export class CreateUserUseCase {
       login: newUser.login,
       accessToken,
       password: newUser.password,
-      createdAt: newUser.createdAt
+      created_at: newUser.created_at
     })
 
     return accessToken

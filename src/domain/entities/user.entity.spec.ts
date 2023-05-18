@@ -22,8 +22,8 @@ describe('UserEntity', () => {
       login: 'any login',
       password: 'any password',
       accessToken: null,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      created_at: new Date(),
+      updated_at: new Date()
     })
   })
 })

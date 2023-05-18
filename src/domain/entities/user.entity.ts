@@ -4,8 +4,8 @@ export class UserEntity {
   public login: string
   public password: string
   public accessToken: string | null
-  public createdAt: Date
-  public updatedAt: Date | null
+  public created_at: Date
+  public updated_at: Date | null
 
   constructor (input: UserEntity.Input) {
     this.id = input.id
@@ -13,8 +13,8 @@ export class UserEntity {
     this.login = input.login
     this.password = input.password
     this.accessToken = input.accessToken ?? null
-    this.createdAt = new Date()
-    this.updatedAt = new Date()
+    this.created_at = new Date()
+    this.updated_at = new Date()
   }
 }
 

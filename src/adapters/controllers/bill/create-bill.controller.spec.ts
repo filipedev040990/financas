@@ -27,15 +27,15 @@ describe('CreateBillController', () => {
     createBillUseCase.execute.mockResolvedValue({
       id: 'any id',
       type: 'pay',
-      category: 'any category id',
+      category_id: 'any category id',
       expiration: addDaysToDate(new Date(), 1),
       interest: 0,
       discount: 0,
       total_value: 100,
       observation: '',
-      payment_method: 'credit_card',
+      payment_method_id: 'credit_card',
       status: 'open',
-      createdAt: new Date()
+      created_at: new Date()
     })
   })
 
@@ -43,13 +43,13 @@ describe('CreateBillController', () => {
     input = {
       body: {
         type: 'pay',
-        category: 'any category id',
+        category_id: 'any category id',
         expiration: addDaysToDate(new Date(), 1),
         interest: 0,
         discount: 0,
         total_value: 100,
         observation: '',
-        payment_method: 'credit_card'
+        payment_method_id: 'credit_card'
       }
     }
     categoryRepository.getById.mockResolvedValue({
@@ -100,7 +100,7 @@ describe('CreateBillController', () => {
     })
 
     test('should return 400 if validation category fails', async () => {
-      input.body.category = null
+      input.body.category_id = null
 
       const output = await sut.execute(input)
 
@@ -176,19 +176,19 @@ describe('CreateBillController', () => {
       await sut.execute(input)
 
       expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith(input.body.payment_method)
+      expect(spy).toHaveBeenCalledWith(input.body.payment_method_id)
     })
 
-    test('should return 400 if payment_method is not provided', async () => {
-      input.body.payment_method = null
+    test('should return 400 if payment_method_id is not provided', async () => {
+      input.body.payment_method_id = null
 
       const output = await sut.execute(input)
 
       expect(output).toEqual(badRequest(new InvalidParamError('payment_method')))
     })
 
-    test('should return 400 if invalid payment_method is provided', async () => {
-      input.body.payment_method = 'invalid payment method'
+    test('should return 400 if invalid payment_method_id is provided', async () => {
+      input.body.payment_method_id = 'invalid payment method'
 
       const output = await sut.execute(input)
 
@@ -209,13 +209,13 @@ describe('CreateBillController', () => {
     expect(createBillUseCase.execute).toHaveBeenCalledTimes(1)
     expect(createBillUseCase.execute).toHaveBeenCalledWith({
       type: input.body.type,
-      category: input.body.category,
+      category_id: input.body.category_id,
       expiration: input.body.expiration,
       interest: input.body.interest ?? 0,
       discount: input.body.discount ?? 0,
       total_value: input.body.total_value,
       observation: input.body.observation ?? 0,
-      payment_method: input.body.payment_method,
+      payment_method_id: input.body.payment_method_id,
       status: 'open'
     })
   })
@@ -228,15 +228,15 @@ describe('CreateBillController', () => {
       body: {
         id: 'any id',
         type: 'pay',
-        category: 'any category id',
+        category_id: 'any category id',
         expiration: addDaysToDate(new Date(), 1),
         interest: 0,
         discount: 0,
         total_value: 100,
         observation: '',
-        payment_method: 'credit_card',
+        payment_method_id: 'credit_card',
         status: 'open',
-        createdAt: new Date()
+        created_at: new Date()
       }
     })
   })
