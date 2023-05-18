@@ -4,7 +4,7 @@ import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { ControllerInterface } from '@/application/interfaces/controller.interface'
 import { CreateBillUseCaseInterface } from '@/application/interfaces/create-bill-usecase.interface'
-import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
+import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/get-category-by-id-repository.interface'
 import config from '@/infra/config'
 
 export class CreateBillController implements ControllerInterface {

@@ -1,4 +1,4 @@
-import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/category-repository.interface'
+import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/get-category-by-id-repository.interface'
 import { prismaClient } from '../prisma-client'
 
 export class CategoryRepository implements GetCategoryByIdRepositoryInterface {

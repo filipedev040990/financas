@@ -1,6 +1,6 @@
 import { CreateBillUseCaseInterface } from '@/application/interfaces/create-bill-usecase.interface'
 import { UUIDGeneratorInterface } from '@/application/interfaces/uuid-generator.interface'
-import { CreateBillRepositoryInterface } from '@/domain/interfaces/bill-repository.interface'
+import { CreateBillRepositoryInterface } from '@/domain/interfaces/create-bill-repository.interface'
 
 export class CreateBillUseCase {
   constructor (

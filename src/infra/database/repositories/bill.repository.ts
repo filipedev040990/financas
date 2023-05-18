@@ -1,4 +1,4 @@
-import { CreateBillRepositoryInterface } from '@/domain/interfaces/bill-repository.interface'
+import { CreateBillRepositoryInterface } from '@/domain/interfaces/create-bill-repository.interface'
 import { prismaClient } from '../prisma-client'
 
 export class BillRepository implements CreateBillRepositoryInterface {

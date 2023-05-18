@@ -1,7 +1,7 @@
 import { CreateBillUseCaseInterface } from '@/application/interfaces/create-bill-usecase.interface'
 import MockDate from 'mockdate'
 import { mock } from 'jest-mock-extended'
-import { CreateBillRepositoryInterface } from '@/domain/interfaces/bill-repository.interface'
+import { CreateBillRepositoryInterface } from '@/domain/interfaces/create-bill-repository.interface'
 import { UUIDGeneratorInterface } from '@/application/interfaces/uuid-generator.interface'
 import { CreateBillUseCase } from './create-bill.usecase'
 
