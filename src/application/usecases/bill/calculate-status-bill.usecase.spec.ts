@@ -30,4 +30,12 @@ describe('CalculateStatusBillUseCase', () => {
 
     expect(billRepository.getById).toHaveBeenCalledWith('any bill paymentId')
   })
+
+  test('should not call BillRepository.getById if id is not provided', async () => {
+    input.billPaymentId = undefined
+
+    await sut.execute(input)
+
+    expect(billRepository.getById).not.toBeCalled()
+  })
 })
