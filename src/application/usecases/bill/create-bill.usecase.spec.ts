@@ -13,7 +13,7 @@ billRepository.create.mockResolvedValue({
   expiration: new Date('2023-01-01'),
   interest: 0,
   discount: 0,
-  total_value: 1000,
+  totalValue: 1000,
   payment_method_id: 'any payment method',
   created_at: new Date('2023-01-01'),
   status: 'open'
@@ -37,7 +37,7 @@ describe('CreateBillUseCase', () => {
       discount: 0,
       interest: 0,
       payment_method_id: 'any payment method',
-      total_value: 1000,
+      totalValue: 1000,
       status: 'open'
     }
   })
@@ -59,7 +59,7 @@ describe('CreateBillUseCase', () => {
       interest: 0,
       observation: null,
       payment_method_id: 'any payment method',
-      total_value: 1000,
+      totalValue: 1000,
       created_at: new Date('2023-01-01'),
       status: 'open'
     })
@@ -75,7 +75,7 @@ describe('CreateBillUseCase', () => {
       expiration: new Date('2023-01-01'),
       interest: 0,
       discount: 0,
-      total_value: 1000,
+      totalValue: 1000,
       payment_method_id: 'any payment method',
       created_at: new Date('2023-01-01'),
       status: 'open'

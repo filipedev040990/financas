@@ -1,5 +1,5 @@
 export interface GetBillByIdRepositoryInterface {
-  getById (id: string): Promise<GetBillByIdRepositoryInterface.Output>
+  getByBillId (id: string): Promise<GetBillByIdRepositoryInterface.Output>
 }
 
 export namespace GetBillByIdRepositoryInterface {
@@ -10,7 +10,7 @@ export namespace GetBillByIdRepositoryInterface {
     expiration: Date
     interest: number
     discount: number
-    total_value: number
+    totalValue: number
     observation?: string | null
     payment_method_id: string
     status: string

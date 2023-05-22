@@ -1,4 +1,3 @@
-import { InvalidParamError } from '@/adapters/errors'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-id-repository.interface'
 import config from '@/infra/config'
@@ -10,7 +9,7 @@ export type PaymentOutput = {
   expiration: Date
   interest: number
   discount: number
-  total_value: number
+  totalValue: number
   payment_method_id: string
   created_at: Date
   status: string
@@ -19,32 +18,16 @@ export class CalculateStatusBillUseCase {
   constructor (private readonly billRepository: GetBillByIdRepositoryInterface) {}
 
   async execute (input: CalculateStatusBillUseCaseInterface.Input): Promise<CalculateStatusBillUseCaseInterface.Output> {
-    let payment: PaymentOutput = null
-    const totalValue = input.total_value
-    const expiration = input.expiration
+    let { expiration, totalValue } = input
     const today = new Date()
 
-    if (input.billPaymentId) {
-      const paymentRegister = await this.billRepository.getById(input.billPaymentId)
-      if (!paymentRegister) {
-        throw new InvalidParamError('billPaymentId')
-      }
+    const payment: PaymentOutput = await this.billRepository.getByBillId(input.billId) ?? null
 
-      payment = paymentRegister
-
-      if (payment.total_value >= totalValue || (payment.total_value <= totalValue && payment.discount > 0)) {
-        return config.payment.status.paid
-      }
-
-      if (payment.total_value < totalValue && payment.discount <= 0) {
-        return config.payment.status.parcialPaid
-      }
+    if (payment) {
+      totalValue -= payment.discount
+      return payment.totalValue >= totalValue ? config.payment.status.totalPaid : config.payment.status.parcialPaid
     }
 
-    if (!payment && (today > expiration)) {
-      return config.payment.status.overdue
-    }
-
-    return config.payment.status.open
+    return expiration < today ? config.payment.status.overdue : config.payment.status.open
   }
 }

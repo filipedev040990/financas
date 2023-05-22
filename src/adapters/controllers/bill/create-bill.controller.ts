@@ -21,7 +21,7 @@ export class CreateBillController implements ControllerInterface {
         return badRequest(inputError)
       }
 
-      const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration, total_value: input.body.total_value })
+      const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration, totalValue: input.body.totalValue, billId: '' })
 
       const newBill = await this.createBillUseCase.execute({
         type: input.body.type,
@@ -29,7 +29,7 @@ export class CreateBillController implements ControllerInterface {
         expiration: input.body.expiration,
         interest: input.body.interest ?? 0,
         discount: input.body.discount ?? 0,
-        total_value: input.body.total_value,
+        totalValue: input.body.totalValue,
         observation: input.body.observation ?? 0,
         payment_method_id: input.body.payment_method_id,
         status: statusBill
@@ -57,7 +57,7 @@ export class CreateBillController implements ControllerInterface {
       return invalidPaymentExpirationError
     }
 
-    const invalidPaymentTotalValueError = this.paymentTotalValueValidation(input.body?.total_value)
+    const invalidPaymentTotalValueError = this.paymentTotalValueValidation(input.body?.totalValue)
     if (invalidPaymentTotalValueError) {
       return invalidPaymentTotalValueError
     }
@@ -89,7 +89,7 @@ export class CreateBillController implements ControllerInterface {
 
   private paymentTotalValueValidation (totalValue: number): Error | undefined {
     if (!totalValue || totalValue < 1) {
-      return new InvalidParamError('total_value')
+      return new InvalidParamError('totalValue')
     }
   }
 

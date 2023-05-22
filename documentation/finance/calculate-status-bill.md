@@ -4,7 +4,7 @@
 
 1. ✅ Se um id de conta paga/recebida for fornecido,lança uma excessão se não encontrar uma conta com o id fornecido
 2. ✅ Atribui os dados dessa conta à propriedade bill
-3. ⛔ Calcula e retorna o status da conta
+3. ✅ Calcula e retorna o status da conta
 
 
 ## Calculo de status da conta

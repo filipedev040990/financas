@@ -1,4 +1,3 @@
-import { InvalidParamError } from '@/adapters/errors'
 import { CalculateStatusBillUseCase } from './calculate-status-bill.usecase'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-id-repository.interface'
@@ -19,8 +18,8 @@ describe('CalculateStatusBillUseCase', () => {
   beforeEach(() => {
     input = {
       expiration: new Date(),
-      total_value: 1000,
-      billPaymentId: 'any bill paymentId'
+      totalValue: 1000,
+      billId: 'any bill id'
     }
 
     fakeBill = {
@@ -30,71 +29,54 @@ describe('CalculateStatusBillUseCase', () => {
       expiration: new Date('2023-01-01'),
       interest: 0,
       discount: 0,
-      total_value: 1000,
+      totalValue: 1000,
       payment_method_id: 'any payment method',
       created_at: new Date('2023-01-01'),
       status: 'open'
     }
 
-    billRepository.getById.mockResolvedValue(fakeBill)
+    billRepository.getByBillId.mockResolvedValue(fakeBill)
   })
 
-  test('should call BillRepository.getById if id is provided', async () => {
+  test('should call BillRepository.getByBillId if id is provided', async () => {
     await sut.execute(input)
 
-    expect(billRepository.getById).toHaveBeenCalledWith('any bill paymentId')
-  })
-
-  test('should not call BillRepository.getById if id is not provided', async () => {
-    input.billPaymentId = undefined
-
-    await sut.execute(input)
-
-    expect(billRepository.getById).not.toBeCalled()
-  })
-
-  test('should throw if invalid id is provided', async () => {
-    billRepository.getById.mockResolvedValueOnce(null)
-
-    const output = sut.execute(input)
-
-    await expect(output).rejects.toThrowError(new InvalidParamError('billPaymentId'))
+    expect(billRepository.getByBillId).toHaveBeenCalledWith('any bill id')
   })
 
   test('should return open status', async () => {
-    input.billPaymentId = undefined
+    billRepository.getByBillId.mockResolvedValueOnce(null)
 
     const output = await sut.execute(input)
 
     expect(output).toBe('open')
   })
 
-  test('should return paid status without discount', async () => {
+  test('should return totalPaid status without discount', async () => {
     const output = await sut.execute(input)
 
-    expect(output).toBe('paid')
+    expect(output).toBe('totalPaid')
   })
 
-  test('should return paid status with discount', async () => {
-    fakeBill!.total_value = 900
+  test('should return totalPaid status with discount', async () => {
     fakeBill!.discount = 10
 
     const output = await sut.execute(input)
 
-    expect(output).toBe('paid')
+    expect(output).toBe('totalPaid')
   })
 
-  test('should return paid status when interest exists', async () => {
-    fakeBill!.total_value = 1010
+  test('should return totalPaid status when interest exists', async () => {
+    fakeBill!.totalValue = 1010
     fakeBill!.interest = 10
 
     const output = await sut.execute(input)
 
-    expect(output).toBe('paid')
+    expect(output).toBe('totalPaid')
   })
 
   test('should return parcialPaid status', async () => {
-    fakeBill!.total_value = 900
+    fakeBill!.totalValue = 900
 
     const output = await sut.execute(input)
 
@@ -102,7 +84,7 @@ describe('CalculateStatusBillUseCase', () => {
   })
 
   test('should return overdue status', async () => {
-    input.billPaymentId = undefined
+    billRepository.getByBillId.mockResolvedValueOnce(null)
     input.expiration = new Date(new Date().setDate(new Date().getDate()) - 1)
 
     const output = await sut.execute(input)

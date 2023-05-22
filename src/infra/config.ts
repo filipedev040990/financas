@@ -5,7 +5,7 @@ export = {
     ocurrences: ['daily', 'weekly', 'bimonthly', 'quarterly', 'semiannual', 'annual'],
     status: {
       open: 'open',
-      paid: 'paid',
+      totalPaid: 'totalPaid',
       parcialPaid: 'parcialPaid',
       overdue: 'overdue'
     }

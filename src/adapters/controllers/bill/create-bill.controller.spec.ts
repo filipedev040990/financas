@@ -31,7 +31,7 @@ describe('CreateBillController', () => {
       expiration: addDaysToDate(new Date(), 1),
       interest: 0,
       discount: 0,
-      total_value: 100,
+      totalValue: 100,
       observation: '',
       payment_method_id: 'credit_card',
       status: 'open',
@@ -47,7 +47,7 @@ describe('CreateBillController', () => {
         expiration: addDaysToDate(new Date(), 1),
         interest: 0,
         discount: 0,
-        total_value: 100,
+        totalValue: 100,
         observation: '',
         payment_method_id: 'credit_card'
       }
@@ -149,23 +149,23 @@ describe('CreateBillController', () => {
       await sut.execute(input)
 
       expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith(input.body.total_value)
+      expect(spy).toHaveBeenCalledWith(input.body.totalValue)
     })
 
-    test('should return 400 if total_value is not provided', async () => {
-      input.body.total_value = null
+    test('should return 400 if totalValue is not provided', async () => {
+      input.body.totalValue = null
 
       const output = await sut.execute(input)
 
-      expect(output).toEqual(badRequest(new InvalidParamError('total_value')))
+      expect(output).toEqual(badRequest(new InvalidParamError('totalValue')))
     })
 
-    test('should return 400 if total_value is less than 1', async () => {
-      input.body.total_value = 0
+    test('should return 400 if totalValue is less than 1', async () => {
+      input.body.totalValue = 0
 
       const output = await sut.execute(input)
 
-      expect(output).toEqual(badRequest(new InvalidParamError('total_value')))
+      expect(output).toEqual(badRequest(new InvalidParamError('totalValue')))
     })
   })
 
@@ -200,7 +200,7 @@ describe('CreateBillController', () => {
     await sut.execute(input)
 
     expect(calculateStatusBillUseCase.execute).toHaveBeenCalledTimes(1)
-    expect(calculateStatusBillUseCase.execute).toHaveBeenCalledWith({ expiration: input.body.expiration, total_value: input.body.total_value })
+    expect(calculateStatusBillUseCase.execute).toHaveBeenCalledWith({ expiration: input.body.expiration, totalValue: input.body.totalValue, billId: '' })
   })
 
   test('should call createBillUseCase once and with correct values', async () => {
@@ -213,7 +213,7 @@ describe('CreateBillController', () => {
       expiration: input.body.expiration,
       interest: input.body.interest ?? 0,
       discount: input.body.discount ?? 0,
-      total_value: input.body.total_value,
+      totalValue: input.body.totalValue,
       observation: input.body.observation ?? 0,
       payment_method_id: input.body.payment_method_id,
       status: 'open'
@@ -232,7 +232,7 @@ describe('CreateBillController', () => {
         expiration: addDaysToDate(new Date(), 1),
         interest: 0,
         discount: 0,
-        total_value: 100,
+        totalValue: 100,
         observation: '',
         payment_method_id: 'credit_card',
         status: 'open',

@@ -5,8 +5,8 @@ export interface CalculateStatusBillUseCaseInterface {
 export namespace CalculateStatusBillUseCaseInterface {
   export type Input = {
     expiration: Date
-    total_value: number
-    billPaymentId?: string
+    totalValue: number
+    billId: string
   }
 
   export type Output = string

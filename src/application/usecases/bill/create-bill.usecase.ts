@@ -17,7 +17,7 @@ export class CreateBillUseCase {
       discount: input.discount,
       interest: input.interest,
       payment_method_id: input.payment_method_id,
-      total_value: input.total_value,
+      totalValue: input.totalValue,
       observation: input.observation ?? null,
       status: input.status,
       created_at: new Date()
