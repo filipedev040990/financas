@@ -3,6 +3,18 @@ import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/ca
 import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-id-repository.interface'
 import config from '@/infra/config'
 
+export type PaymentOutput = {
+  id: string
+  type: string
+  category_id: string
+  expiration: Date
+  interest: number
+  discount: number
+  total_value: number
+  payment_method_id: string
+  created_at: Date
+  status: string
+} | null
 export class CalculateStatusBillUseCase {
   constructor (private readonly billRepository: GetBillByIdRepositoryInterface) {}
 
@@ -29,23 +41,10 @@ export class CalculateStatusBillUseCase {
       }
     }
 
-    if (!payment && (today <= expiration)) {
-      return config.payment.status.open
+    if (!payment && (today > expiration)) {
+      return config.payment.status.overdue
     }
 
-    return ''
+    return config.payment.status.open
   }
 }
-
-export type PaymentOutput = {
-  id: string
-  type: string
-  category_id: string
-  expiration: Date
-  interest: number
-  discount: number
-  total_value: number
-  payment_method_id: string
-  created_at: Date
-  status: string
-} | null

@@ -93,11 +93,20 @@ describe('CalculateStatusBillUseCase', () => {
     expect(output).toBe('paid')
   })
 
-  test('should return parcial parcialPaid status', async () => {
+  test('should return parcialPaid status', async () => {
     fakeBill!.total_value = 900
 
     const output = await sut.execute(input)
 
     expect(output).toBe('parcialPaid')
+  })
+
+  test('should return overdue status', async () => {
+    input.billPaymentId = undefined
+    input.expiration = new Date(new Date().setDate(new Date().getDate()) - 1)
+
+    const output = await sut.execute(input)
+
+    expect(output).toBe('overdue')
   })
 })
