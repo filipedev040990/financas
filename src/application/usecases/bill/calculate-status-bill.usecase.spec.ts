@@ -81,4 +81,12 @@ describe('CalculateStatusBillUseCase', () => {
       status: 'open'
     })
   })
+
+  test('should return open status', async () => {
+    input.billPaymentId = undefined
+
+    const output = await sut.execute(input)
+
+    expect(output).toBe('open')
+  })
 })

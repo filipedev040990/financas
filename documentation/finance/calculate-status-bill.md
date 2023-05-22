@@ -8,8 +8,8 @@
 
 
 ## Calculo de status da conta
-⛔ Open
-  ⛔ Se não possui registro de pagamento/recebimento e/ou a data de vencimento é menor ou igual a data atual
+✅ Open
+  ✅ Se não possui registro de pagamento/recebimento e/ou a data de vencimento é menor ou igual a data atual
 
 ⛔ Paid
   ⛔ Se possui registro de pagamento/recebimento e o valor é igual ao valor da conta ou se o valor for menor ao valor da conta mas possui desconto
