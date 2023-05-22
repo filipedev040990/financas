@@ -2,6 +2,7 @@ import { CalculateStatusBillUseCase } from './calculate-status-bill.usecase'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { GetBillPaymentByBillIdRepositoryInterface } from '@/domain/interfaces/get-bill-payment-by-billdd-repository.interface'
 import { mock } from 'jest-mock-extended'
+import MockDate from 'mockdate'
 
 let fakeBill: any
 
@@ -12,6 +13,7 @@ describe('CalculateStatusBillUseCase', () => {
   let input: CalculateStatusBillUseCaseInterface.Input
 
   beforeAll(() => {
+    MockDate.set(new Date())
     sut = new CalculateStatusBillUseCase(billPaymentRepository)
   })
 
@@ -34,6 +36,10 @@ describe('CalculateStatusBillUseCase', () => {
     }
 
     billPaymentRepository.getByBillId.mockResolvedValue(fakeBill)
+  })
+
+  afterAll(() => {
+    MockDate.reset()
   })
 
   test('should call billPaymentRepository.getByBillId if id is provided', async () => {

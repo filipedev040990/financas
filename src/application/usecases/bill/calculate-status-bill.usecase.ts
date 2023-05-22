@@ -2,7 +2,7 @@ import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/ca
 import { GetBillPaymentByBillIdRepositoryInterface } from '@/domain/interfaces/get-bill-payment-by-billdd-repository.interface'
 import config from '@/infra/config'
 
-export class CalculateStatusBillUseCase {
+export class CalculateStatusBillUseCase implements CalculateStatusBillUseCaseInterface {
   constructor (private readonly billPaymentRepository: GetBillPaymentByBillIdRepositoryInterface) {}
 
   async execute (input: CalculateStatusBillUseCaseInterface.Input): Promise<CalculateStatusBillUseCaseInterface.Output> {

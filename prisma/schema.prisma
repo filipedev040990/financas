@@ -73,4 +73,6 @@ model BillPayment {
   reversed        Boolean
   created_at      DateTime
   updated_at      DateTime?
+
+  @@map("bill_payment")
 }
