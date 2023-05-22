@@ -48,8 +48,6 @@ model Bill {
   category          Category      @relation(fields: [category_id], references: [id])
   category_id       String
   expiration        DateTime
-  interest          Int
-  discount          Int
   total_value       Int
   observation       String?       @db.LongText()
   payment_method    PaymentMethod @relation(fields: [payment_method_id], references: [id])

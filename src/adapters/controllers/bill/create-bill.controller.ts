@@ -27,8 +27,6 @@ export class CreateBillController implements ControllerInterface {
         type: input.body.type,
         category_id: input.body.category_id,
         expiration: input.body.expiration,
-        interest: input.body.interest ?? 0,
-        discount: input.body.discount ?? 0,
         totalValue: input.body.totalValue,
         observation: input.body.observation ?? 0,
         payment_method_id: input.body.payment_method_id,

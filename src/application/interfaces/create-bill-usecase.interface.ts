@@ -7,8 +7,6 @@ export namespace CreateBillUseCaseInterface {
     type: string
     category_id: string
     expiration: Date
-    interest: number
-    discount: number
     totalValue: number
     observation?: string | null
     payment_method_id: string
@@ -20,8 +18,6 @@ export namespace CreateBillUseCaseInterface {
     type: string
     category_id: string
     expiration: Date
-    interest: number
-    discount: number
     totalValue: number
     observation?: string | null
     payment_method_id: string

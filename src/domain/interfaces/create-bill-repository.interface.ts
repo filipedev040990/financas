@@ -8,8 +8,6 @@ export namespace CreateBillRepositoryInterface {
     type: string
     category_id: string
     expiration: Date
-    interest: number
-    discount: number
     totalValue: number
     observation?: string | null
     payment_method_id: string
@@ -23,8 +21,6 @@ export namespace CreateBillRepositoryInterface {
     type: string
     category_id: string
     expiration: Date
-    interest: number
-    discount: number
     totalValue: number
     observation?: string | null
     payment_method_id: string

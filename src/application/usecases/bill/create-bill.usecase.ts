@@ -14,8 +14,6 @@ export class CreateBillUseCase {
       type: input.type,
       category_id: input.category_id,
       expiration: input.expiration,
-      discount: input.discount,
-      interest: input.interest,
       payment_method_id: input.payment_method_id,
       totalValue: input.totalValue,
       observation: input.observation ?? null,
