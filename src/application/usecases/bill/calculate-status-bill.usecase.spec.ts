@@ -4,18 +4,7 @@ import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/ca
 import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-id-repository.interface'
 import { mock } from 'jest-mock-extended'
 
-const fakeBill = {
-  id: ' any id',
-  type: 'any type',
-  category_id: 'any category_id',
-  expiration: new Date('2023-01-01'),
-  interest: 0,
-  discount: 0,
-  total_value: 1000,
-  payment_method_id: 'any payment method',
-  created_at: new Date('2023-01-01'),
-  status: 'open'
-}
+let fakeBill: GetBillByIdRepositoryInterface.Output
 
 const billRepository = mock<GetBillByIdRepositoryInterface>()
 
@@ -25,7 +14,6 @@ describe('CalculateStatusBillUseCase', () => {
 
   beforeAll(() => {
     sut = new CalculateStatusBillUseCase(billRepository)
-    billRepository.getById.mockResolvedValue(fakeBill)
   })
 
   beforeEach(() => {
@@ -34,6 +22,21 @@ describe('CalculateStatusBillUseCase', () => {
       total_value: 1000,
       billPaymentId: 'any bill paymentId'
     }
+
+    fakeBill = {
+      id: ' any id',
+      type: 'any type',
+      category_id: 'any category_id',
+      expiration: new Date('2023-01-01'),
+      interest: 0,
+      discount: 0,
+      total_value: 1000,
+      payment_method_id: 'any payment method',
+      created_at: new Date('2023-01-01'),
+      status: 'open'
+    }
+
+    billRepository.getById.mockResolvedValue(fakeBill)
   })
 
   test('should call BillRepository.getById if id is provided', async () => {
@@ -73,8 +76,8 @@ describe('CalculateStatusBillUseCase', () => {
   })
 
   test('should return paid status with discount', async () => {
-    fakeBill.total_value = 900
-    fakeBill.discount = 10
+    fakeBill!.total_value = 900
+    fakeBill!.discount = 10
 
     const output = await sut.execute(input)
 
@@ -82,11 +85,19 @@ describe('CalculateStatusBillUseCase', () => {
   })
 
   test('should return paid status when interest exists', async () => {
-    fakeBill.total_value = 1010
-    fakeBill.interest = 10
+    fakeBill!.total_value = 1010
+    fakeBill!.interest = 10
 
     const output = await sut.execute(input)
 
     expect(output).toBe('paid')
+  })
+
+  test('should return parcial parcialPaid status', async () => {
+    fakeBill!.total_value = 900
+
+    const output = await sut.execute(input)
+
+    expect(output).toBe('parcialPaid')
   })
 })

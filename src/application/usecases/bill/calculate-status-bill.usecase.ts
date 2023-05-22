@@ -23,6 +23,10 @@ export class CalculateStatusBillUseCase {
       if (payment.total_value >= totalValue || (payment.total_value <= totalValue && payment.discount > 0)) {
         return config.payment.status.paid
       }
+
+      if (payment.total_value < totalValue && payment.discount <= 0) {
+        return config.payment.status.parcialPaid
+      }
     }
 
     if (!payment && (today <= expiration)) {

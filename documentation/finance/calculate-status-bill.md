@@ -14,8 +14,8 @@
 ✅ Paid
   ✅ Se possui registro de pagamento/recebimento e o valor é maior ou igual ao valor da conta ou se o valor for menor ao valor da conta mas possui desconto
 
-⛔ Parcial paid/received
-  ⛔ Se possui registro de pagamento/recebimento e o valor é menor ao valor da conta e não possui desconto
+✅ Parcial paid/received
+  ✅ Se possui registro de pagamento/recebimento e o valor é menor ao valor da conta e não possui desconto
 
 ⛔ Overdue
   ⛔ Se não possui registro de pagamento/recebimento e a data de vencimento é menor que a data atual
