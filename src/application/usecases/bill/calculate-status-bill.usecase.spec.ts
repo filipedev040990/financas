@@ -80,4 +80,13 @@ describe('CalculateStatusBillUseCase', () => {
 
     expect(output).toBe('paid')
   })
+
+  test('should return paid status when interest exists', async () => {
+    fakeBill.total_value = 1010
+    fakeBill.interest = 10
+
+    const output = await sut.execute(input)
+
+    expect(output).toBe('paid')
+  })
 })
