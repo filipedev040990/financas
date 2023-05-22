@@ -66,7 +66,16 @@ describe('CalculateStatusBillUseCase', () => {
     expect(output).toBe('open')
   })
 
-  test('should return paid status', async () => {
+  test('should return paid status without discount', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toBe('paid')
+  })
+
+  test('should return paid status with discount', async () => {
+    fakeBill.total_value = 900
+    fakeBill.discount = 10
+
     const output = await sut.execute(input)
 
     expect(output).toBe('paid')
