@@ -21,14 +21,14 @@ export class CreateBillController implements ControllerInterface {
         return badRequest(inputError)
       }
 
-      const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration, totalValue: input.body.totalValue, billId: '' })
+      const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: new Date(input.body.expiration), totalValue: input.body.totalValue, billId: '' })
 
       const newBill = await this.createBillUseCase.execute({
         type: input.body.type,
         category_id: input.body.category_id,
         expiration: input.body.expiration,
         totalValue: input.body.totalValue,
-        observation: input.body.observation ?? 0,
+        observation: input.body.observation,
         status: statusBill
       })
 

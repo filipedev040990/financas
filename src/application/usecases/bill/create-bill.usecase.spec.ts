@@ -49,7 +49,6 @@ describe('CreateBillUseCase', () => {
       type: 'any type',
       category_id: 'any category_id',
       expiration: new Date('2023-01-01'),
-      observation: null,
       totalValue: 1000,
       created_at: new Date('2023-01-01'),
       status: 'open'

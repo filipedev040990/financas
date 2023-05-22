@@ -20,17 +20,14 @@
 11. ✅ Retorna 500 se houver alguma falha na hora de salvar os dados
 
 
-## Objeto User
+## Objeto Bill
 {
   	id: string
     type: string (pay/receive)
     category_id: string (agua/luz/telefone/etc) //referencia pra tabela de categoria
     expiration: Date
-    interest: number
-    discount: number
     total_value: number
     observation: long text
-    payment_method: string // referencia para metodos de pagamento
     status: string (aberto, pago, pago parcial, vencida)
     created_at: Date // pode ser usado como data de emissão
     updated_at: Date

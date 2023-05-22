@@ -13,9 +13,9 @@ export class CreateBillUseCase {
       id: this.uuidGenerator.execute(),
       type: input.type,
       category_id: input.category_id,
-      expiration: input.expiration,
+      expiration: new Date(input.expiration),
       totalValue: input.totalValue,
-      observation: input.observation ?? null,
+      observation: input.observation,
       status: input.status,
       created_at: new Date()
     })
