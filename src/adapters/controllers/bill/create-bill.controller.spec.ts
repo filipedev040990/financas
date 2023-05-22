@@ -200,7 +200,7 @@ describe('CreateBillController', () => {
     await sut.execute(input)
 
     expect(calculateStatusBillUseCase.execute).toHaveBeenCalledTimes(1)
-    expect(calculateStatusBillUseCase.execute).toHaveBeenCalledWith({ expiration: input.body.expiration })
+    expect(calculateStatusBillUseCase.execute).toHaveBeenCalledWith({ expiration: input.body.expiration, total_value: input.body.total_value })
   })
 
   test('should call createBillUseCase once and with correct values', async () => {

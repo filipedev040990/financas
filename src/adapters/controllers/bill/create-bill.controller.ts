@@ -21,7 +21,7 @@ export class CreateBillController implements ControllerInterface {
         return badRequest(inputError)
       }
 
-      const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration })
+      const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: input.body.expiration, total_value: input.body.total_value })
 
       const newBill = await this.createBillUseCase.execute({
         type: input.body.type,

@@ -4,26 +4,28 @@ import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-
 import config from '@/infra/config'
 
 export class CalculateStatusBillUseCase {
-  public payment?: PaymentInput
-
   constructor (private readonly billRepository: GetBillByIdRepositoryInterface) {}
 
   async execute (input: CalculateStatusBillUseCaseInterface.Input): Promise<CalculateStatusBillUseCaseInterface.Output> {
-    this.payment = null
-
-    if (input.billPaymentId) {
-      const payment = await this.billRepository.getById(input.billPaymentId)
-      if (!payment) {
-        throw new InvalidParamError('billPaymentId')
-      }
-
-      this.payment = payment
-    }
-
+    let payment: PaymentOutput = null
+    const totalValue = input.total_value
     const expiration = input.expiration
     const today = new Date()
 
-    if (!this.payment && (today <= expiration)) {
+    if (input.billPaymentId) {
+      const paymentRegister = await this.billRepository.getById(input.billPaymentId)
+      if (!paymentRegister) {
+        throw new InvalidParamError('billPaymentId')
+      }
+
+      payment = paymentRegister
+
+      if (payment.total_value >= totalValue || (payment.total_value <= totalValue && payment.discount > 0)) {
+        return config.payment.status.paid
+      }
+    }
+
+    if (!payment && (today <= expiration)) {
       return config.payment.status.open
     }
 
@@ -31,7 +33,7 @@ export class CalculateStatusBillUseCase {
   }
 }
 
-export type PaymentInput = {
+export type PaymentOutput = {
   id: string
   type: string
   category_id: string
