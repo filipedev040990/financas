@@ -31,7 +31,6 @@ describe('CreateBillController', () => {
       expiration: addDaysToDate(new Date(), 1),
       totalValue: 100,
       observation: '',
-      payment_method_id: 'credit_card',
       status: 'open',
       created_at: new Date()
     })
@@ -44,8 +43,7 @@ describe('CreateBillController', () => {
         category_id: 'any category id',
         expiration: addDaysToDate(new Date(), 1),
         totalValue: 100,
-        observation: '',
-        payment_method_id: 'credit_card'
+        observation: ''
       }
     }
     categoryRepository.getById.mockResolvedValue({
@@ -165,33 +163,6 @@ describe('CreateBillController', () => {
     })
   })
 
-  describe('paymentMethodValidation', () => {
-    test('should call paymentMethodValidation once and with correct payment method', async () => {
-      const spy = jest.spyOn(CreateBillController.prototype as unknown as keyof typeof CreateBillController, 'paymentMethodValidation')
-
-      await sut.execute(input)
-
-      expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith(input.body.payment_method_id)
-    })
-
-    test('should return 400 if payment_method_id is not provided', async () => {
-      input.body.payment_method_id = null
-
-      const output = await sut.execute(input)
-
-      expect(output).toEqual(badRequest(new InvalidParamError('payment_method')))
-    })
-
-    test('should return 400 if invalid payment_method_id is provided', async () => {
-      input.body.payment_method_id = 'invalid payment method'
-
-      const output = await sut.execute(input)
-
-      expect(output).toEqual(badRequest(new InvalidParamError('payment_method')))
-    })
-  })
-
   test('should call calculateBillStatusUseCase once and with correct values', async () => {
     await sut.execute(input)
 
@@ -209,7 +180,6 @@ describe('CreateBillController', () => {
       expiration: input.body.expiration,
       totalValue: input.body.totalValue,
       observation: input.body.observation ?? 0,
-      payment_method_id: input.body.payment_method_id,
       status: 'open'
     })
   })
@@ -226,7 +196,6 @@ describe('CreateBillController', () => {
         expiration: addDaysToDate(new Date(), 1),
         totalValue: 100,
         observation: '',
-        payment_method_id: 'credit_card',
         status: 'open',
         created_at: new Date()
       }

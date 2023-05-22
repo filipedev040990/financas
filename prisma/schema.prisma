@@ -66,10 +66,10 @@ model BillPayment {
   bill            Bill           @relation(fields: [billId], references: [id])
   billId          String
   totalValue      Int
-  interest        Int?
+  interest        Int
   discount        Int
   PaymentMethod   PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
-  paymentMethodId String?
+  paymentMethodId String
   reversed        Boolean
   created_at      DateTime
   updated_at      DateTime?

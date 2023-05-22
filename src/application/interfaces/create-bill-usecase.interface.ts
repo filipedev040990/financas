@@ -9,7 +9,6 @@ export namespace CreateBillUseCaseInterface {
     expiration: Date
     totalValue: number
     observation?: string | null
-    payment_method_id: string
     status: string
   }
 
@@ -20,7 +19,6 @@ export namespace CreateBillUseCaseInterface {
     expiration: Date
     totalValue: number
     observation?: string | null
-    payment_method_id: string
     status: string
     created_at: Date
   }

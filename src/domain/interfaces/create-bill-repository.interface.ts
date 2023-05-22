@@ -10,7 +10,6 @@ export namespace CreateBillRepositoryInterface {
     expiration: Date
     totalValue: number
     observation?: string | null
-    payment_method_id: string
     status: string
     created_at: Date
     updated_at?: Date | null
@@ -23,7 +22,6 @@ export namespace CreateBillRepositoryInterface {
     expiration: Date
     totalValue: number
     observation?: string | null
-    payment_method_id: string
     status: string
     created_at: Date
     updated_at?: Date | null

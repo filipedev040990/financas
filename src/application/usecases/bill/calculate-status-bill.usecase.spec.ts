@@ -30,7 +30,7 @@ describe('CalculateStatusBillUseCase', () => {
       totalValue: 1000,
       interest: 0,
       discount: 0,
-      payment_method_id: 'any payment method',
+      paymentMethodId: 'any payment method',
       created_at: new Date('2023-01-01'),
       reversed: false
     }
@@ -103,7 +103,7 @@ describe('CalculateStatusBillUseCase', () => {
       totalValue: 1000,
       interest: 0,
       discount: 0,
-      payment_method_id: 'any payment method',
+      paymentMethodId: 'any payment method',
       reversed: true,
       created_at: new Date('2023-01-01'),
       updated_at: null

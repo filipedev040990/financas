@@ -1,14 +1,14 @@
 /*
   Warnings:
 
-  - You are about to drop the column `payment_method_id` on the `bill` table. All the data in the column will be lost.
+  - You are about to drop the column `paymentMethodId` on the `bill` table. All the data in the column will be lost.
 
 */
 -- DropForeignKey
-ALTER TABLE `bill` DROP FOREIGN KEY `bill_payment_method_id_fkey`;
+ALTER TABLE `bill` DROP FOREIGN KEY `bill_paymentMethodId_fkey`;
 
 -- AlterTable
-ALTER TABLE `bill` DROP COLUMN `payment_method_id`,
+ALTER TABLE `bill` DROP COLUMN `paymentMethodId`,
     ADD COLUMN `paymentMethodId` VARCHAR(191) NULL;
 
 -- CreateTable

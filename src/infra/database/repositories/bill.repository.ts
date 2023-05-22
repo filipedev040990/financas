@@ -11,7 +11,6 @@ export class BillRepository implements CreateBillRepositoryInterface {
         expiration: input.expiration,
         totalValue: input.totalValue,
         observation: input.observation ?? null,
-        payment_method_id: input.payment_method_id,
         status: input.status,
         created_at: input.created_at,
         updated_at: input.updated_at as Date

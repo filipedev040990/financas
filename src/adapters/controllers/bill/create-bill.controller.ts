@@ -29,7 +29,6 @@ export class CreateBillController implements ControllerInterface {
         expiration: input.body.expiration,
         totalValue: input.body.totalValue,
         observation: input.body.observation ?? 0,
-        payment_method_id: input.body.payment_method_id,
         status: statusBill
       })
 
@@ -59,11 +58,6 @@ export class CreateBillController implements ControllerInterface {
     if (invalidPaymentTotalValueError) {
       return invalidPaymentTotalValueError
     }
-
-    const invalidPaymentMethodError = this.paymentMethodValidation(input.body?.payment_method_id)
-    if (invalidPaymentMethodError) {
-      return invalidPaymentMethodError
-    }
   }
 
   private paymentTypeValidation (type: string): Error | undefined {
@@ -88,13 +82,6 @@ export class CreateBillController implements ControllerInterface {
   private paymentTotalValueValidation (totalValue: number): Error | undefined {
     if (!totalValue || totalValue < 1) {
       return new InvalidParamError('totalValue')
-    }
-  }
-
-  private paymentMethodValidation (method: string): Error | undefined {
-    const allowedMethods = config.payment.methods
-    if (!method || !allowedMethods.includes(method)) {
-      return new InvalidParamError('payment_method')
     }
   }
 }
