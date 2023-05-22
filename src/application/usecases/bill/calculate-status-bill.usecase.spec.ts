@@ -56,4 +56,29 @@ describe('CalculateStatusBillUseCase', () => {
 
     await expect(output).rejects.toThrowError(new InvalidParamError('billPaymentId'))
   })
+
+  test('should be null payment propertie', async () => {
+    input.billPaymentId = undefined
+
+    await sut.execute(input)
+
+    expect(sut.payment).toBeNull()
+  })
+
+  test('should set payment propertie with payment data', async () => {
+    await sut.execute(input)
+
+    expect(sut.payment).toEqual({
+      id: ' any id',
+      type: 'any type',
+      category_id: 'any category_id',
+      expiration: new Date('2023-01-01'),
+      interest: 0,
+      discount: 0,
+      total_value: 1000,
+      payment_method_id: 'any payment method',
+      created_at: new Date('2023-01-01'),
+      status: 'open'
+    })
+  })
 })
