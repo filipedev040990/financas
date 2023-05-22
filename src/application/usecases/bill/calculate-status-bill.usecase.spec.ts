@@ -1,18 +1,18 @@
 import { CalculateStatusBillUseCase } from './calculate-status-bill.usecase'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
-import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-id-repository.interface'
+import { GetBillPaymentByBillIdRepositoryInterface } from '@/domain/interfaces/get-bill-payment-by-billdd-repository.interface'
 import { mock } from 'jest-mock-extended'
 
-let fakeBill: GetBillByIdRepositoryInterface.Output
+let fakeBill: any
 
-const billRepository = mock<GetBillByIdRepositoryInterface>()
+const billPaymentRepository = mock<GetBillPaymentByBillIdRepositoryInterface>()
 
 describe('CalculateStatusBillUseCase', () => {
   let sut: CalculateStatusBillUseCase
   let input: CalculateStatusBillUseCaseInterface.Input
 
   beforeAll(() => {
-    sut = new CalculateStatusBillUseCase(billRepository)
+    sut = new CalculateStatusBillUseCase(billPaymentRepository)
   })
 
   beforeEach(() => {
@@ -24,28 +24,26 @@ describe('CalculateStatusBillUseCase', () => {
 
     fakeBill = {
       id: ' any id',
-      type: 'any type',
-      category_id: 'any category_id',
-      expiration: new Date('2023-01-01'),
+      billId: 'any bill id',
+      totalValue: 1000,
       interest: 0,
       discount: 0,
-      totalValue: 1000,
       payment_method_id: 'any payment method',
       created_at: new Date('2023-01-01'),
-      status: 'open'
+      reversed: false
     }
 
-    billRepository.getByBillId.mockResolvedValue(fakeBill)
+    billPaymentRepository.getByBillId.mockResolvedValue(fakeBill)
   })
 
-  test('should call BillRepository.getByBillId if id is provided', async () => {
+  test('should call billPaymentRepository.getByBillId if id is provided', async () => {
     await sut.execute(input)
 
-    expect(billRepository.getByBillId).toHaveBeenCalledWith('any bill id')
+    expect(billPaymentRepository.getByBillId).toHaveBeenCalledWith('any bill id')
   })
 
   test('should return open status', async () => {
-    billRepository.getByBillId.mockResolvedValueOnce(null)
+    billPaymentRepository.getByBillId.mockResolvedValueOnce(null)
 
     const output = await sut.execute(input)
 
@@ -84,11 +82,30 @@ describe('CalculateStatusBillUseCase', () => {
   })
 
   test('should return overdue status', async () => {
-    billRepository.getByBillId.mockResolvedValueOnce(null)
+    billPaymentRepository.getByBillId.mockResolvedValueOnce(null)
     input.expiration = new Date(new Date().setDate(new Date().getDate()) - 1)
 
     const output = await sut.execute(input)
 
     expect(output).toBe('overdue')
+  })
+
+  test('should return reversed status', async () => {
+    billPaymentRepository.getByBillId.mockResolvedValueOnce({
+      id: ' any id',
+      billId: 'any bill id',
+      totalValue: 1000,
+      interest: 0,
+      discount: 0,
+      payment_method_id: 'any payment method',
+      reversed: true,
+      created_at: new Date('2023-01-01'),
+      updated_at: null
+    })
+    input.expiration = new Date(new Date().setDate(new Date().getDate()) - 1)
+
+    const output = await sut.execute(input)
+
+    expect(output).toBe('reversed')
   })
 })

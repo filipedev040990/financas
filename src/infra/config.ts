@@ -7,7 +7,8 @@ export = {
       open: 'open',
       totalPaid: 'totalPaid',
       parcialPaid: 'parcialPaid',
-      overdue: 'overdue'
+      overdue: 'overdue',
+      reversed: 'reversed'
     }
   }
 }

@@ -1,29 +1,21 @@
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
-import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-id-repository.interface'
+import { GetBillPaymentByBillIdRepositoryInterface } from '@/domain/interfaces/get-bill-payment-by-billdd-repository.interface'
 import config from '@/infra/config'
 
-export type PaymentOutput = {
-  id: string
-  type: string
-  category_id: string
-  expiration: Date
-  interest: number
-  discount: number
-  totalValue: number
-  payment_method_id: string
-  created_at: Date
-  status: string
-} | null
 export class CalculateStatusBillUseCase {
-  constructor (private readonly billRepository: GetBillByIdRepositoryInterface) {}
+  constructor (private readonly billPaymentRepository: GetBillPaymentByBillIdRepositoryInterface) {}
 
   async execute (input: CalculateStatusBillUseCaseInterface.Input): Promise<CalculateStatusBillUseCaseInterface.Output> {
     let { expiration, totalValue } = input
     const today = new Date()
 
-    const payment: PaymentOutput = await this.billRepository.getByBillId(input.billId) ?? null
+    const payment: GetBillPaymentByBillIdRepositoryInterface.Output = await this.billPaymentRepository.getByBillId(input.billId) ?? null
 
     if (payment) {
+      if (payment.reversed) {
+        return config.payment.status.reversed
+      }
+
       totalValue -= payment.discount
       return payment.totalValue >= totalValue ? config.payment.status.totalPaid : config.payment.status.parcialPaid
     }

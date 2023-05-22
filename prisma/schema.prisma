@@ -33,28 +33,44 @@ model Category {
 }
 
 model PaymentMethod {
-  id         String   @id
-  name       String
-  created_at DateTime
-  updated_at DateTime
-  Bill       Bill[]
+  id          String        @id
+  name        String
+  created_at  DateTime
+  updated_at  DateTime
+  Bill        Bill[]
+  BillPayment BillPayment[]
 
   @@map("payment_methods")
 }
 
 model Bill {
-  id                String        @id
-  type              String
-  category          Category      @relation(fields: [category_id], references: [id])
-  category_id       String
-  expiration        DateTime
-  total_value       Int
-  observation       String?       @db.LongText()
-  payment_method    PaymentMethod @relation(fields: [payment_method_id], references: [id])
-  payment_method_id String
-  status            String
-  created_at        DateTime
-  updated_at        DateTime?
+  id              String         @id
+  type            String
+  category        Category       @relation(fields: [category_id], references: [id])
+  category_id     String
+  expiration      DateTime
+  totalValue      Int
+  observation     String?        @db.LongText()
+  status          String
+  created_at      DateTime
+  updated_at      DateTime?
+  PaymentMethod   PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId String?
+  BillPayment     BillPayment[]
 
   @@map("bill")
+}
+
+model BillPayment {
+  id              String         @id
+  bill            Bill           @relation(fields: [billId], references: [id])
+  billId          String
+  totalValue      Int
+  interest        Int?
+  discount        Int
+  PaymentMethod   PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId String?
+  reversed        Boolean
+  created_at      DateTime
+  updated_at      DateTime?
 }
