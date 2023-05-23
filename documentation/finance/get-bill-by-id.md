@@ -27,7 +27,7 @@
     interest: number,
     discount: number,
     paymentMethodId: string,
-    reversed: string,
+    reversed: boolean,
     created_at as paidData
   }
 

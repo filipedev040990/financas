@@ -20,8 +20,8 @@ export namespace GetBillByIdRepositoryInterface {
       interest: number
       discount: number
       paymentMethodId: string
-      reversed: string
-      payment_date: Date
+      reversed: boolean
+      created_at: Date
     } | null
   } | null
 }

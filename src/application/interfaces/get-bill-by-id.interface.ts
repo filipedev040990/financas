@@ -20,8 +20,8 @@ export namespace GetBillByIdUseCaseInterface {
       interest: number
       discount: number
       paymentMethodId: string
-      reversed: string
-      payment_date: Date
+      reversed: boolean
+      paymentDate: Date
     } | null
   } | null
 }
