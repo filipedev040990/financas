@@ -1,8 +1,8 @@
-export interface GetBillByIdRepositoryInterface {
-  getByBillId (id: string): Promise<GetBillByIdRepositoryInterface.Output>
+export interface GetBillByIdUseCaseInterface {
+  execute(id: string): Promise<GetBillByIdUseCaseInterface.Output>
 }
 
-export namespace GetBillByIdRepositoryInterface {
+export namespace GetBillByIdUseCaseInterface {
   export type Output = {
     bill: {
       id: string
