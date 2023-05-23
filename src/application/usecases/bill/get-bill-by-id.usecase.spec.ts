@@ -141,4 +141,12 @@ describe('GetBillByIdUseCase', () => {
       billPayment: null
     })
   })
+
+  test('should return null', async () => {
+    billRepository.getByBillId.mockResolvedValueOnce(null)
+
+    const output = await sut.execute('any bill id')
+
+    expect(output).toBeNull()
+  })
 })
