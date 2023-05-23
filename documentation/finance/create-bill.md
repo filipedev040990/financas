@@ -15,9 +15,7 @@
 6. ✅ Retorna 400 se a data de vencimento for inválida
 7. ✅ Retorna 400 se o valor total não for fornecido
 8. ✅ Retorna 400 se o valor total for inválido
-9. ✅ Retorna 400 se o payment_method não for fornecido
-10. ✅ Retorna 400 se o payment_method for inválido
-11. ✅ Retorna 500 se houver alguma falha na hora de salvar os dados
+9. ✅ Retorna 500 se houver alguma falha na hora de salvar os dados
 
 
 ## Objeto Bill
