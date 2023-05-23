@@ -85,7 +85,7 @@ describe('GetBillByIdUseCase', () => {
     expect(billRepository.getByBillId).toHaveBeenCalledWith('any bill id')
   })
 
-  test('should a bill correctly with bill payment', async () => {
+  test('should return a bill correctly with bill payment', async () => {
     const output = await sut.execute('any bill id')
 
     expect(output).toEqual({
@@ -107,6 +107,38 @@ describe('GetBillByIdUseCase', () => {
         reversed: false,
         paymentDate: new Date()
       }
+    })
+  })
+
+  test('should return a bill correctly without bill payment', async () => {
+    billRepository.getByBillId.mockResolvedValueOnce({
+      bill: {
+        id: 'any bill id',
+        type: 'any type',
+        category_id: 'any category id',
+        expiration: new Date(),
+        total_value: 1000,
+        observation: 'Test',
+        status: 'open',
+        created_at: new Date('2023-01-01')
+      },
+      billPayment: null
+    })
+
+    const output = await sut.execute('any bill id')
+
+    expect(output).toEqual({
+      bill: {
+        id: 'any bill id',
+        type: 'any type',
+        category_id: 'any category id',
+        expiration: new Date(),
+        total_value: 1000,
+        observation: 'Test',
+        status: 'open',
+        created_at: new Date('2023-01-01')
+      },
+      billPayment: null
     })
   })
 })
