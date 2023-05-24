@@ -6,7 +6,7 @@
 
 > ## Exceções
 1. ✅ Retorna nulo se não existir a conta
-2. ⛔ Retorna 500 se houver alguma falha na hora de consultar os dados
+2. ✅ Retorna 500 se houver alguma falha na hora de consultar os dados
 
 
 ## Objeto Bill

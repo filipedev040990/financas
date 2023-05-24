@@ -3,6 +3,7 @@ import { GetBillByIdController } from './get-bill-by-id.controller'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { mock } from 'jest-mock-extended'
 import MockDate from 'mockdate'
+import { serverError } from '@/adapters/helpers/http.helper'
 
 const getBillByIdUseCase = mock<GetBillByIdUseCaseInterface>()
 
@@ -93,5 +94,13 @@ describe('GetBillByIdController', () => {
         }
       }
     })
+  })
+
+  test('should throw if GetBillByIdUseCase throws', async () => {
+    getBillByIdUseCase.execute.mockImplementationOnce(() => { throw new Error() })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(serverError(new Error()))
   })
 })
