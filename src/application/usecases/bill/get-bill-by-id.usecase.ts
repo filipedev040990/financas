@@ -15,22 +15,22 @@ export class GetBillByIdUseCase implements GetBillByIdUseCaseInterface {
           type: response.bill.type,
           category_id: response.bill.category_id,
           expiration: response.bill.expiration,
-          total_value: response.bill.total_value,
-          observation: response.bill.observation ?? null,
+          totalValue: response.bill.totalValue,
+          observation: response.bill.observation,
           status: response.bill.status,
-          created_at: response.bill.created_at
-        },
-        billPayment: null
+          created_at: response.bill.created_at,
+          updated_at: response.bill.updated_at
+        }
       }
 
-      if (response.billPayment) {
+      if (response.BillPayment) {
         output.billPayment = {
-          totalValue: response.billPayment.totalValue,
-          interest: response.billPayment.interest,
-          discount: response.billPayment.discount,
-          paymentMethodId: response.billPayment.paymentMethodId,
-          reversed: response.billPayment.reversed,
-          paymentDate: response.billPayment.created_at
+          totalValue: response.BillPayment.totalValue,
+          interest: response.BillPayment.interest,
+          discount: response.BillPayment.discount,
+          paymentMethodId: response.BillPayment.paymentMethodId,
+          reversed: response.BillPayment.reversed,
+          paymentDate: response.BillPayment.created_at
         }
       }
     }

@@ -9,19 +9,19 @@ export namespace GetBillByIdRepositoryInterface {
       type: string
       category_id: string
       expiration: Date
-      total_value: number
-      observation: string
+      totalValue: number
+      observation?: string
       status: string
       created_at: Date
       updated_at?: Date
     }
-    billPayment: {
+    BillPayment?: {
       totalValue: number
       interest: number
       discount: number
       paymentMethodId: string
       reversed: boolean
       created_at: Date
-    } | null
+    }
   } | null
 }

@@ -18,12 +18,12 @@ describe('GetBillByIdUseCase', () => {
         type: 'any type',
         category_id: 'any category id',
         expiration: new Date(),
-        total_value: 1000,
+        totalValue: 1000,
         observation: 'Test',
         status: 'open',
         created_at: new Date('2023-01-01')
       },
-      billPayment: {
+      BillPayment: {
         totalValue: 1000,
         interest: 0,
         discount: 0,
@@ -56,10 +56,11 @@ describe('GetBillByIdUseCase', () => {
         type: 'any type',
         category_id: 'any category id',
         expiration: new Date(),
-        total_value: 1000,
+        totalValue: 1000,
         observation: 'Test',
         status: 'open',
-        created_at: new Date('2023-01-01')
+        created_at: new Date('2023-01-01'),
+        updated_at: undefined
       },
       billPayment: {
         totalValue: 1000,
@@ -79,12 +80,11 @@ describe('GetBillByIdUseCase', () => {
         type: 'any type',
         category_id: 'any category id',
         expiration: new Date(),
-        total_value: 1000,
+        totalValue: 1000,
         observation: 'Test',
         status: 'open',
         created_at: new Date('2023-01-01')
-      },
-      billPayment: null
+      }
     })
 
     const output = await sut.execute('any bill id')
@@ -95,12 +95,11 @@ describe('GetBillByIdUseCase', () => {
         type: 'any type',
         category_id: 'any category id',
         expiration: new Date(),
-        total_value: 1000,
+        totalValue: 1000,
         observation: 'Test',
         status: 'open',
         created_at: new Date('2023-01-01')
-      },
-      billPayment: null
+      }
     })
   })
 
