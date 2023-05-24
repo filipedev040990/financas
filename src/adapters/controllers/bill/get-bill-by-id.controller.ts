@@ -1,8 +1,12 @@
+import { success } from '@/adapters/helpers/http.helper'
+import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
+import { ControllerInterface } from '@/application/interfaces/controller.interface'
 import { GetBillByIdUseCaseInterface } from '@/application/interfaces/get-bill-by-id.interface'
 
-export class GetBillByIdController {
+export class GetBillByIdController implements ControllerInterface {
   constructor (private readonly getBillByIdUseCase: GetBillByIdUseCaseInterface) {}
-  async execute (id: string): Promise<void> {
-    await this.getBillByIdUseCase.execute(id)
+  async execute (input: HttpRequest): Promise<HttpResponse> {
+    const bill = await this.getBillByIdUseCase.execute(input.params.id)
+    return success(200, bill)
   }
 }
