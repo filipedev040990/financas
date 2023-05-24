@@ -43,25 +43,25 @@ model PaymentMethod {
 }
 
 model Bill {
-  id            String      @id
-  type          String
-  category      Category    @relation(fields: [category_id], references: [id])
-  category_id   String
-  expiration    DateTime
-  totalValue    Int
-  observation   String?     @db.LongText()
-  status        String
-  created_at    DateTime
-  updated_at    DateTime?
-  BillPayment   BillPayment @relation(fields: [billPaymentId], references: [id])
-  billPaymentId String
+  id          String       @id
+  type        String
+  category    Category     @relation(fields: [category_id], references: [id])
+  category_id String
+  expiration  DateTime
+  totalValue  Int
+  observation String?      @db.LongText()
+  status      String
+  created_at  DateTime
+  updated_at  DateTime?
+  BillPayment BillPayment?
 
   @@map("bill")
 }
 
 model BillPayment {
   id              String         @id
-  billId          String
+  billId          String         @unique
+  bill            Bill           @relation(fields: [billId], references: [id])
   totalValue      Int
   interest        Int
   discount        Int
@@ -70,7 +70,6 @@ model BillPayment {
   reversed        Boolean
   created_at      DateTime
   updated_at      DateTime?
-  Bill            Bill[]
 
   @@map("bill_payment")
 }
