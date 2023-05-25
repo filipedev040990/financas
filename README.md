@@ -56,6 +56,10 @@ Mencione as ferramentas que você usou para criar seu projeto
 * [Mysql](https://www.mysql.com/) - Banco de dados
 * [Prisma](https://www.prisma.io/) - ORM
 
+Este projeto está sendo construído utilizando a [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+![Clean Architecture](https://github.com/filipedev040990/financas/assets/106783314/d133c4e1-bf26-411a-95d0-7738afaebaba)
+
+
 ## ✒️ Autores
 
 * **Filipe Siqueira** - *Trabalho Inicial* - [desenvolvedor](https://github.com/filipedev040990)
