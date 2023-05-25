@@ -3,7 +3,10 @@ module.exports = {
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/**/*.type.ts',
     '!<rootDir>/src/**/*.interface.ts',
-    '!<rootDir>/src/**/*.helper.ts'
+    '!<rootDir>/src/**/*.helper.ts',
+    '!<rootDir>/src/**/*.factory.ts',
+    '!<rootDir>/src/**/*.app.ts',
+    '!<rootDir>/src/**/*.server.ts'
   ],
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
