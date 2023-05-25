@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/adapters/errors'
-import { badRequest } from '@/adapters/helpers/http.helper'
+import { badRequest, success } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { GetBillByIdUseCaseInterface } from '@/application/interfaces/get-bill-by-id.interface'
@@ -23,7 +23,7 @@ export class UpdateBillController {
 
     const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: new Date(input.body.expiration), totalValue: input.body.totalValue, billId: input.params.id })
 
-    await this.updateBillUseCase.execute({
+    const updatedBill = await this.updateBillUseCase.execute({
       id: input.params.id,
       type: input.body.type,
       category_id: input.body.category_id,
@@ -33,6 +33,8 @@ export class UpdateBillController {
       status: statusBill,
       updated_at: new Date()
     })
+
+    return success(200, updatedBill)
   }
 
   private async inputValidation (input: HttpRequest): Promise<Error | undefined> {

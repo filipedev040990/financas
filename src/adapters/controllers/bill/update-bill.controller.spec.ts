@@ -47,6 +47,18 @@ describe('UpdateBillController', () => {
         paymentDate: new Date()
       }
     })
+
+    updateBillUseCase.execute.mockResolvedValue({
+      id: 'any id',
+      type: 'pay',
+      category_id: 'any category id',
+      expiration: new Date(),
+      totalValue: 100,
+      observation: '',
+      status: 'open',
+      created_at: new Date(),
+      updated_at: new Date()
+    })
   })
 
   beforeEach(() => {
@@ -254,6 +266,25 @@ describe('UpdateBillController', () => {
       observation: input.body.observation ?? 0,
       status: 'open',
       updated_at: new Date()
+    })
+  })
+
+  test('should return 200 and a updated bill', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 200,
+      body: {
+        id: 'any id',
+        type: 'pay',
+        category_id: 'any category id',
+        expiration: new Date(),
+        totalValue: 100,
+        observation: '',
+        status: 'open',
+        created_at: new Date(),
+        updated_at: new Date()
+      }
     })
   })
 })
