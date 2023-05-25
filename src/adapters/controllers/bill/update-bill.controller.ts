@@ -2,11 +2,13 @@ import { InvalidParamError } from '@/adapters/errors'
 import { badRequest } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { GetBillByIdUseCaseInterface } from '@/application/interfaces/get-bill-by-id.interface'
+import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/get-category-by-id-repository.interface'
 import config from '@/infra/config'
 
 export class UpdateBillController {
   constructor (
-    private readonly getBillByIdUseCase: GetBillByIdUseCaseInterface
+    private readonly getBillByIdUseCase: GetBillByIdUseCaseInterface,
+    private readonly categoryRepository: GetCategoryByIdRepositoryInterface
   ) {}
 
   async execute (input: HttpRequest): Promise<any> {
@@ -36,6 +38,16 @@ export class UpdateBillController {
     if (invalidPaymentTypeError) {
       return invalidPaymentTypeError
     }
+
+    const invalidPaymentCategoryError = await this.paymentCategoryValidation(input.body?.category_id)
+    if (invalidPaymentCategoryError) {
+      return invalidPaymentCategoryError
+    }
+
+    const invalidPaymentExpirationError = this.paymentExpirationValidation(input.body?.expiration)
+    if (invalidPaymentExpirationError) {
+      return invalidPaymentExpirationError
+    }
   }
 
   private idValidation (id: string): Error | undefined {
@@ -55,6 +67,18 @@ export class UpdateBillController {
     const allowedTypes = config.payment.types
     if (!type || !allowedTypes.includes(type)) {
       return new InvalidParamError('type')
+    }
+  }
+
+  private async paymentCategoryValidation (categoryId: string): Promise<Error | undefined> {
+    if (!categoryId || !await this.categoryRepository.getById(categoryId)) {
+      return new InvalidParamError('category')
+    }
+  }
+
+  private paymentExpirationValidation (date: Date): Error | undefined {
+    if (!date) {
+      return new InvalidParamError('expiration')
     }
   }
 }

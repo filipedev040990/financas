@@ -20,7 +20,7 @@ describe('UpdateBillController', () => {
   let input: HttpRequest
 
   beforeAll(() => {
-    sut = new UpdateBillController(getBillByIdUseCase)
+    sut = new UpdateBillController(getBillByIdUseCase, categoryRepository)
     calculateStatusBillUseCase.execute.mockResolvedValue('open')
     getBillByIdUseCase.execute.mockResolvedValue({
       bill: {
@@ -143,6 +143,59 @@ describe('UpdateBillController', () => {
       const output = await sut.execute(input)
 
       expect(output).toEqual(badRequest(new InvalidParamError('type')))
+    })
+  })
+
+  describe('paymentCategoryValidation', () => {
+    test('should call paymentCategoryValidation once and with correct value', async () => {
+      const spy = jest.spyOn(UpdateBillController.prototype as unknown as keyof typeof UpdateBillController, 'paymentCategoryValidation')
+
+      await sut.execute(input)
+
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith('any category id')
+    })
+
+    test('should return 400 if validation category fails', async () => {
+      input.body.category_id = null
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('category')))
+    })
+
+    test('should call CategoryRepository.getById once and with correct category id', async () => {
+      await sut.execute(input)
+
+      expect(categoryRepository.getById).toHaveBeenCalledTimes(1)
+      expect(categoryRepository.getById).toHaveBeenCalledWith('any category id')
+    })
+
+    test('should return 400 if validation category fails', async () => {
+      jest.spyOn(categoryRepository, 'getById').mockResolvedValueOnce(null)
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('category')))
+    })
+  })
+
+  describe('paymentExpirationValidation', () => {
+    test('should call paymentExpirationValidation once and with correct value', async () => {
+      const spy = jest.spyOn(UpdateBillController.prototype as unknown as keyof typeof UpdateBillController, 'paymentExpirationValidation')
+
+      await sut.execute(input)
+
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(input.body.expiration)
+    })
+
+    test('should return 400 if expiration is not provided', async () => {
+      input.body.expiration = null
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual(badRequest(new InvalidParamError('expiration')))
     })
   })
 })
