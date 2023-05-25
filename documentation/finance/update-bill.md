@@ -2,7 +2,7 @@
 
 > ## Caso de sucesso
 
-1. ⛔ Altera os dados da conta
+1. ✅ Altera os dados da conta
 2. ⛔ Recalcula status da conta
 3. ⛔ Retorna status 200 com os dados da conta atualizado
 
