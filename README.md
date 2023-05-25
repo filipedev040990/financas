@@ -12,7 +12,7 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
 
 É necessário ter o docker instalado em sua máquina. Você pode instalá-lo consultando a documentação [aqui](https://docs.docker.com/desktop)
 
-### 🔧 Instalação
+### 🔧 Instalação de dependências
 
 Com o docker instalado, agora faça o clone do projeto e inicie com os comandos abaixo:
 
@@ -21,9 +21,21 @@ Instalando as dependências localmente:
 npm install
 ```
 
+
+### 🔩 Variáveis de ambiente
+
+Renomeie o arquivo .env.example para .env e ajuste o valor das variáveis se necessário.
+
+## 📦 Implantação
+
+Subindo o projeto:
+
+```
+npm run build:up
+```
+
 Se tudo der certo, este será o resultado em seu terminal:<br><br>
 ![image](https://github.com/filipedev040990/financas/assets/106783314/a9dcd987-4586-45f6-8c71-6c3945d467e6)
-
 
 ## ⚙️ Executando os testes unitários
 
@@ -33,20 +45,6 @@ Para executar todos os testes unitários execute o comanddo:
 npm t
 ```
 ![image](https://github.com/filipedev040990/financas/assets/106783314/c8a7df9f-5c01-4484-9f67-089b6105e5ef)
-
-
-### 🔩 Variáveis de ambiente
-
-Renomeie o arquivo .env.example para .env e ajuste o valor das variáveis se necessário.
-
-
-## 📦 Implantação
-
-Subindo o projeto:
-
-```
-npm run build:up
-```
 
 ## 🛠️ Construído com
 
