@@ -7,7 +7,7 @@
 3. ⛔ Retorna status 200 com os dados da conta atualizado
 
 > ## Exceções
-1. ⛔ Retorna 400 se o id da conta não for fornecido
+1. ✅ Retorna 400 se o id da conta não for fornecido
 2. ⛔ Retorna 400 se o id da conta for inválido
 3. ⛔ Retorna 400 se o status da conta for diferente de (open, overdue)
 4. ⛔ Retorna 400 se o tipo for inválido
