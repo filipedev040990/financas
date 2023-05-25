@@ -4,30 +4,8 @@ import { HttpRequest } from '@/adapters/types/http.type'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { GetBillByIdUseCaseInterface } from '@/application/interfaces/get-bill-by-id.interface'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/get-category-by-id-repository.interface'
+import { UpdateBillController } from './update-bill.controller'
 import { mock } from 'jest-mock-extended'
-
-export class UpdateBillController {
-  constructor (
-    private readonly getBillByIdUseCase: GetBillByIdUseCaseInterface
-  ) {}
-
-  async execute (input: HttpRequest): Promise<any> {
-    if (!input.params?.id) {
-      return badRequest(new InvalidParamError('id'))
-    }
-
-    const billExists = await this.getBillByIdUseCase.execute(input.params.id)
-    if (!billExists) {
-      return badRequest(new InvalidParamError('bill not found'))
-    }
-
-    const allowedStatusToUpdate = ['open', 'overdue']
-    const currentStatus = billExists.bill.status
-    if (!allowedStatusToUpdate.includes(currentStatus)) {
-      return badRequest(new InvalidParamError('Bill status should be open or overdue'))
-    }
-  }
-}
 
 const addDaysToDate = (date: Date, days: number): Date => {
   return new Date(date.setDate(date.getDate()) + days)
