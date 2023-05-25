@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/adapters/errors'
-import { badRequest } from '@/adapters/helpers/http.helper'
+import { badRequest, serverError } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { GetBillByIdUseCaseInterface } from '@/application/interfaces/get-bill-by-id.interface'
@@ -286,5 +286,15 @@ describe('UpdateBillController', () => {
         updated_at: new Date()
       }
     })
+  })
+
+  test('should return 500 if UpdateBillUseCase throws', async () => {
+    updateBillUseCase.execute.mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(serverError(new Error()))
   })
 })
