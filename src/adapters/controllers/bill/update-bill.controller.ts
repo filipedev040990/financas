@@ -2,6 +2,7 @@ import { InvalidParamError } from '@/adapters/errors'
 import { badRequest } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { GetBillByIdUseCaseInterface } from '@/application/interfaces/get-bill-by-id.interface'
+import config from '@/infra/config'
 
 export class UpdateBillController {
   constructor (
@@ -30,6 +31,11 @@ export class UpdateBillController {
     if (invalidStatusError) {
       return invalidStatusError
     }
+
+    const invalidPaymentTypeError = this.paymentTypeValidation(input.body?.type)
+    if (invalidPaymentTypeError) {
+      return invalidPaymentTypeError
+    }
   }
 
   private idValidation (id: string): Error | undefined {
@@ -42,6 +48,13 @@ export class UpdateBillController {
     const allowedStatusToUpdate = ['open', 'overdue']
     if (!allowedStatusToUpdate.includes(currentStatus)) {
       return new InvalidParamError('Bill status should be open or overdue')
+    }
+  }
+
+  private paymentTypeValidation (type: string): Error | undefined {
+    const allowedTypes = config.payment.types
+    if (!type || !allowedTypes.includes(type)) {
+      return new InvalidParamError('type')
     }
   }
 }
