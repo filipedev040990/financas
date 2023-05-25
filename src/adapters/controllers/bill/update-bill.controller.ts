@@ -1,14 +1,18 @@
 import { InvalidParamError } from '@/adapters/errors'
 import { badRequest } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
+import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/calculate-status-bill-usecase.interface'
 import { GetBillByIdUseCaseInterface } from '@/application/interfaces/get-bill-by-id.interface'
+import { UpdateBillUseCaseInterface } from '@/application/interfaces/update-bill-usecase.interface'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/get-category-by-id-repository.interface'
 import config from '@/infra/config'
 
 export class UpdateBillController {
   constructor (
     private readonly getBillByIdUseCase: GetBillByIdUseCaseInterface,
-    private readonly categoryRepository: GetCategoryByIdRepositoryInterface
+    private readonly categoryRepository: GetCategoryByIdRepositoryInterface,
+    private readonly calculateStatusBillUseCase: CalculateStatusBillUseCaseInterface,
+    private readonly updateBillUseCase: UpdateBillUseCaseInterface
   ) {}
 
   async execute (input: HttpRequest): Promise<any> {
@@ -16,6 +20,19 @@ export class UpdateBillController {
     if (inputError) {
       return badRequest(inputError)
     }
+
+    const statusBill = await this.calculateStatusBillUseCase.execute({ expiration: new Date(input.body.expiration), totalValue: input.body.totalValue, billId: input.params.id })
+
+    await this.updateBillUseCase.execute({
+      id: input.params.id,
+      type: input.body.type,
+      category_id: input.body.category_id,
+      expiration: input.body.expiration,
+      totalValue: input.body.totalValue,
+      observation: input.body.observation,
+      status: statusBill,
+      updated_at: new Date()
+    })
   }
 
   private async inputValidation (input: HttpRequest): Promise<Error | undefined> {

@@ -5,7 +5,9 @@ import { CalculateStatusBillUseCaseInterface } from '@/application/interfaces/ca
 import { GetBillByIdUseCaseInterface } from '@/application/interfaces/get-bill-by-id.interface'
 import { GetCategoryByIdRepositoryInterface } from '@/domain/interfaces/get-category-by-id-repository.interface'
 import { UpdateBillController } from './update-bill.controller'
+import { UpdateBillUseCaseInterface } from '@/application/interfaces/update-bill-usecase.interface'
 import { mock } from 'jest-mock-extended'
+import MockDate from 'mockdate'
 
 const addDaysToDate = (date: Date, days: number): Date => {
   return new Date(date.setDate(date.getDate()) + days)
@@ -14,13 +16,15 @@ const addDaysToDate = (date: Date, days: number): Date => {
 const categoryRepository = mock<GetCategoryByIdRepositoryInterface>()
 const calculateStatusBillUseCase = mock<CalculateStatusBillUseCaseInterface>()
 const getBillByIdUseCase = mock<GetBillByIdUseCaseInterface>()
+const updateBillUseCase = mock<UpdateBillUseCaseInterface>()
 
 describe('UpdateBillController', () => {
   let sut: UpdateBillController
   let input: HttpRequest
 
   beforeAll(() => {
-    sut = new UpdateBillController(getBillByIdUseCase, categoryRepository)
+    MockDate.set(new Date())
+    sut = new UpdateBillController(getBillByIdUseCase, categoryRepository, calculateStatusBillUseCase, updateBillUseCase)
     calculateStatusBillUseCase.execute.mockResolvedValue('open')
     getBillByIdUseCase.execute.mockResolvedValue({
       bill: {
@@ -62,6 +66,10 @@ describe('UpdateBillController', () => {
       id: 'any id',
       name: 'any name'
     })
+  })
+
+  afterAll(() => {
+    MockDate.reset()
   })
 
   describe('idValidatoin', () => {
@@ -223,6 +231,29 @@ describe('UpdateBillController', () => {
       const output = await sut.execute(input)
 
       expect(output).toEqual(badRequest(new InvalidParamError('totalValue')))
+    })
+  })
+
+  test('should call calculateBillStatusUseCase once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(calculateStatusBillUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(calculateStatusBillUseCase.execute).toHaveBeenCalledWith({ expiration: input.body.expiration, totalValue: input.body.totalValue, billId: 'any bill id' })
+  })
+
+  test('should call updateBillUseCase once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(updateBillUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(updateBillUseCase.execute).toHaveBeenCalledWith({
+      id: input.params.id,
+      type: input.body.type,
+      category_id: input.body.category_id,
+      expiration: input.body.expiration,
+      totalValue: input.body.totalValue,
+      observation: input.body.observation ?? 0,
+      status: 'open',
+      updated_at: new Date()
     })
   })
 })
