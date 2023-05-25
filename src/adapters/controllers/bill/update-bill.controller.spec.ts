@@ -16,7 +16,16 @@ export class UpdateBillController {
       return badRequest(new InvalidParamError('id'))
     }
 
-    await this.getBillByIdUseCase.execute(input.params.id)
+    const billExists = await this.getBillByIdUseCase.execute(input.params.id)
+    if (!billExists) {
+      return badRequest(new InvalidParamError('bill not found'))
+    }
+
+    const allowedStatusToUpdate = ['open', 'overdue']
+    const currentStatus = billExists.bill.status
+    if (!allowedStatusToUpdate.includes(currentStatus)) {
+      return badRequest(new InvalidParamError('Bill status should be open or overdue'))
+    }
   }
 }
 
@@ -35,6 +44,27 @@ describe('UpdateBillController', () => {
   beforeAll(() => {
     sut = new UpdateBillController(getBillByIdUseCase)
     calculateStatusBillUseCase.execute.mockResolvedValue('open')
+    getBillByIdUseCase.execute.mockResolvedValue({
+      bill: {
+        id: 'any bill id',
+        type: 'any type',
+        category_id: 'any category id',
+        expiration: new Date(),
+        totalValue: 1000,
+        observation: 'Test',
+        status: 'open',
+        created_at: new Date('2023-01-01'),
+        updated_at: undefined
+      },
+      billPayment: {
+        totalValue: 1000,
+        interest: 0,
+        discount: 0,
+        paymentMethodId: 'any payment method id',
+        reversed: false,
+        paymentDate: new Date()
+      }
+    })
   })
 
   beforeEach(() => {
@@ -69,5 +99,41 @@ describe('UpdateBillController', () => {
 
     expect(getBillByIdUseCase.execute).toHaveBeenCalledTimes(1)
     expect(getBillByIdUseCase.execute).toHaveBeenCalledWith(input.params.id)
+  })
+
+  test('should return 400 if GetBillByIdUseCase.execute returns null', async () => {
+    getBillByIdUseCase.execute.mockResolvedValueOnce(null)
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(badRequest(new InvalidParamError('bill not found')))
+  })
+
+  test('should return 400 if current bill status does not open or overdue', async () => {
+    getBillByIdUseCase.execute.mockResolvedValueOnce({
+      bill: {
+        id: 'any bill id',
+        type: 'any type',
+        category_id: 'any category id',
+        expiration: new Date(),
+        totalValue: 1000,
+        observation: 'Test',
+        status: 'paid',
+        created_at: new Date('2023-01-01'),
+        updated_at: undefined
+      },
+      billPayment: {
+        totalValue: 1000,
+        interest: 0,
+        discount: 0,
+        paymentMethodId: 'any payment method id',
+        reversed: false,
+        paymentDate: new Date()
+      }
+    })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(badRequest(new InvalidParamError('Bill status should be open or overdue')))
   })
 })
