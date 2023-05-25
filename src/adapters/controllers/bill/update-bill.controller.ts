@@ -9,19 +9,39 @@ export class UpdateBillController {
   ) {}
 
   async execute (input: HttpRequest): Promise<any> {
-    if (!input.params?.id) {
-      return badRequest(new InvalidParamError('id'))
+    const inputError = await this.inputValidation(input)
+    if (inputError) {
+      return badRequest(inputError)
+    }
+  }
+
+  private async inputValidation (input: HttpRequest): Promise<Error | undefined> {
+    const invalidIdError = this.idValidation(input?.params?.id)
+    if (invalidIdError) {
+      return invalidIdError
     }
 
     const billExists = await this.getBillByIdUseCase.execute(input.params.id)
     if (!billExists) {
-      return badRequest(new InvalidParamError('bill not found'))
+      return new InvalidParamError('bill not found')
     }
 
+    const invalidStatusError = this.currentStatusValidation(billExists.bill.status)
+    if (invalidStatusError) {
+      return invalidStatusError
+    }
+  }
+
+  private idValidation (id: string): Error | undefined {
+    if (!id) {
+      return new InvalidParamError('id')
+    }
+  }
+
+  private currentStatusValidation (currentStatus: string): Error | undefined {
     const allowedStatusToUpdate = ['open', 'overdue']
-    const currentStatus = billExists.bill.status
     if (!allowedStatusToUpdate.includes(currentStatus)) {
-      return badRequest(new InvalidParamError('Bill status should be open or overdue'))
+      return new InvalidParamError('Bill status should be open or overdue')
     }
   }
 }
