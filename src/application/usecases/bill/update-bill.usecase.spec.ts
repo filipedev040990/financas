@@ -5,8 +5,8 @@ import MockDate from 'mockdate'
 
 export class UpdateBillUseCase {
   constructor (private readonly billRepository: UpdateBillRepositoryInterface) {}
-  async execute (input: UpdateBillUseCaseInterface.Input): Promise<void> {
-    await this.billRepository.update(input)
+  async execute (input: UpdateBillUseCaseInterface.Input): Promise<UpdateBillUseCaseInterface.Output> {
+    return await this.billRepository.update(input)
   }
 }
 
@@ -28,6 +28,17 @@ describe('UpdateBillUseCase', () => {
       status: 'open',
       updated_at: new Date()
     }
+
+    billRepository.update.mockResolvedValue({
+      id: 'any bill id',
+      type: 'any type',
+      category_id: 'any category_id',
+      expiration: new Date('2023-01-01'),
+      totalValue: 1000,
+      status: 'open',
+      created_at: new Date('2023-01-01'),
+      updated_at: new Date()
+    })
   })
 
   afterAll(() => {
@@ -45,6 +56,21 @@ describe('UpdateBillUseCase', () => {
       expiration: new Date('2023-01-01'),
       totalValue: 1000,
       status: 'open',
+      updated_at: new Date()
+    })
+  })
+
+  test('should return a updated bill', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      id: 'any bill id',
+      type: 'any type',
+      category_id: 'any category_id',
+      expiration: new Date('2023-01-01'),
+      totalValue: 1000,
+      status: 'open',
+      created_at: new Date('2023-01-01'),
       updated_at: new Date()
     })
   })
