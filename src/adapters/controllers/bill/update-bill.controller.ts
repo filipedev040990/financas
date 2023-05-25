@@ -48,6 +48,11 @@ export class UpdateBillController {
     if (invalidPaymentExpirationError) {
       return invalidPaymentExpirationError
     }
+
+    const invalidPaymentTotalValueError = this.paymentTotalValueValidation(input.body?.totalValue)
+    if (invalidPaymentTotalValueError) {
+      return invalidPaymentTotalValueError
+    }
   }
 
   private idValidation (id: string): Error | undefined {
@@ -79,6 +84,12 @@ export class UpdateBillController {
   private paymentExpirationValidation (date: Date): Error | undefined {
     if (!date) {
       return new InvalidParamError('expiration')
+    }
+  }
+
+  private paymentTotalValueValidation (totalValue: number): Error | undefined {
+    if (!totalValue || totalValue < 1) {
+      return new InvalidParamError('totalValue')
     }
   }
 }
