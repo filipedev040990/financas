@@ -1,10 +1,12 @@
-import { MissingParamError } from '../errors'
+import { MissingParamError } from '@/adapters/errors'
 import { RequiredFieldValidator } from './required-field'
 
 describe('RequiredFieldValidator', () => {
   let input: RequiredFieldValidator.Input
+  let sut: RequiredFieldValidator
 
   beforeEach(() => {
+    sut = new RequiredFieldValidator()
     input = {
       fieldName: 'anyFieldName',
       fieldValue: 'anyFieldValue'
@@ -12,8 +14,6 @@ describe('RequiredFieldValidator', () => {
   })
 
   test('should return undefined', () => {
-    const sut = new RequiredFieldValidator()
-
     const output = sut.validate(input)
 
     expect(output).toBeUndefined()
@@ -21,8 +21,6 @@ describe('RequiredFieldValidator', () => {
 
   test('should return error if empty or null or undefined field is provided', () => {
     input.fieldValue = ''
-
-    const sut = new RequiredFieldValidator()
 
     const output = sut.validate(input)
 
