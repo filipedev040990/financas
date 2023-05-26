@@ -3,8 +3,8 @@
 > ## Caso de sucesso
 
 1. ✅ Altera os dados da conta
-2. ⛔ Recalcula status da conta
-3. ⛔ Retorna status 200 com os dados da conta atualizado
+2. ✅ Recalcula status da conta
+3. ✅ Retorna status 200 com os dados da conta atualizado
 
 > ## Exceções
 1. ✅ Retorna 400 se o id da conta não for fornecido
@@ -17,7 +17,7 @@
 8. ✅ Retorna 400 se a data de vencimento for inválida
 9. ✅ Retorna 400 se o valor total não for fornecido
 10. ✅ Retorna 400 se o valor total for inválido
-11. ⛔ Retorna 500 se houver alguma falha na hora de salvar os dados
+11. ✅ Retorna 500 se houver alguma falha na hora de salvar os dados
 
 
 ## Objeto Bill
