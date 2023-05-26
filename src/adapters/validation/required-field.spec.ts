@@ -1,6 +1,10 @@
+import { MissingParamError } from '../errors'
+
 export class RequiredFieldValidator {
   validate (input: RequiredFieldValidator.Input): Error | undefined {
-    return undefined
+    if (!input.fieldValue) {
+      return new MissingParamError(input.fieldName)
+    }
   }
 }
 
@@ -27,5 +31,15 @@ describe('RequiredFieldValidator', () => {
     const output = sut.validate(input)
 
     expect(output).toBeUndefined()
+  })
+
+  test('should return error if empty or null or undefined field is provided', () => {
+    input.fieldValue = ''
+
+    const sut = new RequiredFieldValidator()
+
+    const output = sut.validate(input)
+
+    expect(output).toEqual(new MissingParamError(input.fieldName))
   })
 })
