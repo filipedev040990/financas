@@ -1,16 +1,14 @@
 import { MissingParamError } from '../errors'
 
 export class RequiredFieldValidator {
-  validate (input: RequiredFieldValidator.Input): Error | undefined {
-    if (!input.fieldValue) {
-      return new MissingParamError(input.fieldName)
-    }
-  }
-}
+  constructor (
+    private readonly fieldName: string,
+    private readonly fieldValue: string
+  ) {}
 
-export namespace RequiredFieldValidator {
-  export type Input = {
-    fieldName: string
-    fieldValue: string
+  validate (): Error | undefined {
+    if (!this.fieldValue) {
+      return new MissingParamError(this.fieldName)
+    }
   }
 }
