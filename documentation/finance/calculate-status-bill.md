@@ -17,7 +17,7 @@
 ✅ Parcial paid/received
   ✅ Se possui registro de pagamento/recebimento e o valor é menor ao valor da conta e não possui desconto
 
-✅ Overdue
+✅ Expired
   ✅ Se não possui registro de pagamento/recebimento e a data de vencimento é menor que a data atual
 
 

@@ -9,7 +9,7 @@
 > ## Exceções
 1. ✅ Retorna 400 se o id da conta não for fornecido
 2. ✅ Retorna 400 se o id da conta for inválido
-3. ✅ Retorna 400 se o status da conta for diferente de (open, overdue)
+3. ✅ Retorna 400 se o status da conta for diferente de (open, expired)
 4. ✅ Retorna 400 se o tipo for inválido
 5. ✅ Retorna 400 se a categoria não for fornecida
 6. ✅ Retorna 400 se a categoria for inválida

@@ -87,13 +87,13 @@ describe('CalculateStatusBillUseCase', () => {
     expect(output).toBe('parcialPaid')
   })
 
-  test('should return overdue status', async () => {
+  test('should return expired status', async () => {
     billPaymentRepository.getByBillId.mockResolvedValueOnce(null)
     input.expiration = new Date(new Date().setDate(new Date().getDate()) - 1)
 
     const output = await sut.execute(input)
 
-    expect(output).toBe('overdue')
+    expect(output).toBe('expired')
   })
 
   test('should return reversed status', async () => {

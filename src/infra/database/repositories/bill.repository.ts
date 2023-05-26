@@ -1,8 +1,9 @@
 import { CreateBillRepositoryInterface } from '@/domain/interfaces/create-bill-repository.interface'
 import { prismaClient } from '../prisma-client'
 import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-id-repository.interface'
+import { UpdateBillRepositoryInterface } from '@/domain/interfaces/update-bill-repository.interface'
 
-export class BillRepository implements CreateBillRepositoryInterface, GetBillByIdRepositoryInterface {
+export class BillRepository implements CreateBillRepositoryInterface, GetBillByIdRepositoryInterface, UpdateBillRepositoryInterface {
   async create (input: CreateBillRepositoryInterface.Input): Promise<CreateBillRepositoryInterface.Output> {
     return await prismaClient.bill.create({
       data: {
@@ -75,5 +76,32 @@ export class BillRepository implements CreateBillRepositoryInterface, GetBillByI
     }
 
     return output
+  }
+
+  async update (input: UpdateBillRepositoryInterface.Input): Promise<UpdateBillRepositoryInterface.Output> {
+    const updatedBill = await prismaClient.bill.update({
+      data: {
+        type: input.type,
+        category_id: input.category_id,
+        expiration: input.expiration,
+        totalValue: input.totalValue,
+        observation: input.observation ?? null,
+        status: input.status,
+        updated_at: input.updated_at
+      },
+      where: { id: input.id }
+    })
+
+    return {
+      id: updatedBill.id,
+      type: updatedBill.type,
+      category_id: updatedBill.category_id,
+      expiration: updatedBill.expiration,
+      totalValue: updatedBill.totalValue,
+      observation: updatedBill.observation ?? null,
+      status: updatedBill.status,
+      created_at: updatedBill.created_at,
+      updated_at: updatedBill.updated_at as Date
+    }
   }
 }

@@ -20,6 +20,6 @@ export class CalculateStatusBillUseCase implements CalculateStatusBillUseCaseInt
       return payment.totalValue >= totalValue ? config.payment.status.totalPaid : config.payment.status.parcialPaid
     }
 
-    return expiration < today ? config.payment.status.overdue : config.payment.status.open
+    return expiration < today ? config.payment.status.expired : config.payment.status.open
   }
 }
