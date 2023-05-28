@@ -2,11 +2,11 @@
 
 > ## Caso de sucesso
 
-1. ⛔ Retorna dados da conta selecionada junto com pagamento/recebimento se houver
+1. ✅ Retorna dados da conta selecionada junto com pagamento/recebimento se houver
 
 > ## Exceções
-1. ⛔ Retorna nulo se não existir contas para listar
-2. ⛔ Retorna 500 se houver alguma falha na hora de consultar os dados
+1. ✅ Retorna nulo se não existir contas para listar
+2. ✅ Retorna 500 se houver alguma falha na hora de consultar os dados
 
 
 ## Objeto Bill
