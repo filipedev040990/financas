@@ -2,8 +2,9 @@ import { CreateBillRepositoryInterface } from '@/domain/interfaces/create-bill-r
 import { prismaClient } from '../prisma-client'
 import { GetBillByIdRepositoryInterface } from '@/domain/interfaces/get-bill-by-id-repository.interface'
 import { UpdateBillRepositoryInterface } from '@/domain/interfaces/update-bill-repository.interface'
+import { GetAllBillRepositoryInterface } from '@/domain/interfaces/get-all-bill-repository.interface'
 
-export class BillRepository implements CreateBillRepositoryInterface, GetBillByIdRepositoryInterface, UpdateBillRepositoryInterface {
+export class BillRepository implements CreateBillRepositoryInterface, GetBillByIdRepositoryInterface, UpdateBillRepositoryInterface, GetAllBillRepositoryInterface {
   async create (input: CreateBillRepositoryInterface.Input): Promise<CreateBillRepositoryInterface.Output> {
     return await prismaClient.bill.create({
       data: {
@@ -103,5 +104,67 @@ export class BillRepository implements CreateBillRepositoryInterface, GetBillByI
       created_at: updatedBill.created_at,
       updated_at: updatedBill.updated_at as Date
     }
+  }
+
+  async getAllBill (): Promise<GetAllBillRepositoryInterface.Output[] | null> {
+    const output: GetAllBillRepositoryInterface.Output[] | null = []
+
+    const bills = await prismaClient.bill.findMany({
+      select: {
+        id: true,
+        type: true,
+        category_id: true,
+        expiration: true,
+        totalValue: true,
+        observation: true,
+        status: true,
+        created_at: true,
+        updated_at: true,
+        BillPayment: {
+          select: {
+            totalValue: true,
+            interest: true,
+            discount: true,
+            paymentMethodId: true,
+            reversed: true,
+            created_at: true
+          }
+        }
+      }
+    })
+
+    if (bills) {
+      bills.map((res) => {
+        const obj: GetBillByIdRepositoryInterface.Output = {
+          bill: {
+            id: res.id,
+            type: res.type,
+            category_id: res.category_id,
+            expiration: res.expiration,
+            totalValue: res.totalValue,
+            observation: res.observation ?? undefined,
+            status: res.status,
+            created_at: res.created_at,
+            updated_at: res.updated_at ?? undefined
+          }
+        }
+
+        if (res.BillPayment) {
+          obj.BillPayment = {
+            totalValue: res.BillPayment.totalValue,
+            interest: res.BillPayment.interest,
+            discount: res.BillPayment.discount,
+            paymentMethodId: res.BillPayment.paymentMethodId,
+            reversed: res.BillPayment.reversed,
+            created_at: res.BillPayment.created_at
+          }
+        }
+
+        output.push(obj)
+        return output
+      })
+    }
+
+    return output
   }
 }
