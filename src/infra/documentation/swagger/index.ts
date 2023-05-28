@@ -1,4 +1,6 @@
+import { AddBillPath } from './paths/bill'
 import { AddUserPath, UpdateUserPath } from './paths/users'
+import { addBillInputSchema, addBillOutputSchema } from './schemas/bill'
 import { serverErrorSchema } from './schemas/error'
 import { addUserInputSchema, addUserOutputSchema } from './schemas/users'
 
@@ -14,14 +16,19 @@ export default {
   }],
   tags: [{
     name: 'User'
+  }, {
+    name: 'Bill'
   }],
   paths: {
     '/users': AddUserPath,
-    '/users/{id}': UpdateUserPath
+    '/users/{id}': UpdateUserPath,
+    '/bill': AddBillPath
   },
   schemas: {
     addUserInputSchema,
     addUserOutputSchema,
-    serverErrorSchema
+    serverErrorSchema,
+    addBillInputSchema,
+    addBillOutputSchema
   }
 }
