@@ -9,6 +9,7 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc -p tsconfig-build.json",
     "build:up": "clear && npm run build && docker compose down && docker compose up",
+    "debug": "npm run build && nodemon dist/infra/http/server.js",
     "check": "npm-check -s -u",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
@@ -25,6 +26,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "module-alias": "^2.2.2",
+    "nodemon": "^2.0.22",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "swagger-ui-express": "^4.6.3"
