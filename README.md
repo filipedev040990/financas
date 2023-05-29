@@ -47,7 +47,7 @@ npm t
 ![image](https://github.com/filipedev040990/financas/assets/106783314/c8a7df9f-5c01-4484-9f67-089b6105e5ef)
 
 ## 🔍 Consultando a documentação
-Esta api possui uma documentação feita com [Swagger](https://swagger.io/). Para verificar os endpoints disponíveis, acesse em seu navegador:(http://localhost:300/api-docs)
+Esta api possui uma documentação feita com [Swagger](https://swagger.io/). Para verificar os endpoints disponíveis, acesse em seu navegador:(http://localhost:3000/api-docs/#/)
 
 ## 🛠️ Construído com
 

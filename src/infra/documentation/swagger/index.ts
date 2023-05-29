@@ -1,6 +1,6 @@
-import { AddBillPath } from './paths/bill'
+import { AddBillPath, GetAllBillPath, GetBillByIdPath, UpdateBillPath } from './paths/bill'
 import { AddUserPath, UpdateUserPath } from './paths/users'
-import { addBillInputSchema, addBillOutputSchema } from './schemas/bill'
+import { addBillInputSchema, addBillOutputSchema, getAllBillOutputSchema, updateBillInputSchema, updateBillOutputSchema } from './schemas/bill'
 import { serverErrorSchema } from './schemas/error'
 import { addUserInputSchema, addUserOutputSchema } from './schemas/users'
 
@@ -20,15 +20,21 @@ export default {
     name: 'Bill'
   }],
   paths: {
-    '/users': AddUserPath,
-    '/users/{id}': UpdateUserPath,
-    '/bill': AddBillPath
+    '/v1/users': AddUserPath,
+    '/v1/users/{id}': UpdateUserPath,
+    '/v1/bill': AddBillPath,
+    '/v1/bill/{id}': UpdateBillPath,
+    '/v1/bill/': GetAllBillPath,
+    '/v1/bill/{id}/': GetBillByIdPath
   },
   schemas: {
     addUserInputSchema,
     addUserOutputSchema,
     serverErrorSchema,
     addBillInputSchema,
-    addBillOutputSchema
+    addBillOutputSchema,
+    updateBillInputSchema,
+    updateBillOutputSchema,
+    getAllBillOutputSchema
   }
 }

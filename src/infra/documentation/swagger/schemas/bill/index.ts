@@ -1,2 +1,5 @@
 export * from './addBillInput.schema'
 export * from './addBillOutput.schema'
+export * from './getAllBillOutput.schema'
+export * from './updateBillInput.schema'
+export * from './updateBillOutput.schema'
