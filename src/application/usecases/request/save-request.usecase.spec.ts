@@ -1,5 +1,5 @@
 import { SaveRequestUseCaseInterface } from '@/application/interfaces/save-request-usecase.interface'
-import { SaveRequestUseCase } from './save-log.usecase'
+import { SaveRequestUseCase } from './save-request.usecase'
 import { SaveRequestRepositoryInterface } from '@/domain/interfaces/save-request-repository.interface'
 import { UUIDGeneratorInterface } from '@/application/interfaces/uuid-generator.interface'
 import { mock } from 'jest-mock-extended'
