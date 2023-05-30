@@ -9,7 +9,7 @@ export class SaveRequestUseCase implements SaveRequestUseCaseInterface {
   ) {}
 
   async execute (input: SaveRequestUseCaseInterface.Input): Promise<string> {
-    await this.requestRepository.save({
+    return await this.requestRepository.save({
       id: this.uuidGenerator.execute(),
       originalUrl: input.originalUrl,
       method: input.method,
@@ -17,6 +17,5 @@ export class SaveRequestUseCase implements SaveRequestUseCaseInterface {
       input: input.input,
       created_at: new Date()
     })
-    return ''
   }
 }

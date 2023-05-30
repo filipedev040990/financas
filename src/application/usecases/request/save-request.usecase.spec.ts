@@ -22,6 +22,7 @@ describe('SaveRequestUseCase', () => {
       method: 'any method'
     }
     uuidGenerator.execute.mockReturnValue('any id')
+    requestRepository.save.mockResolvedValue('any request id')
   })
 
   afterAll(() => {
@@ -40,5 +41,11 @@ describe('SaveRequestUseCase', () => {
       method: 'any method',
       created_at: new Date()
     })
+  })
+
+  test('should return a request id correctly', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toBe('any request id')
   })
 })
