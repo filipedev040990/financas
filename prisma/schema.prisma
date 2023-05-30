@@ -73,3 +73,17 @@ model BillPayment {
 
   @@map("bill_payment")
 }
+
+model Request {
+  id          String    @id
+  originalUrl String
+  method      String
+  ip          String
+  input       String    @db.LongText()
+  output      String?   @db.LongText()
+  status      Int?
+  created_at  DateTime
+  updated_at  DateTime?
+
+  @@map("requests")
+}
