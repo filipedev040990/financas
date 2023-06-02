@@ -51,8 +51,6 @@ Esta api possui uma documentação feita com [Swagger](https://swagger.io/). Par
 
 ## 🛠️ Construído com
 
-Mencione as ferramentas que você usou para criar seu projeto
-
 * [NodeJs](https://nodejs.org/en) - Linguagem de programação
 * [TypeScript](https://www.typescriptlang.org/) - Linguagem de programação
 * [Docker](https://docs.docker.com/) - Containers
