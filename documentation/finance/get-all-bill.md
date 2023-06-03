@@ -1,4 +1,4 @@
-# Retornar uma conta (pagar/receber) pelo id
+# Retornar todas as contas cadastradas
 
 > ## Caso de sucesso
 
