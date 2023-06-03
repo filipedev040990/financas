@@ -23,10 +23,10 @@ model User {
 }
 
 model Category {
-  id         String   @id
+  id         String    @id
   name       String
   created_at DateTime
-  updated_at DateTime
+  updated_at DateTime?
   Bill       Bill[]
 
   @@map("categories")
