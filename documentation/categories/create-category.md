@@ -7,7 +7,7 @@
 
 > ## Exceções
 1. ✅ Retorna 400 se o nome da categoria não for fornecido
-2. ⛔ Retorna 500 se houver alguma falha na hora de salvar os dados
+2. ✅ Retorna 500 se houver alguma falha na hora de salvar os dados
 
 
 ## Objeto Categogry

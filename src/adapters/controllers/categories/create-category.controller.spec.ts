@@ -1,7 +1,7 @@
 import { HttpRequest } from '@/adapters/types/http.type'
 import { CreateCategoryController } from './create-category.controller'
 import { badRequest } from '@/adapters/helpers/http.helper'
-import { MissingParamError } from '@/adapters/errors'
+import { MissingParamError, ServerError } from '@/adapters/errors'
 import { mock } from 'jest-mock-extended'
 import { CreateCategoryUseCaseInterface } from '@/application/interfaces/create-category-usecase.interface'
 
@@ -41,6 +41,19 @@ describe('CreateCategoryController', () => {
     expect(output).toEqual({
       statusCode: 201,
       body: null
+    })
+  })
+
+  test('should return 500 if CreateCategoryUseCase throws an exception', async () => {
+    createCategoryUseCase.execute.mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 500,
+      body: new ServerError(new Error())
     })
   })
 })
