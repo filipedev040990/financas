@@ -20,6 +20,6 @@ router.get('/bill/', expressRouterAdapter(buildGetAllBillController()))
 router.put('/bill/:id', expressRouterAdapter(buildUpdateBillController()))
 
 router.post('/category', expressRouterAdapter(buildCreateCategoryController()))
-router.put('/category', expressRouterAdapter(buildUpdateCategoryController()))
+router.put('/category/:id', expressRouterAdapter(buildUpdateCategoryController()))
 
 export { router }

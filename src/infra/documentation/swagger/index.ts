@@ -1,5 +1,6 @@
 import { AddBillPath, GetAllBillPath, GetBillByIdPath, UpdateBillPath } from './paths/bill'
 import { AddCategoryPath } from './paths/category/add-category.path'
+import { UpdateCategoryPath } from './paths/category/update-category.path'
 import { AddUserPath, UpdateUserPath } from './paths/users'
 import { addBillInputSchema, addBillOutputSchema, getAllBillOutputSchema, updateBillInputSchema, updateBillOutputSchema } from './schemas/bill'
 import { addCategoryInputSchema, addCategoryOutputSchema } from './schemas/category'
@@ -28,7 +29,8 @@ export default {
     '/v1/bill/{id}': UpdateBillPath,
     '/v1/bill/': GetAllBillPath,
     '/v1/bill/{id}/': GetBillByIdPath,
-    '/v1/category': AddCategoryPath
+    '/v1/category': AddCategoryPath,
+    '/v1/category/{id}': UpdateCategoryPath
   },
   schemas: {
     addUserInputSchema,
