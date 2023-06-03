@@ -1,4 +1,4 @@
-import { MissingParamError } from '@/adapters/errors'
+import { InvalidParamError, MissingParamError } from '@/adapters/errors'
 import { badRequest, serverError, success } from '@/adapters/helpers/http.helper'
 import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
 import { GetCategoryByIdUseCaseInterface } from '@/application/interfaces/get-category-by-id.interface'
@@ -15,7 +15,10 @@ export class UpdateCategoryController {
     }
 
     try {
-      await this.getCategoryByIdUseCase.execute(input.params.id)
+      const categoryExists = await this.getCategoryByIdUseCase.execute(input.params.id)
+      if (!categoryExists) {
+        return badRequest(new InvalidParamError('id'))
+      }
 
       await this.updateCategoryUseCase.execute({
         id: input.params.id,

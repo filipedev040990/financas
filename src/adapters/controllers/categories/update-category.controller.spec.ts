@@ -1,7 +1,7 @@
 import { HttpRequest } from '@/adapters/types/http.type'
 import { UpdateCategoryController } from './update-category.controller'
 import { badRequest } from '@/adapters/helpers/http.helper'
-import { MissingParamError, ServerError } from '@/adapters/errors'
+import { InvalidParamError, MissingParamError, ServerError } from '@/adapters/errors'
 import { UpdateCategoryUseCaseInterface } from '@/application/interfaces/update-category-usecase.interface'
 import { mock } from 'jest-mock-extended'
 import { GetCategoryByIdUseCaseInterface } from '@/application/interfaces/get-category-by-id.interface'
@@ -23,6 +23,10 @@ describe('UpdateCategoryController', () => {
         name: 'any name'
       }
     }
+    getCategoryByIdUseCase.execute.mockResolvedValue({
+      id: 'any id',
+      name: 'any name'
+    })
   })
 
   test('should return 400 if name is not provided', async () => {
@@ -31,6 +35,14 @@ describe('UpdateCategoryController', () => {
     const output = await sut.execute(input)
 
     expect(output).toEqual(badRequest(new MissingParamError('name')))
+  })
+
+  test('should 400 if GetCategoryByIdUseCase returns null', async () => {
+    getCategoryByIdUseCase.execute.mockResolvedValueOnce(null)
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual(badRequest(new InvalidParamError('id')))
   })
 
   test('should call GetCategoryByIdUseCase once and with correct values', async () => {
