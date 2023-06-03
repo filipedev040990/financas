@@ -40,7 +40,7 @@ describe('CreateCategoryController', () => {
 
     expect(output).toEqual({
       statusCode: 201,
-      body: null
+      body: {}
     })
   })
 

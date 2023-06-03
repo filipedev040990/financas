@@ -12,7 +12,7 @@ export class CreateCategoryController {
 
     try {
       await this.createCategoryUseCase.execute(input.body.name)
-      return success(201, null)
+      return success(201, {})
     } catch (error) {
       return serverError(error)
     }
