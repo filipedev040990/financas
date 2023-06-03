@@ -1,3 +1,4 @@
+import { ServerError } from '@/adapters/errors'
 import { GetAllCategoriesController } from './get-all-categories.controller'
 import { GetAllCategoriesUseCaseInterface } from '@/application/interfaces/get-all-categories-usecase.interface'
 import { mock } from 'jest-mock-extended'
@@ -45,6 +46,19 @@ describe('GetAllCategoriesController', () => {
     expect(output).toEqual({
       statusCode: 200,
       body: []
+    })
+  })
+
+  test('should return 500 if GetAllCategoriesUseCase throws', async () => {
+    getAllCategoriesUseCase.execute.mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const output = await sut.execute()
+
+    expect(output).toEqual({
+      statusCode: 500,
+      body: new ServerError(new Error())
     })
   })
 })
