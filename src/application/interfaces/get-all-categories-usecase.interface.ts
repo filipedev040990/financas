@@ -1,5 +1,5 @@
 export interface GetAllCategoriesUseCaseInterface {
-  execute(): Promise<GetAllCategoriesUseCaseInterface.Output>
+  execute(): Promise<GetAllCategoriesUseCaseInterface.Output[] | null>
 }
 
 export namespace GetAllCategoriesUseCaseInterface {
@@ -8,5 +8,5 @@ export namespace GetAllCategoriesUseCaseInterface {
     name: string
     created_at: Date
     updated_at?: Date
-  } | null
+  }
 }

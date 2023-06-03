@@ -1,5 +1,5 @@
 export interface GetAllCategoriesRepositoryInterface {
-  getAll (): Promise<GetAllCategoriesRepositoryInterface.Output>
+  getAll (): Promise<GetAllCategoriesRepositoryInterface.Output[] | null>
 }
 
 export namespace GetAllCategoriesRepositoryInterface {
@@ -8,5 +8,5 @@ export namespace GetAllCategoriesRepositoryInterface {
     name: string
     created_at: Date
     updated_at?: Date
-  } | null
+  }
 }

@@ -3,6 +3,6 @@ import { GetAllCategoriesRepositoryInterface } from '@/domain/interfaces/get-all
 export class GetAllCategoriesUseCase {
   constructor (private readonly categoryRepository: GetAllCategoriesRepositoryInterface) {}
   async execute (): Promise<any> {
-    await this.categoryRepository.getAll()
+    return await this.categoryRepository.getAll()
   }
 }
