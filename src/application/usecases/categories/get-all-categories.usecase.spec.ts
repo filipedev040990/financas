@@ -1,6 +1,6 @@
-import { mock } from 'jest-mock-extended'
 import { GetAllCategoriesUseCase } from './get-all-categories.usecase'
 import { GetAllCategoriesRepositoryInterface } from '@/domain/interfaces/get-all-categories-repository'
+import { mock } from 'jest-mock-extended'
 
 const categoryRepository = mock<GetAllCategoriesRepositoryInterface>()
 const fakeCategories = [{
@@ -32,5 +32,13 @@ describe('GetAllCategoriesUseCase', () => {
     const output = await sut.execute()
 
     expect(output).toEqual(fakeCategories)
+  })
+
+  test('should return null if CategoriesRepository.getAll returns null', async () => {
+    categoryRepository.getAll.mockResolvedValueOnce(null)
+
+    const output = await sut.execute()
+
+    expect(output).toBeNull()
   })
 })

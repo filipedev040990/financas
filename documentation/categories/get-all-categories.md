@@ -2,7 +2,7 @@
 
 > ## Caso de sucesso
 
-1. ⛔ Retorna dados das categorias
+1. ✅ Retorna dados das categorias
 
 > ## Exceções
 1. ⛔ Retorna nulo se não existir categorias para listas
