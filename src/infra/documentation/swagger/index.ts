@@ -1,10 +1,8 @@
 import { AddBillPath, GetAllBillPath, GetBillByIdPath, UpdateBillPath } from './paths/bill'
-import { AddCategoryPath } from './paths/category/add-category.path'
-import { GetAllCategoryPath } from './paths/category/get-all-categories.path'
-import { UpdateCategoryPath } from './paths/category/update-category.path'
+import { AddCategoryPath, GetAllCategoryPath, GetCategoryByIdPath, UpdateCategoryPath } from './paths/category'
 import { AddUserPath, UpdateUserPath } from './paths/users'
 import { addBillInputSchema, addBillOutputSchema, getAllBillOutputSchema, updateBillInputSchema, updateBillOutputSchema } from './schemas/bill'
-import { addCategoryInputSchema, addCategoryOutputSchema, getAllCategoriesOutputSchema } from './schemas/category'
+import { addCategoryInputSchema, addCategoryOutputSchema, getAllCategoriesOutputSchema, getCategoryOutputSchema } from './schemas/category'
 import { serverErrorSchema } from './schemas/error'
 import { addUserInputSchema, addUserOutputSchema } from './schemas/users'
 
@@ -32,7 +30,8 @@ export default {
     '/v1/bill/{id}/': GetBillByIdPath,
     '/v1/category': AddCategoryPath,
     '/v1/category/{id}': UpdateCategoryPath,
-    '/v1/category/': GetAllCategoryPath
+    '/v1/category/': GetAllCategoryPath,
+    '/v1/category/{id}/': GetCategoryByIdPath
   },
   schemas: {
     addUserInputSchema,
@@ -45,6 +44,7 @@ export default {
     getAllBillOutputSchema,
     addCategoryInputSchema,
     addCategoryOutputSchema,
-    getAllCategoriesOutputSchema
+    getAllCategoriesOutputSchema,
+    getCategoryOutputSchema
   }
 }
