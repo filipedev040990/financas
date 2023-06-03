@@ -34,4 +34,13 @@ describe('CreateCategoryController', () => {
     expect(createCategoryUseCase.execute).toHaveBeenCalledTimes(1)
     expect(createCategoryUseCase.execute).toHaveBeenCalledWith('any name')
   })
+
+  test('should return 201 on success', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 201,
+      body: null
+    })
+  })
 })
