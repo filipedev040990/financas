@@ -5,6 +5,6 @@ export class GetAllCategoriesController {
   constructor (private readonly getAllCategoriesUseCase: GetAllCategoriesUseCaseInterface) {}
   async execute (): Promise<any> {
     const categories = await this.getAllCategoriesUseCase.execute()
-    return success(200, categories)
+    return success(200, categories ?? [])
   }
 }

@@ -36,4 +36,15 @@ describe('GetAllCategoriesController', () => {
       body: fakeCategories
     })
   })
+
+  test('should return am empty array if GetAllCategoriesUseCase returns null', async () => {
+    getAllCategoriesUseCase.execute.mockResolvedValueOnce(null)
+
+    const output = await sut.execute()
+
+    expect(output).toEqual({
+      statusCode: 200,
+      body: []
+    })
+  })
 })
