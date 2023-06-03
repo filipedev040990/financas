@@ -7,6 +7,7 @@ import { buildGetBillByIdController } from '@/infra/factories/controllers/get-bi
 import { buildUpdateBillController } from '@/infra/factories/controllers/update-bill.factory'
 import { buildGetAllBillController } from '../factories/controllers/get-all-bill.factory'
 import { buildCreateCategoryController } from '../factories/controllers/create-category.factory'
+import { buildUpdateCategoryController } from '../factories/controllers/update-category.factory'
 
 const router = Router()
 
@@ -19,5 +20,6 @@ router.get('/bill/', expressRouterAdapter(buildGetAllBillController()))
 router.put('/bill/:id', expressRouterAdapter(buildUpdateBillController()))
 
 router.post('/category', expressRouterAdapter(buildCreateCategoryController()))
+router.put('/category', expressRouterAdapter(buildUpdateCategoryController()))
 
 export { router }
