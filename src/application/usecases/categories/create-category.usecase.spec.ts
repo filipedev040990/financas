@@ -32,4 +32,10 @@ describe('CreateCategoryUseCase', () => {
       created_at: new Date()
     })
   })
+
+  test('should call uuidGenerator once', async () => {
+    await sut.execute(name)
+
+    expect(uuidGenerator.execute).toHaveBeenCalledTimes(1)
+  })
 })

@@ -2,7 +2,7 @@
 
 > ## Caso de sucesso
 
-1. ⛔ Salva os dados da categoria
+1. ✅ Salva os dados da categoria
 2. ⛔ Retorna status 201 com id da categoria
 
 > ## Exceções
