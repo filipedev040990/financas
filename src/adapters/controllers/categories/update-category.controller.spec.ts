@@ -59,11 +59,11 @@ describe('UpdateCategoryController', () => {
     expect(updateCategoryUseCase.execute).toHaveBeenCalledWith({ id: 'any id', name: 'any name' })
   })
 
-  test('should return 201 on success', async () => {
+  test('should return 200 on success', async () => {
     const output = await sut.execute(input)
 
     expect(output).toEqual({
-      statusCode: 201,
+      statusCode: 200,
       body: {}
     })
   })

@@ -24,7 +24,7 @@ export class UpdateCategoryController {
         id: input.params.id,
         name: input.body.name
       })
-      return success(201, {})
+      return success(200, {})
     } catch (error) {
       return serverError(error)
     }
