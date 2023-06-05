@@ -9,3 +9,13 @@ export namespace TokenGeneratorInterface {
     }
   }
 }
+
+export interface TokenValidatorInterface {
+  validate(input: TokenValidatorInterface.Input): string
+}
+
+export namespace TokenValidatorInterface {
+  export type Input = {
+    token: string
+  }
+}

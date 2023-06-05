@@ -12,6 +12,7 @@ const input: TokenGeneratorInterface.Input = {
 
 const secretKey = 'any secret key'
 const expirationInMs = 60000
+const token = 'any_token'
 
 describe('JwtAdapter', () => {
   let sut: JwtAdapter
@@ -20,19 +21,30 @@ describe('JwtAdapter', () => {
   beforeAll(() => {
     sut = new JwtAdapter(secretKey, expirationInMs)
     fakeJwt = jwt as jest.Mocked<typeof jwt>
-    fakeJwt.sign.mockImplementation(() => 'any token')
+    fakeJwt.sign.mockImplementation(() => token)
   })
 
-  test('should call sign once and with correct values', () => {
-    sut.generate(input)
+  describe('sign', () => {
+    test('should call sign once and with correct values', () => {
+      sut.generate(input)
 
-    expect(fakeJwt.sign).toHaveBeenCalledTimes(1)
-    expect(fakeJwt.sign).toHaveBeenCalledWith({ key: { id: 'any id' } }, 'any secret key', { expiresIn: 60000 })
+      expect(fakeJwt.sign).toHaveBeenCalledTimes(1)
+      expect(fakeJwt.sign).toHaveBeenCalledWith({ key: { id: 'any id' } }, 'any secret key', { expiresIn: 60000 })
+    })
+
+    test('should return an access token on success', () => {
+      const token = sut.generate(input)
+
+      expect(token).toBe(token)
+    })
   })
 
-  test('should return an access token on success', () => {
-    const token = sut.generate(input)
+  describe('verify', () => {
+    test('should call verify once and with correct values', () => {
+      sut.validate({ token })
 
-    expect(token).toBe('any token')
+      expect(fakeJwt.verify).toHaveBeenCalledTimes(1)
+      expect(fakeJwt.verify).toHaveBeenCalledWith('any_token', 'any secret key')
+    })
   })
 })
