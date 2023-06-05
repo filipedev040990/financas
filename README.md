@@ -21,7 +21,6 @@ Instalando as dependências localmente:
 npm install
 ```
 
-
 ### 🔩 Variáveis de ambiente
 
 Renomeie o arquivo .env.example para .env e ajuste o valor das variáveis se necessário.
