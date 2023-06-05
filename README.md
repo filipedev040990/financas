@@ -34,7 +34,7 @@ npm run build:up
 ```
 
 Se tudo der certo, este será o resultado em seu terminal:<br><br>
-![image](https://github.com/filipedev040990/financas/assets/106783314/a9dcd987-4586-45f6-8c71-6c3945d467e6)
+![image](https://github.com/filipedev040990/financas/assets/106783314/30adc80e-8192-4621-b628-80fd7a16cfe3)
 
 ## ⚙️ Executando os testes unitários
 
@@ -43,7 +43,7 @@ Para executar todos os testes unitários execute o comanddo:
 ```
 npm t
 ```
-![image](https://github.com/filipedev040990/financas/assets/106783314/c8a7df9f-5c01-4484-9f67-089b6105e5ef)
+![image](https://github.com/filipedev040990/financas/assets/106783314/35c45a42-c87d-4222-bf30-f40910162d3a)
 
 ## 🔍 Consultando a documentação
 Esta api possui uma documentação feita com [Swagger](https://swagger.io/). Para verificar os endpoints disponíveis, acesse em seu navegador:(http://localhost:3000/api-docs/#/)
@@ -57,7 +57,7 @@ Esta api possui uma documentação feita com [Swagger](https://swagger.io/). Par
 * [Prisma](https://www.prisma.io/) - ORM
 
 Este projeto está sendo construído utilizando a [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
-![Clean Architecture](https://github.com/filipedev040990/financas/assets/106783314/d133c4e1-bf26-411a-95d0-7738afaebaba)
+![Clean Architecture](https://github.com/filipedev040990/financas/assets/106783314/8a67977a-52e5-4e82-abf5-bd22db86da50)
 
 
 ## ✒️ Autores
