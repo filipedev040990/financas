@@ -22,6 +22,7 @@ describe('JwtAdapter', () => {
     sut = new JwtAdapter(secretKey, expirationInMs)
     fakeJwt = jwt as jest.Mocked<typeof jwt>
     fakeJwt.sign.mockImplementation(() => token)
+    fakeJwt.verify.mockImplementation(() => input)
   })
 
   describe('sign', () => {
@@ -45,6 +46,11 @@ describe('JwtAdapter', () => {
 
       expect(fakeJwt.verify).toHaveBeenCalledTimes(1)
       expect(fakeJwt.verify).toHaveBeenCalledWith('any_token', 'any secret key')
+    })
+    test('should return the key used', () => {
+      const output = sut.validate({ token })
+
+      expect(output).toEqual({ id: 'any id' })
     })
   })
 })
