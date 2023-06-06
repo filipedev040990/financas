@@ -10,6 +10,8 @@ import { buildCreateCategoryController } from '../factories/controllers/create-c
 import { buildUpdateCategoryController } from '../factories/controllers/update-category.factory'
 import { buildGetAllCategoriesController } from '../factories/controllers/get-all-categories.factory'
 import { buildGetCategoryByIdController } from '../factories/controllers/get-category-by-id.factory'
+import { expressAdapterMiddleware } from '../adapters/express-middleware.adapter'
+import { buildAuthenticationMiddleware } from '../factories/middleware/authentication'
 
 const router = Router()
 
@@ -17,7 +19,7 @@ router.post('/users', expressRouterAdapter(buildCreateUserController()))
 router.put('/users/:id', expressRouterAdapter(buildUpdateUserController()))
 
 router.post('/bill', expressRouterAdapter(buildCreateBillController()))
-router.get('/bill/:id', expressRouterAdapter(buildGetBillByIdController()))
+router.get('/bill/:id', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildGetBillByIdController()))
 router.get('/bill/', expressRouterAdapter(buildGetAllBillController()))
 router.put('/bill/:id', expressRouterAdapter(buildUpdateBillController()))
 

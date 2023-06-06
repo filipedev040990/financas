@@ -24,7 +24,7 @@ describe('AuthenticationMiddleware', () => {
     sut = new AuthenticationMiddleware(tokenValidator, getUserByIdUseCase)
     input = {
       headers: {
-        Authorization: 'Bearer anyToken'
+        authorization: 'Bearer anyToken'
       }
     }
   })
@@ -41,7 +41,7 @@ describe('AuthenticationMiddleware', () => {
   })
 
   test('should return 403 if Authorization header is falsy', async () => {
-    input.headers.Authorization = null as any
+    input.headers.authorization = null as any
 
     const output = await sut.execute(input)
 

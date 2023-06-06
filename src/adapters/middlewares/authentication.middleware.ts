@@ -11,8 +11,8 @@ export class AuthenticationMiddleware implements AuthenticationMiddlewareInterfa
   ) {}
 
   async execute (input: HttpRequest): Promise<HttpResponse> {
-    if (input?.headers?.Authorization) {
-      const token = input.headers.Authorization.split(' ')[1]
+    if (input?.headers?.authorization) {
+      const token = input.headers.authorization.split('Bearer ')[1]
 
       const userId = this.tokenValidator.validate({ token })
       if (userId) {
