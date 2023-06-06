@@ -1,9 +1,10 @@
 import { TokenValidatorInterface } from '@/application/interfaces/token.interface'
-import { forbidden, success, unauthorized } from '../helpers/http.helper'
-import { HttpRequest, HttpResponse } from '../types/http.type'
+import { forbidden, success, unauthorized } from '@/adapters/helpers/http.helper'
+import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
 import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
+import { AuthenticationMiddlewareInterface } from '@/application/interfaces/authentication-middleware.interface'
 
-export class AuthenticationMiddleware {
+export class AuthenticationMiddleware implements AuthenticationMiddlewareInterface {
   constructor (
     private readonly tokenValidator: TokenValidatorInterface,
     private readonly getUserByIdUseCase: GetUserByIdUseCaseInterface
