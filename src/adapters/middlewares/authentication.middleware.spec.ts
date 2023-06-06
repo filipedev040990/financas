@@ -14,8 +14,20 @@ describe('AuthenticationMiddleware', () => {
       }
     }
   })
-  test('should return 403 if token is not provided', async () => {
+
+  test('should return 403 if Authorization header is not provided', async () => {
     input = null as any
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 403,
+      body: new JwtMissingError()
+    })
+  })
+
+  test('should return 403 if Authorization header is falsy', async () => {
+    input.headers.Authorization = null as any
 
     const output = await sut.execute(input)
 
