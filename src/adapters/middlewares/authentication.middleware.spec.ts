@@ -1,16 +1,20 @@
+import { mock } from 'jest-mock-extended'
 import { JwtMissingError } from '../errors'
 import { HttpRequest } from '../types/http.type'
 import { AuthenticationMiddleware } from './authentication.middleware'
+import { TokenValidatorInterface } from '@/application/interfaces/token.interface'
+
+const tokenValidator = mock<TokenValidatorInterface>()
 
 describe('AuthenticationMiddleware', () => {
   let sut: AuthenticationMiddleware
   let input: HttpRequest
 
   beforeEach(() => {
-    sut = new AuthenticationMiddleware()
+    sut = new AuthenticationMiddleware(tokenValidator)
     input = {
       headers: {
-        Authorization: 'any token'
+        Authorization: 'Bearer anyToken'
       }
     }
   })
@@ -35,5 +39,12 @@ describe('AuthenticationMiddleware', () => {
       statusCode: 403,
       body: new JwtMissingError()
     })
+  })
+
+  test('should call tokenValidator once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(tokenValidator.validate).toHaveBeenCalledTimes(1)
+    expect(tokenValidator.validate).toHaveBeenCalledWith({ token: 'anyToken' })
   })
 })
