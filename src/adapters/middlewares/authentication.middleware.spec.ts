@@ -1,5 +1,5 @@
 import { mock } from 'jest-mock-extended'
-import { JwtMissingError } from '../errors'
+import { JwtMissingError, UnauthorizedError } from '../errors'
 import { HttpRequest } from '../types/http.type'
 import { AuthenticationMiddleware } from './authentication.middleware'
 import { TokenValidatorInterface } from '@/application/interfaces/token.interface'
@@ -46,5 +46,16 @@ describe('AuthenticationMiddleware', () => {
 
     expect(tokenValidator.validate).toHaveBeenCalledTimes(1)
     expect(tokenValidator.validate).toHaveBeenCalledWith({ token: 'anyToken' })
+  })
+
+  test('should return 401 if invalid token is provided', async () => {
+    tokenValidator.validate.mockReturnValueOnce(null)
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 401,
+      body: new UnauthorizedError()
+    })
   })
 })

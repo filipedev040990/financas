@@ -1,4 +1,4 @@
-import { JwtMissingError, ServerError } from '../errors'
+import { JwtMissingError, ServerError, UnauthorizedError } from '../errors'
 import { HttpResponse } from '../types/http.type'
 
 export const badRequest = (error: Error): HttpResponse => ({
@@ -19,4 +19,9 @@ export const serverError = (error: unknown): HttpResponse => ({
 export const forbidden = (): HttpResponse => ({
   statusCode: 403,
   body: new JwtMissingError()
+})
+
+export const unauthorized = (): HttpResponse => ({
+  statusCode: 401,
+  body: new UnauthorizedError()
 })

@@ -11,7 +11,7 @@ export namespace TokenGeneratorInterface {
 }
 
 export interface TokenValidatorInterface {
-  validate(input: TokenValidatorInterface.Input): string
+  validate(input: TokenValidatorInterface.Input): string | object | null
 }
 
 export namespace TokenValidatorInterface {
