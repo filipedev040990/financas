@@ -19,3 +19,10 @@ export class InvalidParamError extends Error {
     this.name = 'InvalidParamError'
   }
 }
+
+export class JwtMissingError extends Error {
+  constructor () {
+    super('JWT token is missing')
+    this.name = 'JwtMissingError'
+  }
+}
