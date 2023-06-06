@@ -3,15 +3,20 @@ import { JwtMissingError, UnauthorizedError } from '../errors'
 import { HttpRequest } from '../types/http.type'
 import { AuthenticationMiddleware } from './authentication.middleware'
 import { TokenValidatorInterface } from '@/application/interfaces/token.interface'
+import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
 
 const tokenValidator = mock<TokenValidatorInterface>()
+const getUserByIdUseCase = mock<GetUserByIdUseCaseInterface>()
 
 describe('AuthenticationMiddleware', () => {
   let sut: AuthenticationMiddleware
   let input: HttpRequest
 
+  beforeAll(() => {
+    tokenValidator.validate.mockReturnValue('anyUserId')
+  })
   beforeEach(() => {
-    sut = new AuthenticationMiddleware(tokenValidator)
+    sut = new AuthenticationMiddleware(tokenValidator, getUserByIdUseCase)
     input = {
       headers: {
         Authorization: 'Bearer anyToken'
@@ -57,5 +62,12 @@ describe('AuthenticationMiddleware', () => {
       statusCode: 401,
       body: new UnauthorizedError()
     })
+  })
+
+  test('should call GetUserByIdUseCase once and with correct id', async () => {
+    await sut.execute(input)
+
+    expect(getUserByIdUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(getUserByIdUseCase.execute).toHaveBeenCalledWith('anyUserId')
   })
 })

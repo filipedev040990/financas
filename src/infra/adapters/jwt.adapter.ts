@@ -11,7 +11,7 @@ export class JwtAdapter implements TokenGeneratorInterface, TokenValidatorInterf
     return jwt.sign({ key }, this.secretKey, { expiresIn: this.expirationInMs })
   }
 
-  validate ({ token }: TokenValidatorInterface.Input): string | object | null {
+  validate ({ token }: TokenValidatorInterface.Input): string | null {
     const generatedToken = jwt.verify(token, this.secretKey) as JwtPayload
     return generatedToken.key
   }
