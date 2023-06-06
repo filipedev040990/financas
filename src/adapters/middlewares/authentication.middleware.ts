@@ -1,5 +1,5 @@
 import { TokenValidatorInterface } from '@/application/interfaces/token.interface'
-import { forbidden, unauthorized } from '../helpers/http.helper'
+import { forbidden, success, unauthorized } from '../helpers/http.helper'
 import { HttpRequest, HttpResponse } from '../types/http.type'
 import { GetUserByIdUseCaseInterface } from '@/application/interfaces/get-user-by-id.interface'
 
@@ -15,7 +15,10 @@ export class AuthenticationMiddleware {
 
       const userId = this.tokenValidator.validate({ token })
       if (userId) {
-        await this.getUserByIdUseCase.execute(userId)
+        const userAccount = await this.getUserByIdUseCase.execute(userId)
+        if (userAccount) {
+          return success(200, userAccount.id)
+        }
       }
       return unauthorized()
     }

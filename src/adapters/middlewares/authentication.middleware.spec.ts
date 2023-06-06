@@ -14,6 +14,11 @@ describe('AuthenticationMiddleware', () => {
 
   beforeAll(() => {
     tokenValidator.validate.mockReturnValue('anyUserId')
+    getUserByIdUseCase.execute.mockResolvedValue({
+      id: 'anyUserId',
+      name: 'AnyName',
+      login: 'anyLogin'
+    })
   })
   beforeEach(() => {
     sut = new AuthenticationMiddleware(tokenValidator, getUserByIdUseCase)
@@ -69,5 +74,25 @@ describe('AuthenticationMiddleware', () => {
 
     expect(getUserByIdUseCase.execute).toHaveBeenCalledTimes(1)
     expect(getUserByIdUseCase.execute).toHaveBeenCalledWith('anyUserId')
+  })
+
+  test('should return 401 if GetUserByIdUseCase returns null', async () => {
+    getUserByIdUseCase.execute.mockResolvedValueOnce(null)
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 401,
+      body: new UnauthorizedError()
+    })
+  })
+
+  test('should return user id on success', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 200,
+      body: 'anyUserId'
+    })
   })
 })
