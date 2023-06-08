@@ -11,6 +11,7 @@ describe('AuthenticateUserController', () => {
       body: { login: 'anyLogin', password: 'anyPassword' }
     }
   })
+
   test('should return 400 if login is not provided', async () => {
     input.body.login = null
 
@@ -19,6 +20,17 @@ describe('AuthenticateUserController', () => {
     expect(output).toEqual({
       statusCode: 400,
       body: 'Missing param: login'
+    })
+  })
+
+  test('should return 400 if password is not provided', async () => {
+    input.body.password = null
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 400,
+      body: 'Missing param: password'
     })
   })
 })

@@ -12,7 +12,7 @@ export class AuthenticateUserController {
   }
 
   private validate (input: HttpRequest): Error | undefined {
-    const requiredFields = ['login']
+    const requiredFields = ['login', 'password']
     for (const field of requiredFields) {
       if (!input.body[field]) {
         return new MissingParamError(field)
