@@ -2,6 +2,7 @@ import { ControllerInterface } from '@/application/interfaces/controller.interfa
 import { HttpRequest, HttpResponse } from '../types/http.type'
 import { SaveRequestUseCaseInterface } from '@/application/interfaces/save-request-usecase.interface'
 import { UpdateRequestUseCaseInterface } from '@/application/interfaces/update-request-usecase.interface'
+import { serverError } from '../helpers/http.helper'
 
 export class LogControllerDecorator implements ControllerInterface {
   constructor (
@@ -18,11 +19,16 @@ export class LogControllerDecorator implements ControllerInterface {
       input: JSON.stringify(input.body)
     })
 
-    const output = await this.controller.execute(input)
+    try {
+      const output = await this.controller.execute(input)
 
-    await this.updateRequestUseCase.execute({ id: requestId, output: JSON.stringify(output.body), status: +output.statusCode })
+      await this.updateRequestUseCase.execute({ id: requestId, output: JSON.stringify(output.body), status: +output.statusCode })
 
-    return output
+      return output
+    } catch (error) {
+      await this.updateRequestUseCase.execute({ id: requestId, output: JSON.stringify(error), status: 500 })
+      return serverError(error)
+    }
   }
 
   private getIpFromRequest (input: HttpRequest): string {

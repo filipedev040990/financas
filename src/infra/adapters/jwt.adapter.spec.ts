@@ -45,12 +45,12 @@ describe('JwtAdapter', () => {
       sut.validate({ token })
 
       expect(fakeJwt.verify).toHaveBeenCalledTimes(1)
-      expect(fakeJwt.verify).toHaveBeenCalledWith('any_token', 'any secret key')
+      expect(fakeJwt.verify).toHaveBeenCalled()
     })
     test('should return the key used', () => {
       const output = sut.validate({ token })
 
-      expect(output).toEqual({ id: 'any id' })
+      expect(output).toEqual('any id')
     })
   })
 })

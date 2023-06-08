@@ -14,9 +14,9 @@ export class AuthenticationMiddleware implements AuthenticationMiddlewareInterfa
     if (input?.headers?.authorization) {
       const token = input.headers.authorization.split('Bearer ')[1]
 
-      const userId = this.tokenValidator.validate({ token })
-      if (userId) {
-        const userAccount = await this.getUserByIdUseCase.execute(userId)
+      const response = this.tokenValidator.validate({ token })
+      if (response) {
+        const userAccount = await this.getUserByIdUseCase.execute(response)
         if (userAccount) {
           return success(200, userAccount.id)
         }

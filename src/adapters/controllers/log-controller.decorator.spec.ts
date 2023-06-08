@@ -68,6 +68,21 @@ describe('LogControllerDecorator', () => {
     })
   })
 
+  test('should call updateRequestUseCase when controller throws', async () => {
+    controller.execute.mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    await sut.execute(input)
+
+    expect(updateRequestUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(updateRequestUseCase.execute).toHaveBeenCalledWith({
+      id: 'any request id',
+      output: JSON.stringify(new Error()),
+      status: 500
+    })
+  })
+
   test('should return a response correctly', async () => {
     const output = await sut.execute(input)
 

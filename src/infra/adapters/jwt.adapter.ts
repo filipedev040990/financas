@@ -1,5 +1,5 @@
 import { TokenGeneratorInterface, TokenValidatorInterface } from '@/application/interfaces/token.interface'
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 export class JwtAdapter implements TokenGeneratorInterface, TokenValidatorInterface {
   constructor (
@@ -12,7 +12,15 @@ export class JwtAdapter implements TokenGeneratorInterface, TokenValidatorInterf
   }
 
   validate ({ token }: TokenValidatorInterface.Input): string | null {
-    const generatedToken = jwt.verify(token, this.secretKey) as JwtPayload
-    return generatedToken.key
+    const generatedToken: any = jwt.verify(
+      token,
+      this.secretKey,
+      (error, response) => {
+        if (error) {
+          return null
+        }
+        return response
+      })
+    return generatedToken ? generatedToken.key.id : null
   }
 }
