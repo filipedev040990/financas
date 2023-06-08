@@ -1,12 +1,16 @@
 import { HttpRequest } from '@/adapters/types/http.type'
 import { AuthenticateUserController } from './authenticate-user.controller'
+import { mock } from 'jest-mock-extended'
+import { AuthenticateUserUseCaseInterface } from '@/application/interfaces/authenticate-user-usecase.interface'
+
+const authenticateUserUseCase = mock<AuthenticateUserUseCaseInterface>()
 
 describe('AuthenticateUserController', () => {
   let sut: AuthenticateUserController
   let input: HttpRequest
 
   beforeEach(() => {
-    sut = new AuthenticateUserController()
+    sut = new AuthenticateUserController(authenticateUserUseCase)
     input = {
       body: { login: 'anyLogin', password: 'anyPassword' }
     }
@@ -32,5 +36,12 @@ describe('AuthenticateUserController', () => {
       statusCode: 400,
       body: 'Missing param: password'
     })
+  })
+
+  test('should call AuthenticateUserUseCase once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(authenticateUserUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(authenticateUserUseCase.execute).toHaveBeenCalledWith({ login: 'anyLogin', password: 'anyPassword' })
   })
 })
