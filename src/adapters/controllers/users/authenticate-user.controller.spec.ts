@@ -14,6 +14,7 @@ describe('AuthenticateUserController', () => {
     input = {
       body: { login: 'anyLogin', password: 'anyPassword' }
     }
+    authenticateUserUseCase.execute.mockResolvedValue('anyToken')
   })
 
   test('should return 400 if login is not provided', async () => {
@@ -43,5 +44,14 @@ describe('AuthenticateUserController', () => {
 
     expect(authenticateUserUseCase.execute).toHaveBeenCalledTimes(1)
     expect(authenticateUserUseCase.execute).toHaveBeenCalledWith({ login: 'anyLogin', password: 'anyPassword' })
+  })
+
+  test('should return a token on success', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 200,
+      body: { token: 'anyToken' }
+    })
   })
 })

@@ -1,5 +1,5 @@
 import { MissingParamError } from '@/adapters/errors'
-import { badRequest } from '@/adapters/helpers/http.helper'
+import { badRequest, success } from '@/adapters/helpers/http.helper'
 import { HttpRequest } from '@/adapters/types/http.type'
 import { AuthenticateUserUseCaseInterface } from '@/application/interfaces/authenticate-user-usecase.interface'
 
@@ -11,8 +11,8 @@ export class AuthenticateUserController {
       return badRequest(error)
     }
 
-    await this.authenticateUserUseCase.execute(input.body)
-    return null
+    const token = await this.authenticateUserUseCase.execute(input.body)
+    return success(200, { token })
   }
 
   private validate (input: HttpRequest): Error | undefined {
