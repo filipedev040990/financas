@@ -16,18 +16,18 @@ import { buildAuthenticateUserController } from '../factories/controllers/authen
 
 const router = Router()
 
-router.post('/users', expressRouterAdapter(buildCreateUserController()))
-router.put('/users/:id', expressRouterAdapter(buildUpdateUserController()))
+router.post('/users', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildCreateUserController()))
+router.put('/users/:id', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildUpdateUserController()))
 
-router.post('/bill', expressRouterAdapter(buildCreateBillController()))
+router.post('/bill', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildCreateBillController()))
 router.get('/bill/:id', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildGetBillByIdController()))
-router.get('/bill/', expressRouterAdapter(buildGetAllBillController()))
-router.put('/bill/:id', expressRouterAdapter(buildUpdateBillController()))
+router.get('/bill/', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildGetAllBillController()))
+router.put('/bill/:id', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildUpdateBillController()))
 
-router.post('/category', expressRouterAdapter(buildCreateCategoryController()))
-router.put('/category/:id', expressRouterAdapter(buildUpdateCategoryController()))
-router.get('/category/', expressRouterAdapter(buildGetAllCategoriesController()))
-router.get('/category/:id', expressRouterAdapter(buildGetCategoryByIdController()))
+router.post('/category', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildCreateCategoryController()))
+router.put('/category/:id', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildUpdateCategoryController()))
+router.get('/category/', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildGetAllCategoriesController()))
+router.get('/category/:id', expressAdapterMiddleware(buildAuthenticationMiddleware()), expressRouterAdapter(buildGetCategoryByIdController()))
 
 router.post('/auth', expressRouterAdapter(buildAuthenticateUserController()))
 
