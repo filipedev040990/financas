@@ -1,5 +1,8 @@
 export const GetCategoryByIdPath = {
   get: {
+    security: [{
+      bearerAuth: []
+    }],
     tags: ['Category'],
     summary: 'Retorna dados de uma categoria através do seu id.',
     parameters: [{
@@ -32,6 +35,38 @@ export const GetCategoryByIdPath = {
                 error: {
                   type: 'string',
                   example: 'Invalid param: id'
+                }
+              }
+            }
+          }
+        }
+      },
+      401: {
+        description: 'Não autorizado',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'Unauthorized'
+                }
+              }
+            }
+          }
+        }
+      },
+      403: {
+        description: 'Acesso negado',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'Forbidden'
                 }
               }
             }

@@ -1,26 +1,30 @@
-export const AddUserPath = {
+export const AuthenticateUserPath = {
   post: {
-    security: [{
-      bearerAuth: []
-    }],
     tags: ['User'],
-    summary: 'Cadastra um novo usuário',
+    summary: 'Rota para autenticação de usuários.',
+    description: 'Essa rota pode ser executada por **qualquer usuário**',
     requestBody: {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/addUserInputSchema'
+            $ref: '#/schemas/authenticationInputSchema'
           }
         }
       }
     },
     responses: {
-      201: {
+      200: {
         description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/addUserOutputSchema'
+              type: 'object',
+              properties: {
+                token: {
+                  type: 'string',
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOiI3ZDk4MmJiOC0zMTM4LTRkZTMtYjJkNS04NTVmMjI2MjYwYTEifSwiaWF0IjoxNjg2MjI3Mjk3LCJleHAiOjE3NzI2MjcyOTd9.FxFbD0GNrkz3_V85CBl-6RJXY9xhLernp_6c3JqVgaI'
+                }
+              }
             }
           }
         }
@@ -34,7 +38,7 @@ export const AddUserPath = {
               properties: {
                 error: {
                   type: 'string',
-                  example: 'Missing param: name'
+                  example: 'Missing param: login'
                 }
               }
             }
@@ -51,22 +55,6 @@ export const AddUserPath = {
                 error: {
                   type: 'string',
                   example: 'Unauthorized'
-                }
-              }
-            }
-          }
-        }
-      },
-      403: {
-        description: 'Acesso negado',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                error: {
-                  type: 'string',
-                  example: 'Forbidden'
                 }
               }
             }

@@ -1,10 +1,10 @@
 import { AddBillPath, GetAllBillPath, GetBillByIdPath, UpdateBillPath } from './paths/bill'
 import { AddCategoryPath, GetAllCategoryPath, GetCategoryByIdPath, UpdateCategoryPath } from './paths/category'
-import { AddUserPath, UpdateUserPath } from './paths/users'
+import { AddUserPath, AuthenticateUserPath, UpdateUserPath } from './paths/users'
 import { addBillInputSchema, addBillOutputSchema, getAllBillOutputSchema, updateBillInputSchema, updateBillOutputSchema } from './schemas/bill'
 import { addCategoryInputSchema, addCategoryOutputSchema, getAllCategoriesOutputSchema, getCategoryOutputSchema } from './schemas/category'
 import { serverErrorSchema } from './schemas/error'
-import { addUserInputSchema, addUserOutputSchema } from './schemas/users'
+import { addUserInputSchema, addUserOutputSchema, authenticationInputSchema } from './schemas/users'
 
 export default {
   openapi: '3.0.0',
@@ -22,6 +22,7 @@ export default {
     name: 'Bill'
   }],
   paths: {
+    '/v1/auth': AuthenticateUserPath,
     '/v1/users': AddUserPath,
     '/v1/users/{id}': UpdateUserPath,
     '/v1/bill': AddBillPath,
@@ -45,6 +46,16 @@ export default {
     addCategoryInputSchema,
     addCategoryOutputSchema,
     getAllCategoriesOutputSchema,
-    getCategoryOutputSchema
+    getCategoryOutputSchema,
+    authenticationInputSchema
+  },
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
+      }
+    }
   }
 }

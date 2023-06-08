@@ -1,5 +1,8 @@
 export const AddBillPath = {
   post: {
+    security: [{
+      bearerAuth: []
+    }],
     tags: ['Bill'],
     summary: 'Cadastra uma nova conta',
     requestBody: {
@@ -32,6 +35,38 @@ export const AddBillPath = {
                 error: {
                   type: 'string',
                   example: 'Missing param: type'
+                }
+              }
+            }
+          }
+        }
+      },
+      401: {
+        description: 'Não autorizado',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'Unauthorized'
+                }
+              }
+            }
+          }
+        }
+      },
+      403: {
+        description: 'Acesso negado',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'Forbidden'
                 }
               }
             }

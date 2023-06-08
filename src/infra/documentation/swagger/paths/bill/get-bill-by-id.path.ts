@@ -1,5 +1,8 @@
 export const GetBillByIdPath = {
   get: {
+    security: [{
+      bearerAuth: []
+    }],
     tags: ['Bill'],
     summary: 'Retorna dados de uma conta através do seu id. Se houver um pagamento/recebimento desta conta, será listado também.',
     parameters: [{
@@ -32,6 +35,38 @@ export const GetBillByIdPath = {
                 error: {
                   type: 'string',
                   example: 'Invalid param: id'
+                }
+              }
+            }
+          }
+        }
+      },
+      401: {
+        description: 'Não autorizado',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'Unauthorized'
+                }
+              }
+            }
+          }
+        }
+      },
+      403: {
+        description: 'Acesso negado',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'Forbidden'
                 }
               }
             }

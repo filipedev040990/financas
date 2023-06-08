@@ -1,5 +1,8 @@
 export const UpdateUserPath = {
   put: {
+    security: [{
+      bearerAuth: []
+    }],
     tags: ['User'],
     summary: 'Atualiza dados do usuário',
     parameters: [{
@@ -46,6 +49,38 @@ export const UpdateUserPath = {
                 error: {
                   type: 'string',
                   example: 'Missing param: name'
+                }
+              }
+            }
+          }
+        }
+      },
+      401: {
+        description: 'Não autorizado',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'Unauthorized'
+                }
+              }
+            }
+          }
+        }
+      },
+      403: {
+        description: 'Acesso negado',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                error: {
+                  type: 'string',
+                  example: 'Forbidden'
                 }
               }
             }
