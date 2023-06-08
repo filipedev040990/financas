@@ -1,5 +1,5 @@
 import { mock } from 'jest-mock-extended'
-import { JwtMissingError, UnauthorizedError } from '../errors'
+import { JwtMissingError } from '../errors'
 import { HttpRequest } from '../types/http.type'
 import { AuthenticationMiddleware } from './authentication.middleware'
 import { TokenValidatorInterface } from '@/application/interfaces/token.interface'
@@ -65,7 +65,7 @@ describe('AuthenticationMiddleware', () => {
 
     expect(output).toEqual({
       statusCode: 401,
-      body: new UnauthorizedError()
+      body: 'Unauthorized'
     })
   })
 
@@ -83,7 +83,7 @@ describe('AuthenticationMiddleware', () => {
 
     expect(output).toEqual({
       statusCode: 401,
-      body: new UnauthorizedError()
+      body: 'Unauthorized'
     })
   })
 

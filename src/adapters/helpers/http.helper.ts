@@ -23,5 +23,5 @@ export const forbidden = (): HttpResponse => ({
 
 export const unauthorized = (): HttpResponse => ({
   statusCode: 401,
-  body: new UnauthorizedError()
+  body: new UnauthorizedError().message
 })
