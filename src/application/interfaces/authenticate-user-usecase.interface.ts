@@ -1,5 +1,5 @@
 export interface AuthenticateUserUseCaseInterface {
-  execute(input: AuthenticateUserUseCaseInterface.Input): Promise<string>
+  execute(input: AuthenticateUserUseCaseInterface.Input): Promise<AuthenticateUserUseCaseInterface.Output>
 }
 
 export namespace AuthenticateUserUseCaseInterface {
@@ -7,4 +7,5 @@ export namespace AuthenticateUserUseCaseInterface {
     login: string
     password: string
   }
+  export type Output = string | null
 }

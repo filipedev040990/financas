@@ -5,7 +5,8 @@ const userRepository: jest.Mocked<GetUserByLoginRepositoryInterface> = {
   getByLogin: jest.fn().mockResolvedValue({
     id: 'any id',
     name: 'any name',
-    login: 'any login'
+    login: 'any login',
+    password: 'hashedPassword'
   })
 }
 
@@ -37,7 +38,8 @@ describe('GetUserByLoginUseCase', () => {
     expect(response).toEqual({
       id: 'any id',
       name: 'any name',
-      login: 'any login'
+      login: 'any login',
+      password: 'hashedPassword'
     })
   })
 })

@@ -62,7 +62,8 @@ describe('CreateUserController', () => {
     getUserByLoginUseCase.execute.mockResolvedValueOnce({
       id: 'any id',
       name: 'any name',
-      login: 'any login'
+      login: 'any login',
+      password: 'hashedPassword'
     })
 
     const response = await sut.execute(input)
