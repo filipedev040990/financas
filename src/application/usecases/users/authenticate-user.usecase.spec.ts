@@ -26,6 +26,7 @@ describe('AuthenticateUserUseCase', () => {
       name: 'anyName',
       password: 'hashedPassword'
     })
+    tokenGenerator.generate.mockReturnValue('anyToken')
   })
 
   test('should call UserRepository.getByLogin once and with correct login', async () => {
@@ -63,5 +64,11 @@ describe('AuthenticateUserUseCase', () => {
 
     expect(tokenGenerator.generate).toHaveBeenCalledTimes(1)
     expect(tokenGenerator.generate).toHaveBeenCalledWith({ key: { id: 'anyId' } })
+  })
+
+  test('should return a token if compare succeeds', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toBe('anyToken')
   })
 })

@@ -10,12 +10,12 @@ export class AuthenticateUserUseCase implements AuthenticateUserUseCaseInterface
     private readonly tokenGenerator: TokenGeneratorInterface
   ) {}
 
-  async execute (input: AuthenticateUserUseCaseInterface.Input): Promise<AuthenticateUserUseCaseInterface.Output> {
-    const user = await this.userRepository.getByLogin(input.login)
+  async execute ({ login, password }: AuthenticateUserUseCaseInterface.Input): Promise<AuthenticateUserUseCaseInterface.Output> {
+    const user = await this.userRepository.getByLogin(login)
     if (user) {
-      const isValidPassword = await this.hash.compare(input.password, user.password)
+      const isValidPassword = await this.hash.compare(password, user.password)
       if (isValidPassword) {
-        this.tokenGenerator.generate({ key: { id: user.id } })
+        return this.tokenGenerator.generate({ key: { id: user.id } })
       }
     }
     return null
