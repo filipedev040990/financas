@@ -46,4 +46,12 @@ describe('AuthenticateUserUseCase', () => {
     expect(hashStub.compare).toHaveBeenCalledTimes(1)
     expect(hashStub.compare).toHaveBeenCalledWith('anyPassword', 'hashedPassword')
   })
+
+  test('should return null if HashCompare returns false', async () => {
+    hashStub.compare.mockResolvedValueOnce(false)
+
+    const output = await sut.execute(input)
+
+    expect(output).toBeNull()
+  })
 })

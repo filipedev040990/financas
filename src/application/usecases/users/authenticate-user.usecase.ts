@@ -10,11 +10,9 @@ export class AuthenticateUserUseCase implements AuthenticateUserUseCaseInterface
 
   async execute (input: AuthenticateUserUseCaseInterface.Input): Promise<AuthenticateUserUseCaseInterface.Output> {
     const user = await this.userRepository.getByLogin(input.login)
-    if (!user) {
-      return null
+    if (user) {
+      await this.hash.compare(input.password, user.password)
     }
-
-    await this.hash.compare(input.password, user.password)
-    return ''
+    return null
   }
 }
