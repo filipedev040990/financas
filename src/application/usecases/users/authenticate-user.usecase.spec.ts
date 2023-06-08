@@ -1,22 +1,25 @@
 import { AuthenticateUserUseCase } from './authenticate-user.usecase'
 import { GetUserByLoginRepositoryInterface } from '@/domain/interfaces/user-repository.interface'
 import { AuthenticateUserUseCaseInterface } from '@/application/interfaces/authenticate-user-usecase.interface'
-import { mock } from 'jest-mock-extended'
 import { HashCompareInterface } from '@/application/interfaces/crypto.interface'
+import { TokenGeneratorInterface } from '@/application/interfaces/token.interface'
+import { mock } from 'jest-mock-extended'
 
 const userRepositoryStub = mock<GetUserByLoginRepositoryInterface>()
 const hashStub = mock<HashCompareInterface>()
+const tokenGenerator = mock<TokenGeneratorInterface>()
 
 describe('AuthenticateUserUseCase', () => {
   let sut: AuthenticateUserUseCase
   let input: AuthenticateUserUseCaseInterface.Input
 
   beforeAll(() => {
-    sut = new AuthenticateUserUseCase(userRepositoryStub, hashStub)
+    sut = new AuthenticateUserUseCase(userRepositoryStub, hashStub, tokenGenerator)
     input = {
       login: 'anyLogin',
       password: 'anyPassword'
     }
+    hashStub.compare.mockResolvedValue(true)
     userRepositoryStub.getByLogin.mockResolvedValue({
       id: 'anyId',
       login: 'anyLogin',
@@ -53,5 +56,12 @@ describe('AuthenticateUserUseCase', () => {
     const output = await sut.execute(input)
 
     expect(output).toBeNull()
+  })
+
+  test('should call TokenGenerator once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(tokenGenerator.generate).toHaveBeenCalledTimes(1)
+    expect(tokenGenerator.generate).toHaveBeenCalledWith({ key: { id: 'anyId' } })
   })
 })
