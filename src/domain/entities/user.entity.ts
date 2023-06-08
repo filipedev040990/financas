@@ -3,7 +3,6 @@ export class UserEntity {
   public name: string
   public login: string
   public password: string
-  public accessToken: string | null
   public created_at: Date
   public updated_at: Date | null
 
@@ -12,7 +11,6 @@ export class UserEntity {
     this.name = input.name
     this.login = input.login
     this.password = input.password
-    this.accessToken = input.accessToken ?? null
     this.created_at = new Date()
     this.updated_at = new Date()
   }
@@ -24,6 +22,5 @@ export namespace UserEntity {
     name: string
     login: string
     password: string
-    accessToken?: string
   }
 }

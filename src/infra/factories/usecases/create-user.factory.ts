@@ -2,7 +2,6 @@ import { CreateUserUseCase } from '@/application/usecases/users/create-user.usec
 import { BcryptAdapter } from '@/infra/adapters/bcrypt.adapter'
 import { UUIDAdapter } from '@/infra/adapters/uuid.adapter'
 import { UserRepository } from '@/infra/database/repositories/user.repository'
-import { buildJwtAdapter } from '../adapters/jwt-adapter.factory'
 import config from '@/infra/config'
 
 export const buildCreateUserUseCase = (): CreateUserUseCase => {
@@ -12,7 +11,5 @@ export const buildCreateUserUseCase = (): CreateUserUseCase => {
 
   const userRepository = new UserRepository()
 
-  const tokenGenerator = buildJwtAdapter()
-
-  return new CreateUserUseCase(uuidGenerator, hashGenerator, userRepository, tokenGenerator)
+  return new CreateUserUseCase(uuidGenerator, hashGenerator, userRepository)
 }

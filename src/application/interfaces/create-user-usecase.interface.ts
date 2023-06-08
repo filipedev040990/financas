@@ -9,5 +9,9 @@ export namespace CreateUserUseCaseInterface {
     password: string
   }
 
-  export type Output = string
+  export type Output = {
+    id: string
+    name: string
+    login: string
+  }
 }

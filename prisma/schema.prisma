@@ -11,13 +11,12 @@ datasource db {
 }
 
 model User {
-  id          String    @id
-  name        String
-  password    String
-  login       String
-  accessToken String    @db.LongText()
-  created_at  DateTime
-  updated_at  DateTime?
+  id         String    @id
+  name       String
+  password   String
+  login      String
+  created_at DateTime
+  updated_at DateTime?
 
   @@map("users")
 }

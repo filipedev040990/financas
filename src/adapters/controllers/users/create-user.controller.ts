@@ -25,9 +25,9 @@ export class CreateUserController implements ControllerInterface {
         return badRequest(new InvalidParamError('This login already exists'))
       }
 
-      const accessToken = await this.createUserUseCase.execute({ name, password, login })
+      const user = await this.createUserUseCase.execute({ name, password, login })
 
-      return success(201, { accessToken })
+      return success(201, user)
     } catch (error) {
       return serverError(error)
     }

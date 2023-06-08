@@ -2,17 +2,22 @@ import { CreateUserRepositoryInterface, GetUserByIdRepositoryInterface, GetUserB
 import { prismaClient } from '../prisma-client'
 
 export class UserRepository implements CreateUserRepositoryInterface, GetUserByLoginRepositoryInterface, GetUserByIdRepositoryInterface, UpdateUserRepositoryInterface {
-  async save (input: CreateUserRepositoryInterface.Input): Promise<void> {
-    await prismaClient.user.create({
+  async save (input: CreateUserRepositoryInterface.Input): Promise<CreateUserRepositoryInterface.Output> {
+    const user = await prismaClient.user.create({
       data: {
         id: input.id,
         name: input.name,
         login: input.login,
         password: input.password,
-        accessToken: input.accessToken,
         created_at: input.created_at
       }
     })
+
+    return {
+      id: user.id,
+      name: user.name,
+      login: user.login
+    }
   }
 
   async getByLogin (login: string): Promise<GetUserByLoginRepositoryInterface.Output> {

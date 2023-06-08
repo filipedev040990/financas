@@ -18,7 +18,6 @@
     name: string
     login: string
     password: string
-    accessToken: string
     created_at: Date
     updated_at: Date
 }

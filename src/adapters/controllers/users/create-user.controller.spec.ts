@@ -6,7 +6,11 @@ import { badRequest, serverError } from '@/adapters/helpers/http.helper'
 import { GetUserByLoginUseCaseInterface } from '@/application/interfaces/get-user-by-login.interface'
 
 const createUserUseCase: jest.Mocked<CreateUserUseCaseInterface> = {
-  execute: jest.fn().mockResolvedValue('any access token')
+  execute: jest.fn().mockResolvedValue({
+    id: 'anyId',
+    name: 'anyName',
+    login: 'anyLogin'
+  })
 }
 
 const getUserByLoginUseCase: jest.Mocked<GetUserByLoginUseCaseInterface> = {
@@ -83,7 +87,9 @@ describe('CreateUserController', () => {
     expect(response).toEqual({
       statusCode: 201,
       body: {
-        accessToken: 'any access token'
+        id: 'anyId',
+        name: 'anyName',
+        login: 'anyLogin'
       }
     })
   })
