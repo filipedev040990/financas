@@ -12,6 +12,7 @@ import { buildGetAllCategoriesController } from '../factories/controllers/get-al
 import { buildGetCategoryByIdController } from '../factories/controllers/get-category-by-id.factory'
 import { expressAdapterMiddleware } from '../adapters/express-middleware.adapter'
 import { buildAuthenticationMiddleware } from '../factories/middleware/authentication'
+import { buildAuthenticateUserController } from '../factories/controllers/authenticate-user.factory'
 
 const router = Router()
 
@@ -27,5 +28,7 @@ router.post('/category', expressRouterAdapter(buildCreateCategoryController()))
 router.put('/category/:id', expressRouterAdapter(buildUpdateCategoryController()))
 router.get('/category/', expressRouterAdapter(buildGetAllCategoriesController()))
 router.get('/category/:id', expressRouterAdapter(buildGetCategoryByIdController()))
+
+router.post('/auth', expressRouterAdapter(buildAuthenticateUserController()))
 
 export { router }
