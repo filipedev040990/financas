@@ -2,7 +2,7 @@ import { HttpRequest } from '@/adapters/types/http.type'
 import { AuthenticateUserController } from './authenticate-user.controller'
 import { mock } from 'jest-mock-extended'
 import { AuthenticateUserUseCaseInterface } from '@/application/interfaces/authenticate-user-usecase.interface'
-import { UnauthorizedError } from '@/adapters/errors'
+import { ServerError, UnauthorizedError } from '@/adapters/errors'
 
 const authenticateUserUseCase = mock<AuthenticateUserUseCaseInterface>()
 
@@ -64,6 +64,17 @@ describe('AuthenticateUserController', () => {
     expect(output).toEqual({
       statusCode: 401,
       body: new UnauthorizedError()
+    })
+  })
+
+  test('should return 500 and throws if AuthenticateUserUseCase throws', async () => {
+    authenticateUserUseCase.execute.mockImplementationOnce(() => { throw new Error() })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 500,
+      body: new ServerError(new Error())
     })
   })
 })

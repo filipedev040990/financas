@@ -1,18 +1,23 @@
 import { MissingParamError } from '@/adapters/errors'
-import { badRequest, success, unauthorized } from '@/adapters/helpers/http.helper'
-import { HttpRequest } from '@/adapters/types/http.type'
+import { badRequest, serverError, success, unauthorized } from '@/adapters/helpers/http.helper'
+import { HttpRequest, HttpResponse } from '@/adapters/types/http.type'
 import { AuthenticateUserUseCaseInterface } from '@/application/interfaces/authenticate-user-usecase.interface'
+import { ControllerInterface } from '@/application/interfaces/controller.interface'
 
-export class AuthenticateUserController {
+export class AuthenticateUserController implements ControllerInterface {
   constructor (private readonly authenticateUserUseCase: AuthenticateUserUseCaseInterface) {}
-  async execute (input: HttpRequest): Promise<any> {
-    const error = this.validate(input)
-    if (error) {
-      return badRequest(error)
-    }
+  async execute (input: HttpRequest): Promise<HttpResponse> {
+    try {
+      const error = this.validate(input)
+      if (error) {
+        return badRequest(error)
+      }
 
-    const token = await this.authenticateUserUseCase.execute(input.body)
-    return token ? success(200, { token }) : unauthorized()
+      const token = await this.authenticateUserUseCase.execute(input.body)
+      return token ? success(200, { token }) : unauthorized()
+    } catch (error) {
+      return serverError(error)
+    }
   }
 
   private validate (input: HttpRequest): Error | undefined {
